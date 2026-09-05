@@ -1,0 +1,153 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Delete Education | Portfolio Dashboard
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'portfolio/css/style.css' %}"
+    >
+
+</head>
+
+<body>
+
+    <main class="dashboard-page">
+
+        <div class="container">
+
+            <!-- =========================================
+                 PAGE HEADER
+            ========================================== -->
+
+            <div class="dashboard-header">
+
+                <p class="hero-label">
+                    Portfolio Management
+                </p>
+
+                <h1>
+                    Delete Education
+                </h1>
+
+                <p>
+                    Confirm that you want to remove this
+                    education record from your portfolio.
+                </p>
+
+            </div>
+
+
+            <!-- =========================================
+                 CONFIRMATION CARD
+            ========================================== -->
+
+            <div class="delete-confirmation-card">
+
+                <div class="delete-warning-icon">
+                    ⚠
+                </div>
+
+
+                <h2>
+                    Are you sure?
+                </h2>
+
+
+                <p class="delete-warning-text">
+                    You are about to permanently delete
+                    the following education record:
+                </p>
+
+
+                <!-- EDUCATION DETAILS -->
+
+                <div class="delete-record-details">
+
+                    <h3>
+                        {{ education.degree }}
+                    </h3>
+
+                    <p>
+                        {{ education.institution }}
+                    </p>
+
+                    {% if education.field_of_study %}
+
+                        <span>
+                            {{ education.field_of_study }}
+                        </span>
+
+                    {% endif %}
+
+                    <span>
+
+                        {{ education.start_year }}
+
+                        –
+
+                        {% if education.end_year %}
+                            {{ education.end_year }}
+                        {% else %}
+                            Present
+                        {% endif %}
+
+                    </span>
+
+                </div>
+
+
+                <p class="delete-warning-note">
+                    This action cannot be undone.
+                </p>
+
+
+                <!-- =====================================
+                     ACTIONS
+                ====================================== -->
+
+                <form
+                    method="post"
+                    class="delete-confirmation-actions"
+                >
+
+                    {% csrf_token %}
+
+                    <a
+                        href="{% url 'education_list' %}"
+                        class="btn btn-secondary"
+                    >
+                        Cancel
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="btn btn-danger delete-confirm-btn"
+                    >
+                        Delete Education
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>

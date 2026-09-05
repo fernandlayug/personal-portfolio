@@ -1,0 +1,283 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Certificates | Portfolio Dashboard
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'portfolio/css/style.css' %}"
+    >
+
+</head>
+
+<body>
+
+    <main class="dashboard-page">
+
+        <div class="container">
+
+            <!-- =========================================
+                 PAGE HEADER
+            ========================================== -->
+
+            <div class="dashboard-header">
+
+                <p class="hero-label">
+                    Portfolio Management
+                </p>
+
+                <h1>
+                    Certificates
+                </h1>
+
+                <p>
+                    Manage your professional certificates,
+                    certifications, and credentials.
+                </p>
+
+            </div>
+
+
+            <!-- =========================================
+                 MESSAGES
+            ========================================== -->
+
+            {% if messages %}
+
+                <div class="dashboard-messages">
+
+                    {% for message in messages %}
+
+                        <div class="dashboard-message {{ message.tags }}">
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- =========================================
+                 ACTION BAR
+            ========================================== -->
+
+            <div class="education-page-actions">
+
+                <a
+                    href="{% url 'dashboard' %}"
+                    class="btn btn-secondary"
+                >
+                    ← Dashboard
+                </a>
+
+                <a
+                    href="{% url 'certificate_add' %}"
+                    class="btn btn-primary"
+                >
+                    + Add Certificate
+                </a>
+
+            </div>
+
+
+            <!-- =========================================
+                 CERTIFICATE RECORDS
+            ========================================== -->
+
+            {% if certificates %}
+
+                <div class="education-management-list">
+
+                    {% for certificate in certificates %}
+
+                        <article class="education-management-card">
+
+                            <div class="education-management-main">
+
+                                <div class="education-management-icon">
+                                    🏆
+                                </div>
+
+
+                                <div class="education-management-content">
+
+                                    <h2>
+                                        {{ certificate.name }}
+                                    </h2>
+
+
+                                    {% if certificate.issuing_organization %}
+
+                                        <h3>
+                                            {{ certificate.issuing_organization }}
+                                        </h3>
+
+                                    {% endif %}
+
+
+                                    {% if certificate.issue_date %}
+
+                                        <p class="education-field">
+                                            Issued:
+                                            {{ certificate.issue_date|date:"F d, Y" }}
+                                        </p>
+
+                                    {% endif %}
+
+
+                                    {% if certificate.expiration_date %}
+
+                                        <p class="education-period">
+                                            Expires:
+                                            {{ certificate.expiration_date|date:"F d, Y" }}
+                                        </p>
+
+                                    {% else %}
+
+                                        <p class="education-period">
+                                            No Expiration
+                                        </p>
+
+                                    {% endif %}
+
+
+                                    {% if certificate.credential_id %}
+
+                                        <p class="education-field">
+                                            Credential ID:
+                                            {{ certificate.credential_id }}
+                                        </p>
+
+                                    {% endif %}
+
+
+                                    {% if certificate.description %}
+
+                                        <div class="education-management-description">
+
+                                            {{ certificate.description|linebreaksbr }}
+
+                                        </div>
+
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- =================================
+                                 ACTIONS
+                            ================================== -->
+
+                            <div class="education-management-actions">
+
+                                <a
+                                    href="{% url 'certificate_edit' certificate.id %}"
+                                    class="btn btn-secondary"
+                                >
+                                    Edit
+                                </a>
+
+                                <a
+                                    href="{% url 'certificate_delete' certificate.id %}"
+                                    class="btn btn-danger"
+                                >
+                                    Delete
+                                </a>
+
+                            </div>
+
+                        </article>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <!-- =====================================
+                     EMPTY STATE
+                ====================================== -->
+
+                <div class="dashboard-empty-state">
+
+                    <div class="dashboard-empty-icon">
+                        🏆
+                    </div>
+
+                    <h2>
+                        No Certificates Yet
+                    </h2>
+
+                    <p>
+                        Add your professional certificates,
+                        certifications, and credentials
+                        to strengthen your portfolio.
+                    </p>
+
+                    <a
+                        href="{% url 'certificate_add' %}"
+                        class="btn btn-primary"
+                    >
+                        + Add Your First Certificate
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- =========================================
+                 PAGE FOOTER ACTIONS
+            ========================================== -->
+
+            <div class="dashboard-actions">
+
+                <a
+                    href="{{ portfolio_url }}"
+                    class="btn btn-secondary"
+                >
+                    View Portfolio
+                </a>
+
+                <form
+                    method="post"
+                    action="{% url 'logout' %}"
+                >
+
+                    {% csrf_token %}
+
+                    <button
+                        type="submit"
+                        class="btn btn-secondary"
+                    >
+                        Logout
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>

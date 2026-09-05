@@ -1,0 +1,113 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Personal Portfolio Assistant</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'portfolio/css/style.css' %}"
+    >
+
+</head>
+
+<body>
+
+    <main class="dashboard-page">
+
+        <div class="container">
+
+            <div class="dashboard-header">
+
+                <p class="hero-label">
+                    Personal Portfolio Assistant
+                </p>
+
+                <h1>
+                    Build Your Professional Portfolio
+                </h1>
+
+                <p>
+                    Create, manage, and showcase your
+                    professional portfolio in one place.
+                </p>
+
+            </div>
+
+
+            <div class="dashboard-grid">
+
+                <div class="dashboard-card">
+
+                    <h2>
+                        Professional Portfolio
+                    </h2>
+
+                    <p>
+                        Build a professional online presence
+                        with your own portfolio website.
+                    </p>
+
+                </div>
+
+
+                <div class="dashboard-card">
+
+                    <h2>
+                        AI Assistant
+                    </h2>
+
+                    <p>
+                        Let visitors interact with an AI
+                        assistant that represents your
+                        professional portfolio.
+                    </p>
+
+                </div>
+
+
+                <div class="dashboard-card">
+
+                    <h2>
+                        Portfolio Management
+                    </h2>
+
+                    <p>
+                        Manage your profile, education,
+                        experience, skills, projects,
+                        and credentials.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-actions">
+
+                <a
+                    href="{% url 'login' %}"
+                    class="btn btn-primary"
+                >
+                    Owner Login
+                </a>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>

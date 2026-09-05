@@ -1,0 +1,148 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Delete Skill | Portfolio Management</title>
+
+    <link rel="stylesheet" href="{% static 'portfolio/css/style.css' %}">
+</head>
+
+<body>
+
+<main class="dashboard-page">
+
+    <div class="container">
+
+        <!-- Page Header -->
+        <div class="dashboard-header">
+
+            <p class="hero-label">
+                Portfolio Management
+            </p>
+
+            <h1>Delete Skill</h1>
+
+            <p>
+                Remove a skill from your professional portfolio.
+            </p>
+
+        </div>
+
+
+        <!-- Confirmation Card -->
+        <div class="delete-confirmation-card">
+
+            <div class="delete-confirmation-icon">
+                ⚠️
+            </div>
+
+            <div class="delete-confirmation-content">
+
+                <h2>Are you sure?</h2>
+
+                <p>
+                    You are about to permanently delete this skill.
+                </p>
+
+
+                <!-- Record Details -->
+                <div class="delete-record-details">
+
+                    <div class="delete-record-field">
+
+                        <span class="delete-record-label">
+                            Skill
+                        </span>
+
+                        <strong>
+                            {{ skill.name }}
+                        </strong>
+
+                    </div>
+
+
+                    {% if skill.category %}
+
+                        <div class="delete-record-field">
+
+                            <span class="delete-record-label">
+                                Category
+                            </span>
+
+                            <strong>
+                                {{ skill.category }}
+                            </strong>
+
+                        </div>
+
+                    {% endif %}
+
+
+                    <div class="delete-record-field">
+
+                        <span class="delete-record-label">
+                            Proficiency
+                        </span>
+
+                        <strong>
+                            {{ skill.proficiency }}%
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Warning -->
+                <div class="delete-warning-note">
+
+                    <strong>
+                        This action cannot be undone.
+                    </strong>
+
+                    <p>
+                        The skill will be permanently removed
+                        from your portfolio.
+                    </p>
+
+                </div>
+
+
+                <!-- Actions -->
+                <div class="delete-confirmation-actions">
+
+                    <a
+                        href="{% url 'skill_list' %}"
+                        class="btn btn-secondary"
+                    >
+                        Cancel
+                    </a>
+
+                    <form method="post">
+
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            class="btn btn-danger"
+                        >
+                            Delete Skill
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+</body>
+</html>

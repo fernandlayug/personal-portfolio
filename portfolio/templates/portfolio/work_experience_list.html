@@ -1,0 +1,241 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Work Experience | Portfolio Management</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'portfolio/css/style.css' %}"
+    >
+
+</head>
+
+<body>
+
+    <main class="dashboard-page">
+
+        <div class="container">
+
+            <!-- Page Header -->
+
+            <div class="dashboard-header">
+
+                <p class="hero-label">
+                    Portfolio Management
+                </p>
+
+                <h1>
+                    Work Experience
+                </h1>
+
+                <p>
+                    Manage your professional experience
+                    and employment history.
+                </p>
+
+            </div>
+
+
+            <!-- Page Actions -->
+
+            <div class="education-page-actions">
+
+                <a
+                    href="{% url 'dashboard' %}"
+                    class="btn btn-secondary"
+                >
+                    ← Back to Dashboard
+                </a>
+
+                <a
+                    href="{% url 'work_experience_add' %}"
+                    class="btn btn-primary"
+                >
+                    + Add Work Experience
+                </a>
+
+            </div>
+
+
+            <!-- Work Experience List -->
+
+            <div class="work-experience-management-list">
+
+                {% for item in experience %}
+
+                    <div class="work-experience-management-card">
+
+                        <!-- Icon -->
+
+                        <div class="work-experience-management-icon">
+                            💼
+                        </div>
+
+
+                        <!-- Main Content -->
+
+                        <div class="work-experience-management-main">
+
+                            <div class="work-experience-management-top">
+
+
+                                <!-- Position / Company / Period -->
+
+                                <div class="work-experience-management-title">
+
+                                    <h2>
+                                        {{ item.position }}
+                                    </h2>
+
+                                    <p class="work-experience-management-company">
+                                        {{ item.company }}
+                                    </p>
+
+                                    <p class="work-experience-management-period">
+
+                                        {{ item.start_date|date:"F Y" }}
+
+                                        –
+
+                                        {% if item.is_current %}
+
+                                            Present
+
+                                        {% elif item.end_date %}
+
+                                            {{ item.end_date|date:"F Y" }}
+
+                                        {% else %}
+
+                                            Not specified
+
+                                        {% endif %}
+
+                                    </p>
+
+                                </div>
+
+
+                                <!-- Description -->
+
+                                <div class="work-experience-management-description">
+
+                                    {% if item.description %}
+
+                                        {{ item.description|linebreaks }}
+
+                                    {% else %}
+
+                                        <p>
+                                            No description provided.
+                                        </p>
+
+                                    {% endif %}
+
+                                </div>
+
+
+                                <!-- Actions -->
+
+                                <div class="work-experience-management-actions">
+
+                                    <a
+                                        href="{% url 'work_experience_edit' item.pk %}"
+                                        class="btn btn-secondary"
+                                    >
+                                        Edit
+                                    </a>
+
+                                    <a
+                                        href="{% url 'work_experience_delete' item.pk %}"
+                                        class="btn btn-danger"
+                                    >
+                                        Delete
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                {% empty %}
+
+                    <!-- Empty State -->
+
+                    <div class="dashboard-empty-state">
+
+                        <h2>
+                            No Work Experience Yet
+                        </h2>
+
+                        <p>
+                            Add your professional experience
+                            to showcase your career history.
+                        </p>
+
+                        <a
+                            href="{% url 'work_experience_add' %}"
+                            class="btn btn-primary"
+                        >
+                            + Add Work Experience
+                        </a>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- Footer Actions -->
+
+            <div class="dashboard-actions">
+
+                <a
+                    href="{{ portfolio_url }}"
+                    class="btn btn-secondary"
+                >
+                    View Portfolio
+                </a>
+
+
+                <form
+                    method="post"
+                    action="{% url 'logout' %}"
+                    style="display: inline;"
+                >
+
+                    {% csrf_token %}
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        Logout
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>

@@ -1,0 +1,211 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ page_title }} | Portfolio Management</title>
+
+    <link rel="stylesheet" href="{% static 'portfolio/css/style.css' %}">
+</head>
+
+<body>
+
+<main class="dashboard-page">
+
+    <div class="container">
+
+        <!-- Page Header -->
+        <div class="dashboard-header">
+
+            <p class="hero-label">
+                Portfolio Management
+            </p>
+
+            <h1>{{ page_title }}</h1>
+
+            <p>
+                Add or update a project in your professional portfolio.
+            </p>
+
+        </div>
+
+
+        <!-- Project Form -->
+        <div class="management-form-card">
+
+            <form method="post" novalidate>
+
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="form-error-summary">
+                        {% for error in form.non_field_errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+
+                <!-- Project Title -->
+                <div class="management-form-group">
+
+                    <label for="{{ form.title.id_for_label }}">
+                        Project Title
+                        <span class="required">*</span>
+                    </label>
+
+                    {{ form.title }}
+
+                    {% for error in form.title.errors %}
+                        <p class="field-error">
+                            {{ error }}
+                        </p>
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- Description -->
+                <div class="management-form-group">
+
+                    <label for="{{ form.description.id_for_label }}">
+                        Description
+                        <span class="required">*</span>
+                    </label>
+
+                    {{ form.description }}
+
+                    {% for error in form.description.errors %}
+                        <p class="field-error">
+                            {{ error }}
+                        </p>
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- Technologies -->
+                <div class="management-form-group">
+
+                    <label for="{{ form.technologies.id_for_label }}">
+                        Technologies
+                        <span class="required">*</span>
+                    </label>
+
+                    {{ form.technologies }}
+
+                    {% for error in form.technologies.errors %}
+                        <p class="field-error">
+                            {{ error }}
+                        </p>
+                    {% endfor %}
+
+                    <p class="management-form-help">
+                        Separate technologies with commas.
+                        Example: Django, Python, MySQL
+                    </p>
+
+                </div>
+
+
+                <!-- Project Links -->
+                <div class="management-form-row">
+
+                    <div class="management-form-group">
+
+                        <label for="{{ form.project_url.id_for_label }}">
+                            Project URL
+                        </label>
+
+                        {{ form.project_url }}
+
+                        {% for error in form.project_url.errors %}
+                            <p class="field-error">
+                                {{ error }}
+                            </p>
+                        {% endfor %}
+
+                        <p class="management-form-help">
+                            Optional live or deployed project URL.
+                        </p>
+
+                    </div>
+
+
+                    <div class="management-form-group">
+
+                        <label for="{{ form.github_url.id_for_label }}">
+                            GitHub URL
+                        </label>
+
+                        {{ form.github_url }}
+
+                        {% for error in form.github_url.errors %}
+                            <p class="field-error">
+                                {{ error }}
+                            </p>
+                        {% endfor %}
+
+                        <p class="management-form-help">
+                            Optional source code repository.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Completion Date -->
+                <div class="management-form-group">
+
+                    <label for="{{ form.date_completed.id_for_label }}">
+                        Date Completed
+                    </label>
+
+                    {{ form.date_completed }}
+
+                    {% for error in form.date_completed.errors %}
+                        <p class="field-error">
+                            {{ error }}
+                        </p>
+                    {% endfor %}
+
+                    <p class="management-form-help">
+                        Optional. Leave blank if the project is still
+                        ongoing.
+                    </p>
+
+                </div>
+
+
+                <!-- Actions -->
+                <div class="management-form-actions">
+
+                    <a
+                        href="{% url 'project_list' %}"
+                        class="btn btn-secondary"
+                    >
+                        Cancel
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        {{ submit_label }}
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</main>
+
+</body>
+</html>

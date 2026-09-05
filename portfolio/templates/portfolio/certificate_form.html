@@ -1,0 +1,330 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        {{ page_title }} | Portfolio Dashboard
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'portfolio/css/style.css' %}"
+    >
+
+</head>
+
+<body>
+
+    <main class="dashboard-page">
+
+        <div class="container">
+
+            <!-- =========================================
+                 PAGE HEADER
+            ========================================== -->
+
+            <div class="dashboard-header">
+
+                <p class="hero-label">
+                    Portfolio Management
+                </p>
+
+                <h1>
+                    {{ page_title }}
+                </h1>
+
+                <p>
+
+                    {% if certificate %}
+
+                        Update your professional certificate
+                        and credential information.
+
+                    {% else %}
+
+                        Add your professional certificate
+                        and credential information.
+
+                    {% endif %}
+
+                </p>
+
+            </div>
+
+
+            <!-- =========================================
+                 FORM
+            ========================================== -->
+
+            <div class="management-form-card">
+
+                <form
+                    method="post"
+                    novalidate
+                >
+
+                    {% csrf_token %}
+
+
+                    <!-- NON-FIELD ERRORS -->
+
+                    {% if form.non_field_errors %}
+
+                        <div class="form-error-summary">
+
+                            {% for error in form.non_field_errors %}
+
+                                <p>
+                                    {{ error }}
+                                </p>
+
+                            {% endfor %}
+
+                        </div>
+
+                    {% endif %}
+
+
+                    <!-- CERTIFICATE NAME -->
+
+                    <div class="management-form-group">
+
+                        <label
+                            for="{{ form.name.id_for_label }}"
+                        >
+                            Certificate Name
+                            <span class="required">*</span>
+                        </label>
+
+                        {{ form.name }}
+
+                        {% if form.name.errors %}
+
+                            <div class="field-error">
+
+                                {% for error in form.name.errors %}
+                                    {{ error }}
+                                {% endfor %}
+
+                            </div>
+
+                        {% endif %}
+
+                        <small>
+                            Enter the official name of the
+                            certificate or certification.
+                        </small>
+
+                    </div>
+
+
+                    <!-- ISSUING ORGANIZATION -->
+
+                    <div class="management-form-group">
+
+                        <label
+                            for="{{ form.issuing_organization.id_for_label }}"
+                        >
+                            Issuing Organization
+                            <span class="required">*</span>
+                        </label>
+
+                        {{ form.issuing_organization }}
+
+                        {% if form.issuing_organization.errors %}
+
+                            <div class="field-error">
+
+                                {% for error in form.issuing_organization.errors %}
+                                    {{ error }}
+                                {% endfor %}
+
+                            </div>
+
+                        {% endif %}
+
+                        <small>
+                            Enter the organization or institution
+                            that issued the certificate.
+                        </small>
+
+                    </div>
+
+
+                    <!-- DATE ROW -->
+
+                    <div class="management-form-row">
+
+                        <!-- ISSUE DATE -->
+
+                        <div class="management-form-group">
+
+                            <label
+                                for="{{ form.issue_date.id_for_label }}"
+                            >
+                                Issue Date
+                                <span class="required">*</span>
+                            </label>
+
+                            {{ form.issue_date }}
+
+                            {% if form.issue_date.errors %}
+
+                                <div class="field-error">
+
+                                    {% for error in form.issue_date.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- EXPIRATION DATE -->
+
+                        <div class="management-form-group">
+
+                            <label
+                                for="{{ form.expiration_date.id_for_label }}"
+                            >
+                                Expiration Date
+                            </label>
+
+                            {{ form.expiration_date }}
+
+                            {% if form.expiration_date.errors %}
+
+                                <div class="field-error">
+
+                                    {% for error in form.expiration_date.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+
+                                </div>
+
+                            {% endif %}
+
+                            <small>
+                                Leave blank if the certificate
+                                does not expire.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- CREDENTIAL ID -->
+
+                    <div class="management-form-group">
+
+                        <label
+                            for="{{ form.credential_id.id_for_label }}"
+                        >
+                            Credential ID
+                        </label>
+
+                        {{ form.credential_id }}
+
+                        {% if form.credential_id.errors %}
+
+                            <div class="field-error">
+
+                                {% for error in form.credential_id.errors %}
+                                    {{ error }}
+                                {% endfor %}
+
+                            </div>
+
+                        {% endif %}
+
+                        <small>
+                            Enter the credential or certificate
+                            identification number, if available.
+                        </small>
+
+                    </div>
+
+
+                    <!-- DESCRIPTION -->
+
+                    <div class="management-form-group">
+
+                        <label
+                            for="{{ form.description.id_for_label }}"
+                        >
+                            Description
+                        </label>
+
+                        {{ form.description }}
+
+                        {% if form.description.errors %}
+
+                            <div class="field-error">
+
+                                {% for error in form.description.errors %}
+                                    {{ error }}
+                                {% endfor %}
+
+                            </div>
+
+                        {% endif %}
+
+                        <small>
+                            Include relevant skills, competencies,
+                            examination details, or other information.
+                        </small>
+
+                    </div>
+
+
+                    <!-- FORM ACTIONS -->
+
+                    <div class="management-form-actions">
+
+                        <a
+                            href="{% url 'certificate_list' %}"
+                            class="btn btn-secondary"
+                        >
+                            Cancel
+                        </a>
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                        >
+
+                            {% if certificate %}
+                                Save Changes
+                            {% else %}
+                                Add Certificate
+                            {% endif %}
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>

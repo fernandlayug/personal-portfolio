@@ -1,0 +1,184 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Delete Work Experience | Portfolio Management
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'portfolio/css/style.css' %}"
+    >
+
+</head>
+
+<body>
+
+    <main class="dashboard-page">
+
+        <div class="container">
+
+            <!-- Page Header -->
+
+            <div class="dashboard-header">
+
+                <p class="hero-label">
+                    Portfolio Management
+                </p>
+
+                <h1>
+                    Delete Work Experience
+                </h1>
+
+                <p>
+                    Please confirm that you want to remove
+                    this work experience record.
+                </p>
+
+            </div>
+
+
+            <!-- Confirmation Card -->
+
+            <div class="delete-confirmation-card">
+
+                <div class="delete-confirmation-icon">
+                    ⚠️
+                </div>
+
+
+                <div class="delete-confirmation-content">
+
+                    <h2>
+                        Are you sure?
+                    </h2>
+
+                    <p>
+                        You are about to permanently delete
+                        the following work experience:
+                    </p>
+
+
+                    <!-- Record Details -->
+
+                    <div class="delete-record-details">
+
+                        <div class="delete-record-item">
+
+                            <span>
+                                Position
+                            </span>
+
+                            <strong>
+                                {{ experience.position }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="delete-record-item">
+
+                            <span>
+                                Company
+                            </span>
+
+                            <strong>
+                                {{ experience.company }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="delete-record-item">
+
+                            <span>
+                                Period
+                            </span>
+
+                            <strong>
+
+                                {{ experience.start_date|date:"F Y" }}
+
+                                –
+
+                                {% if experience.is_current %}
+
+                                    Present
+
+                                {% elif experience.end_date %}
+
+                                    {{ experience.end_date|date:"F Y" }}
+
+                                {% else %}
+
+                                    Not specified
+
+                                {% endif %}
+
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Warning -->
+
+                    <p class="delete-warning">
+                        This action cannot be undone.
+                    </p>
+
+
+                    <!-- Confirmation Actions -->
+
+                    <div class="delete-confirmation-actions">
+
+                        <a
+                            href="{% url 'work_experience_list' %}"
+                            class="btn btn-secondary"
+                        >
+                            Cancel
+                        </a>
+
+
+                        <form
+                            method="post"
+                        >
+
+                            {% csrf_token %}
+
+                            <button
+                                type="submit"
+                                class="btn btn-danger"
+                            >
+                                Delete Work Experience
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+          
+        </div>
+
+    </main>
+
+</body>
+
+</html>

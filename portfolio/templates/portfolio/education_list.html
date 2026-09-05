@@ -1,0 +1,257 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Education | Portfolio Dashboard</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'portfolio/css/style.css' %}"
+    >
+
+</head>
+
+<body>
+
+    <main class="dashboard-page">
+
+        <div class="container">
+
+            <!-- =========================================
+                 PAGE HEADER
+            ========================================== -->
+
+            <div class="dashboard-header">
+
+                <p class="hero-label">
+                    Portfolio Management
+                </p>
+
+                <h1>
+                    Education
+                </h1>
+
+                <p>
+                    Manage your educational background
+                    and academic achievements.
+                </p>
+
+            </div>
+
+
+            <!-- =========================================
+                 MESSAGES
+            ========================================== -->
+
+            {% if messages %}
+
+                <div class="dashboard-messages">
+
+                    {% for message in messages %}
+
+                        <div class="dashboard-message {{ message.tags }}">
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- =========================================
+                 ACTION BAR
+            ========================================== -->
+
+            <div class="education-page-actions">
+
+                <a
+                    href="{% url 'dashboard' %}"
+                    class="btn btn-secondary"
+                >
+                    ← Dashboard
+                </a>
+
+                <a
+                    href="{% url 'education_add' %}"
+                    class="btn btn-primary"
+                >
+                    + Add Education
+                </a>
+
+            </div>
+
+
+            <!-- =========================================
+                 EDUCATION RECORDS
+            ========================================== -->
+
+            {% if education %}
+
+                <div class="education-management-list">
+
+                    {% for item in education %}
+
+                        <article class="education-management-card">
+
+                            <div class="education-management-main">
+
+                                <div class="education-management-icon">
+                                    🎓
+                                </div>
+
+                                <div class="education-management-content">
+
+                                    <h2>
+                                        {{ item.degree }}
+                                    </h2>
+
+                                    <h3>
+                                        {{ item.institution }}
+                                    </h3>
+
+                                    {% if item.field_of_study %}
+
+                                        <p class="education-field">
+                                            {{ item.field_of_study }}
+                                        </p>
+
+                                    {% endif %}
+
+                                    <p class="education-period">
+
+                                        {{ item.start_year }}
+
+                                        –
+
+                                        {% if item.end_year %}
+                                            {{ item.end_year }}
+                                        {% else %}
+                                            Present
+                                        {% endif %}
+
+                                    </p>
+
+                                    {% if item.description %}
+
+                                        <div class="education-management-description">
+
+                                            {{ item.description|linebreaksbr }}
+
+                                        </div>
+
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="education-management-actions">
+
+                                <a
+                                    href="{% url 'education_edit' item.id %}"
+                                    class="btn btn-secondary"
+                                >
+                                    Edit
+                                </a>
+
+                                <a
+                                    href="{% url 'education_delete' item.id %}"
+                                    class="btn btn-danger"
+                                >
+                                    Delete
+                                </a>
+
+                            </div>
+
+                        </article>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <!-- =====================================
+                     EMPTY STATE
+                ====================================== -->
+
+                <div class="dashboard-empty-state">
+
+                    <div class="dashboard-empty-icon">
+                        🎓
+                    </div>
+
+                    <h2>
+                        No Education Records Yet
+                    </h2>
+
+                    <p>
+                        Add your educational background
+                        to showcase your academic journey
+                        on your portfolio.
+                    </p>
+
+                    <a
+                        href="{% url 'education_add' %}"
+                        class="btn btn-primary"
+                    >
+                        + Add Your First Education
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- =========================================
+                 PAGE FOOTER ACTIONS
+            ========================================== -->
+
+            <div class="dashboard-actions">
+
+                <a
+                    href="{{ portfolio_url }}"
+                    class="btn btn-secondary"
+                >
+                    View Portfolio
+                </a>
+
+                <form
+                    method="post"
+                    action="{% url 'logout' %}"
+                    style="display: inline;"
+                >
+
+                    {% csrf_token %}
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        Logout
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>

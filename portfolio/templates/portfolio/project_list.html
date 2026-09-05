@@ -1,0 +1,207 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Projects | Portfolio Management</title>
+
+    <link rel="stylesheet" href="{% static 'portfolio/css/style.css' %}">
+</head>
+
+<body>
+
+<main class="dashboard-page">
+
+    <div class="container">
+
+        <!-- Page Header -->
+        <div class="dashboard-header">
+
+            <p class="hero-label">
+                Portfolio Management
+            </p>
+
+            <h1>Projects</h1>
+
+            <p>
+                Manage the projects and applications showcased
+                in your professional portfolio.
+            </p>
+
+        </div>
+
+
+        <!-- Page Actions -->
+        <div class="education-page-actions">
+
+            <a
+                href="{% url 'dashboard' %}"
+                class="btn btn-secondary"
+            >
+                ← Back to Dashboard
+            </a>
+
+            <a
+                href="{% url 'project_add' %}"
+                class="btn btn-primary"
+            >
+                + Add Project
+            </a>
+
+        </div>
+
+
+        <!-- Project List -->
+        <div class="project-management-list">
+
+            {% for project in projects %}
+
+                <div class="project-management-card">
+
+                    <!-- Project Icon -->
+                    <div class="project-management-icon">
+                        🚀
+                    </div>
+
+
+                    <!-- Main Content -->
+                    <div class="project-management-main">
+
+                        <div class="project-management-top">
+
+                            <div class="project-management-title">
+
+                                <h2>
+                                    {{ project.title }}
+                                </h2>
+
+                                {% if project.date_completed %}
+                                    <p class="project-management-date">
+                                        Completed
+                                        {{ project.date_completed|date:"F Y" }}
+                                    </p>
+                                {% else %}
+                                    <p class="project-management-date">
+                                        Date not specified
+                                    </p>
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- Description -->
+                            <div class="project-management-description">
+
+                                {% if project.description %}
+                                    {{ project.description|linebreaks }}
+                                {% else %}
+                                    <p>
+                                        No description provided.
+                                    </p>
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- Technologies -->
+                            <div class="project-management-technologies">
+
+                                <span class="project-management-label">
+                                    Technologies
+                                </span>
+
+                                <p>
+                                    {{ project.technologies }}
+                                </p>
+
+                            </div>
+
+
+                            <!-- Links -->
+                            <div class="project-management-links">
+
+                                {% if project.project_url %}
+                                    <a
+                                        href="{{ project.project_url }}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="project-management-link"
+                                    >
+                                        Live Project ↗
+                                    </a>
+                                {% endif %}
+
+                                {% if project.github_url %}
+                                    <a
+                                        href="{{ project.github_url }}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="project-management-link"
+                                    >
+                                        GitHub ↗
+                                    </a>
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- Actions -->
+                            <div class="project-management-actions">
+
+                                <a
+                                    href="{% url 'project_edit' project.pk %}"
+                                    class="btn btn-secondary"
+                                >
+                                    Edit
+                                </a>
+
+                                <a
+                                    href="{% url 'project_delete' project.pk %}"
+                                    class="btn btn-danger"
+                                >
+                                    Delete
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            {% empty %}
+
+                <!-- Empty State -->
+                <div class="dashboard-empty-state">
+
+                    <h2>
+                        No Projects Yet
+                    </h2>
+
+                    <p>
+                        Add your projects to showcase your
+                        technical work and accomplishments.
+                    </p>
+
+                    <a
+                        href="{% url 'project_add' %}"
+                        class="btn btn-primary"
+                    >
+                        + Add Project
+                    </a>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</main>
+
+</body>
+</html>

@@ -1,0 +1,276 @@
+{% load static %}
+{% load i18n %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Sign In | Personal Portfolio Assistant
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'portfolio/css/style.css' %}"
+    >
+
+</head>
+
+
+<body class="auth-page social-auth-page">
+
+    <div class="auth-wrapper">
+
+
+        <!-- =====================================================
+             LEFT SIDE
+             ===================================================== -->
+
+        <div class="auth-brand">
+
+            <div class="auth-brand-content">
+
+                <h1>
+                    Personal Portfolio Assistant
+                </h1>
+
+                <p class="auth-brand-tagline">
+                    Build. Showcase. Connect.
+                </p>
+
+                <p class="auth-brand-description">
+                    Securely access your professional portfolio
+                    using your preferred account.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             RIGHT SIDE
+             ===================================================== -->
+
+        <div class="auth-panel">
+
+            <div class="auth-card social-auth-card">
+
+
+                <!-- PROVIDER ICON -->
+
+                <div class="social-provider-icon
+                    {% if provider.id == 'google' %}
+                        provider-google
+                    {% elif provider.id == 'microsoft' %}
+                        provider-microsoft
+                    {% elif provider.id == 'github' %}
+                        provider-github
+                    {% endif %}
+                ">
+
+                    {% if provider.id == "google" %}
+
+                        G
+
+                    {% elif provider.id == "microsoft" %}
+
+                        ⊞
+
+                    {% elif provider.id == "github" %}
+
+                        <span>●</span>
+
+                    {% else %}
+
+                        🔐
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- =================================================
+                     TITLE
+                     ================================================= -->
+
+                <div class="auth-card-header">
+
+                    {% if process == "connect" %}
+
+                        <h2>
+                            Connect {{ provider.name }}
+                        </h2>
+
+                        <p>
+                            You are about to connect a new
+                            third-party account from
+                            {{ provider.name }}.
+                        </p>
+
+                    {% else %}
+
+                        <h2>
+                            Sign In Via {{ provider.name }}
+                        </h2>
+
+                        <p>
+                            Continue securely using your
+                            {{ provider.name }} account.
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- =================================================
+                     PROVIDER INFORMATION
+                     ================================================= -->
+
+                <div class="social-provider-info">
+
+                    <div class="social-provider-name">
+
+                        {% if provider.id == "google" %}
+
+                            Google Account
+
+                        {% elif provider.id == "microsoft" %}
+
+                            Microsoft Account
+
+                        {% elif provider.id == "github" %}
+
+                            GitHub Account
+
+                        {% else %}
+
+                            {{ provider.name }} Account
+
+                        {% endif %}
+
+                    </div>
+
+                    <div class="social-provider-description">
+
+                        You will be securely redirected to
+                        {{ provider.name }} to authenticate
+                        your account.
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     CONTINUE BUTTON
+                     ================================================= -->
+
+                <form method="post">
+
+                    {% csrf_token %}
+
+                    <button
+                        type="submit"
+                        class="social-continue-btn
+                        {% if provider.id == 'google' %}
+                            social-google-btn
+                        {% elif provider.id == 'microsoft' %}
+                            social-microsoft-btn
+                        {% elif provider.id == 'github' %}
+                            social-github-btn
+                        {% endif %}
+                        "
+                    >
+
+                        <span class="social-btn-icon">
+
+                            {% if provider.id == "google" %}
+
+                                G
+
+                            {% elif provider.id == "microsoft" %}
+
+                                ⊞
+
+                            {% elif provider.id == "github" %}
+
+                                ●
+
+                            {% else %}
+
+                                →
+
+                            {% endif %}
+
+                        </span>
+
+                        <span>
+
+                            {% if process == "connect" %}
+
+                                Continue with {{ provider.name }}
+
+                            {% else %}
+
+                                Continue with {{ provider.name }}
+
+                            {% endif %}
+
+                        </span>
+
+                    </button>
+
+                </form>
+
+
+                <!-- =================================================
+                     SECURITY MESSAGE
+                     ================================================= -->
+
+                <div class="social-security-note">
+
+                    <span class="security-icon">
+                        🔒
+                    </span>
+
+                    <span>
+                        You will be redirected securely to
+                        {{ provider.name }} to complete sign in.
+                    </span>
+
+                </div>
+
+
+                <!-- =================================================
+                     BACK
+                     ================================================= -->
+
+                <div class="auth-footer">
+
+                    <a href="{% url 'login' %}">
+                        ← Back to Sign In
+                    </a>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</body>
+
+</html>

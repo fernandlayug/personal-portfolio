@@ -1,0 +1,156 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Delete Certificate | Portfolio Dashboard
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'portfolio/css/style.css' %}"
+    >
+
+</head>
+
+<body>
+
+    <main class="dashboard-page">
+
+        <div class="container">
+
+            <!-- =========================================
+                 PAGE HEADER
+            ========================================== -->
+
+            <div class="dashboard-header">
+
+                <p class="hero-label">
+                    Portfolio Management
+                </p>
+
+                <h1>
+                    Delete Certificate
+                </h1>
+
+                <p>
+                    Confirm that you want to remove this
+                    certificate from your portfolio.
+                </p>
+
+            </div>
+
+
+            <!-- =========================================
+                 CONFIRMATION CARD
+            ========================================== -->
+
+            <div class="delete-confirmation-card">
+
+                <div class="delete-warning-icon">
+                    ⚠
+                </div>
+
+
+                <h2>
+                    Are you sure?
+                </h2>
+
+
+                <p class="delete-warning-text">
+                    You are about to permanently delete
+                    the following certificate:
+                </p>
+
+
+                <!-- CERTIFICATE DETAILS -->
+
+                <div class="delete-record-details">
+
+                    <h3>
+                        {{ certificate.name }}
+                    </h3>
+
+
+                    {% if certificate.issuing_organization %}
+
+                        <p>
+                            {{ certificate.issuing_organization }}
+                        </p>
+
+                    {% endif %}
+
+
+                    {% if certificate.issue_date %}
+
+                        <span>
+                            Issued:
+                            {{ certificate.issue_date|date:"F d, Y" }}
+                        </span>
+
+                    {% endif %}
+
+
+                    {% if certificate.credential_id %}
+
+                        <span>
+                            Credential ID:
+                            {{ certificate.credential_id }}
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+
+                <p class="delete-warning-note">
+                    This action cannot be undone.
+                </p>
+
+
+                <!-- =====================================
+                     ACTIONS
+                ====================================== -->
+
+                <form
+                    method="post"
+                    class="delete-confirmation-actions"
+                >
+
+                    {% csrf_token %}
+
+                    <a
+                        href="{% url 'certificate_list' %}"
+                        class="btn btn-secondary"
+                    >
+                        Cancel
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="btn btn-danger delete-confirm-btn"
+                    >
+                        Delete Certificate
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>

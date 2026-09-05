@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ page_title }} | Portfolio Management</title>
+
+    <link rel="stylesheet" href="{% static 'portfolio/css/style.css' %}">
+</head>
+
+<body>
+
+<main class="dashboard-page">
+
+    <div class="container">
+
+        <!-- Page Header -->
+        <div class="dashboard-header">
+
+            <p class="hero-label">
+                Portfolio Management
+            </p>
+
+            <h1>{{ page_title }}</h1>
+
+            <p>
+                Add or update your professional skills.
+            </p>
+
+        </div>
+
+
+        <!-- Form -->
+        <div class="management-form-card">
+
+            <form method="post" novalidate>
+
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="form-error-summary">
+                        {% for error in form.non_field_errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+
+                <!-- Skill Name -->
+                <div class="management-form-group">
+
+                    <label for="{{ form.name.id_for_label }}">
+                        Skill Name
+                        <span class="required">*</span>
+                    </label>
+
+                    {{ form.name }}
+
+                    {% for error in form.name.errors %}
+                        <p class="field-error">
+                            {{ error }}
+                        </p>
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- Category -->
+                <div class="management-form-group">
+
+                    <label for="{{ form.category.id_for_label }}">
+                        Category
+                    </label>
+
+                    {{ form.category }}
+
+                    {% for error in form.category.errors %}
+                        <p class="field-error">
+                            {{ error }}
+                        </p>
+                    {% endfor %}
+
+                    <p class="management-form-help">
+                        Optional. Example: Programming Languages,
+                        Frameworks, Databases, or Tools.
+                    </p>
+
+                </div>
+
+
+                <!-- Proficiency -->
+                <div class="management-form-group">
+
+                    <label for="{{ form.proficiency.id_for_label }}">
+                        Proficiency
+                        <span class="required">*</span>
+                    </label>
+
+                    {{ form.proficiency }}
+
+                    {% for error in form.proficiency.errors %}
+                        <p class="field-error">
+                            {{ error }}
+                        </p>
+                    {% endfor %}
+
+                    <p class="management-form-help">
+                        Enter a value from 0 to 100.
+                    </p>
+
+                </div>
+
+
+                <!-- Actions -->
+                <div class="management-form-actions">
+
+                    <a
+                        href="{% url 'skill_list' %}"
+                        class="btn btn-secondary"
+                    >
+                        Cancel
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        {{ submit_label }}
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</main>
+
+</body>
+</html>

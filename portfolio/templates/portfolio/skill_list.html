@@ -1,0 +1,172 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Skills | Portfolio Management</title>
+
+    <link rel="stylesheet" href="{% static 'portfolio/css/style.css' %}">
+</head>
+
+<body>
+
+<main class="dashboard-page">
+
+    <div class="container">
+
+        <!-- Page Header -->
+        <div class="dashboard-header">
+
+            <p class="hero-label">
+                Portfolio Management
+            </p>
+
+            <h1>Skills</h1>
+
+            <p>
+                Manage your technical and professional skills.
+            </p>
+
+        </div>
+
+
+        <!-- Page Actions -->
+        <div class="education-page-actions">
+
+            <a
+                href="{% url 'dashboard' %}"
+                class="btn btn-secondary"
+            >
+                ← Back to Dashboard
+            </a>
+
+            <a
+                href="{% url 'skill_add' %}"
+                class="btn btn-primary"
+            >
+                + Add Skill
+            </a>
+
+        </div>
+
+
+        <!-- Skills List -->
+        <div class="skill-management-list">
+
+            {% for skill in skills %}
+
+                <div class="skill-management-card">
+
+                    <!-- Skill Icon -->
+                    <div class="skill-management-icon">
+                        ⚡
+                    </div>
+
+
+                    <!-- Main Content -->
+                    <div class="skill-management-main">
+
+                        <div class="skill-management-top">
+
+                            <div class="skill-management-title">
+
+                                <h2>
+                                    {{ skill.name }}
+                                </h2>
+
+                                {% if skill.category %}
+                                    <p class="skill-management-category">
+                                        {{ skill.category }}
+                                    </p>
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- Proficiency -->
+                            <div class="skill-management-proficiency">
+
+                                <div class="skill-proficiency-header">
+
+                                    <span>
+                                        Proficiency
+                                    </span>
+
+                                    <strong>
+                                        {{ skill.proficiency }}%
+                                    </strong>
+
+                                </div>
+
+                                <div class="skill-proficiency-bar">
+
+                                    <div
+                                        class="skill-proficiency-fill"
+                                        style="width: {{ skill.proficiency }}%;"
+                                    ></div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Actions -->
+                            <div class="skill-management-actions">
+
+                                <a
+                                    href="{% url 'skill_edit' skill.pk %}"
+                                    class="btn btn-secondary"
+                                >
+                                    Edit
+                                </a>
+
+                                <a
+                                    href="{% url 'skill_delete' skill.pk %}"
+                                    class="btn btn-danger"
+                                >
+                                    Delete
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            {% empty %}
+
+                <!-- Empty State -->
+                <div class="dashboard-empty-state">
+
+                    <h2>
+                        No Skills Yet
+                    </h2>
+
+                    <p>
+                        Add your technical and professional
+                        skills to showcase your expertise.
+                    </p>
+
+                    <a
+                        href="{% url 'skill_add' %}"
+                        class="btn btn-primary"
+                    >
+                        + Add Skill
+                    </a>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</main>
+
+</body>
+</html>

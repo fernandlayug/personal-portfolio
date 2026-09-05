@@ -1,0 +1,308 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        {{ page_title }} | Portfolio Dashboard
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'portfolio/css/style.css' %}"
+    >
+
+</head>
+
+<body>
+
+    <main class="dashboard-page">
+
+        <div class="container">
+
+            <!-- =========================================
+                 PAGE HEADER
+            ========================================== -->
+
+            <div class="dashboard-header">
+
+                <p class="hero-label">
+                    Portfolio Management
+                </p>
+
+                <h1>
+                    {{ page_title }}
+                </h1>
+
+                <p>
+                    {% if education %}
+                        Update your educational background
+                        and academic information.
+                    {% else %}
+                        Add your educational background
+                        and academic information.
+                    {% endif %}
+                </p>
+
+            </div>
+
+
+            <!-- =========================================
+                 FORM
+            ========================================== -->
+
+            <div class="management-form-card">
+
+                <form
+                    method="post"
+                    novalidate
+                >
+
+                    {% csrf_token %}
+
+
+                    <!-- NON-FIELD ERRORS -->
+
+                    {% if form.non_field_errors %}
+
+                        <div class="form-error-summary">
+
+                            {% for error in form.non_field_errors %}
+
+                                <p>
+                                    {{ error }}
+                                </p>
+
+                            {% endfor %}
+
+                        </div>
+
+                    {% endif %}
+
+
+                    <!-- INSTITUTION -->
+
+                    <div class="management-form-group">
+
+                        <label for="{{ form.institution.id_for_label }}">
+                            Institution
+                            <span class="required">*</span>
+                        </label>
+
+                        {{ form.institution }}
+
+                        {% if form.institution.errors %}
+
+                            <div class="field-error">
+
+                                {% for error in form.institution.errors %}
+                                    {{ error }}
+                                {% endfor %}
+
+                            </div>
+
+                        {% endif %}
+
+                        <small>
+                            Enter the name of the school,
+                            college, or university.
+                        </small>
+
+                    </div>
+
+
+                    <!-- DEGREE -->
+
+                    <div class="management-form-group">
+
+                        <label for="{{ form.degree.id_for_label }}">
+                            Degree
+                            <span class="required">*</span>
+                        </label>
+
+                        {{ form.degree }}
+
+                        {% if form.degree.errors %}
+
+                            <div class="field-error">
+
+                                {% for error in form.degree.errors %}
+                                    {{ error }}
+                                {% endfor %}
+
+                            </div>
+
+                        {% endif %}
+
+                        <small>
+                            Example: Bachelor of Science
+                            in Information Technology
+                        </small>
+
+                    </div>
+
+
+                    <!-- FIELD OF STUDY -->
+
+                    <div class="management-form-group">
+
+                        <label for="{{ form.field_of_study.id_for_label }}">
+                            Field of Study
+                        </label>
+
+                        {{ form.field_of_study }}
+
+                        {% if form.field_of_study.errors %}
+
+                            <div class="field-error">
+
+                                {% for error in form.field_of_study.errors %}
+                                    {{ error }}
+                                {% endfor %}
+
+                            </div>
+
+                        {% endif %}
+
+                        <small>
+                            Example: Information Technology
+                        </small>
+
+                    </div>
+
+
+                    <!-- YEAR ROW -->
+
+                    <div class="management-form-row">
+
+                        <!-- START YEAR -->
+
+                        <div class="management-form-group">
+
+                            <label for="{{ form.start_year.id_for_label }}">
+                                Start Year
+                                <span class="required">*</span>
+                            </label>
+
+                            {{ form.start_year }}
+
+                            {% if form.start_year.errors %}
+
+                                <div class="field-error">
+
+                                    {% for error in form.start_year.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- END YEAR -->
+
+                        <div class="management-form-group">
+
+                            <label for="{{ form.end_year.id_for_label }}">
+                                End Year
+                            </label>
+
+                            {{ form.end_year }}
+
+                            {% if form.end_year.errors %}
+
+                                <div class="field-error">
+
+                                    {% for error in form.end_year.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+
+                                </div>
+
+                            {% endif %}
+
+                            <small>
+                                Leave blank if currently studying.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- DESCRIPTION -->
+
+                    <div class="management-form-group">
+
+                        <label for="{{ form.description.id_for_label }}">
+                            Description
+                        </label>
+
+                        {{ form.description }}
+
+                        {% if form.description.errors %}
+
+                            <div class="field-error">
+
+                                {% for error in form.description.errors %}
+                                    {{ error }}
+                                {% endfor %}
+
+                            </div>
+
+                        {% endif %}
+
+                        <small>
+                            Include achievements, activities,
+                            honors, or other relevant details.
+                        </small>
+
+                    </div>
+
+
+                    <!-- FORM ACTIONS -->
+
+                    <div class="management-form-actions">
+
+                        <a
+                            href="{% url 'education_list' %}"
+                            class="btn btn-secondary"
+                        >
+                            Cancel
+                        </a>
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                        >
+                            {% if education %}
+                                Save Changes
+                            {% else %}
+                                Add Education
+                            {% endif %}
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>

@@ -1,0 +1,4917 @@
+/* =========================
+   RESET
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
+    color: #1f2937;
+    background: #ffffff;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.container {
+    width: min(1100px, 90%);
+    margin: 0 auto;
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(10px);
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.nav-container {
+    min-height: 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    font-size: 1.15rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: #111827;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.nav-links a {
+    position: relative;
+
+    font-size: 0.9rem;
+    font-weight: 500;
+
+    color: #4b5563;
+
+    transition: color 0.3s ease;
+}
+
+.nav-links a::after {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+
+    width: 0;
+    height: 2px;
+
+    background: #111827;
+
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #111827;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+
+/* =========================
+   MOBILE MENU BUTTON
+========================= */
+
+.menu-toggle {
+    display: none;
+
+    width: 42px;
+    height: 42px;
+
+    padding: 8px;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+
+    background: #ffffff;
+
+    cursor: pointer;
+}
+
+.menu-toggle span {
+    display: block;
+
+    width: 100%;
+    height: 2px;
+
+    margin: 5px 0;
+
+    background: #111827;
+
+    transition:
+        transform 0.3s ease,
+        opacity 0.3s ease;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+    min-height: 88vh;
+
+    display: flex;
+    align-items: center;
+
+    background: #f8fafc;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.hero-container {
+    display: grid;
+
+    grid-template-columns: minmax(0, 1fr) 350px;
+
+    align-items: center;
+
+    gap: 80px;
+}
+
+.hero-content {
+    max-width: 900px;
+}
+
+.hero-label {
+    margin-bottom: 15px;
+
+    font-size: 0.85rem;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 2px;
+
+    color: #64748b;
+}
+
+.hero h1 {
+    margin-bottom: 15px;
+
+    font-size: clamp(3rem, 8vw, 6rem);
+
+    line-height: 0.98;
+
+    letter-spacing: -3px;
+
+    color: #111827;
+}
+
+.hero h2 {
+    margin-bottom: 25px;
+
+    font-size: clamp(1.3rem, 3vw, 2rem);
+
+    line-height: 1.4;
+
+    font-weight: 500;
+
+    color: #475569;
+}
+
+.hero-description {
+    max-width: 700px;
+
+    margin-bottom: 30px;
+
+    font-size: 1.1rem;
+
+    color: #64748b;
+}
+
+.hero-buttons {
+    display: flex;
+
+    gap: 15px;
+
+    flex-wrap: wrap;
+}
+
+.hero-socials {
+    display: flex;
+
+    gap: 20px;
+
+    margin-top: 25px;
+
+    flex-wrap: wrap;
+}
+
+.hero-socials a {
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    color: #475569;
+
+    border-bottom: 1px solid #cbd5e1;
+
+    padding-bottom: 3px;
+
+    transition: all 0.3s ease;
+}
+
+.hero-socials a:hover {
+    color: #111827;
+    border-color: #111827;
+}
+
+.hero-image-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.hero-image {
+    width: 300px;
+    height: 300px;
+
+    object-fit: cover;
+
+    border-radius: 50%;
+
+    border: 1px solid #e5e7eb;
+
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.10);
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+.btn {
+    display: inline-block;
+
+    padding: 12px 22px;
+
+    border-radius: 6px;
+
+    font-weight: 600;
+
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: #111827;
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background: #374151;
+
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    border: 1px solid #d1d5db;
+
+    background: #ffffff;
+}
+
+.btn-secondary:hover {
+    border-color: #111827;
+
+    transform: translateY(-2px);
+}
+
+
+/* =========================
+   SECTIONS
+========================= */
+
+.section {
+    padding: 120px 0;
+}
+
+.section-alt {
+    background: #f8fafc;
+}
+
+.section-heading {
+    margin-bottom: 50px;
+}
+
+.section-heading span {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 0.8rem;
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    color: #9ca3af;
+}
+
+.section-heading h2 {
+    font-size: clamp(2rem, 4vw, 2.8rem);
+
+    line-height: 1.1;
+
+    letter-spacing: -1px;
+
+    color: #111827;
+}
+
+
+/* =========================
+   ABOUT
+========================= */
+
+.about-content {
+    max-width: 800px;
+}
+
+.about-text p {
+    font-size: 1.15rem;
+
+    color: #4b5563;
+}
+
+
+/* =========================
+   EDUCATION
+========================= */
+
+.timeline {
+    position: relative;
+
+    border-left: 2px solid #e5e7eb;
+
+    padding-left: 30px;
+}
+
+.timeline-item {
+    position: relative;
+
+    margin-bottom: 35px;
+}
+
+.timeline-item::before {
+    content: "";
+
+    position: absolute;
+
+    left: -39px;
+    top: 5px;
+
+    width: 14px;
+    height: 14px;
+
+    border-radius: 50%;
+
+    background: #111827;
+}
+
+.timeline-content h3 {
+    margin-bottom: 5px;
+
+    font-size: 1.25rem;
+}
+
+.timeline-content h4 {
+    margin-bottom: 5px;
+
+    font-weight: 500;
+
+    color: #4b5563;
+}
+
+.timeline-date {
+    margin-bottom: 8px;
+
+    font-size: 0.9rem;
+
+    color: #6b7280;
+}
+
+
+/* =========================
+   EXPERIENCE
+========================= */
+
+.experience-list {
+    display: grid;
+
+    gap: 25px;
+}
+
+.experience-card {
+    padding: 30px;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 10px;
+
+    background: #ffffff;
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.experience-card:hover {
+    transform: translateY(-4px);
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+.experience-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-bottom: 15px;
+}
+
+.experience-header h3 {
+    margin-bottom: 4px;
+}
+
+.experience-header h4 {
+    font-weight: 500;
+
+    color: #6b7280;
+}
+
+.experience-date {
+    white-space: nowrap;
+
+    font-size: 0.9rem;
+
+    color: #6b7280;
+}
+
+
+/* =========================
+   SKILLS
+========================= */
+
+.skills-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 20px;
+}
+
+.skill-card {
+    padding: 25px;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 10px;
+
+    background: #ffffff;
+
+    transition:
+        transform 0.3s ease,
+        border-color 0.3s ease;
+}
+
+.skill-card:hover {
+    transform: translateY(-4px);
+
+    border-color: #9ca3af;
+}
+
+.skill-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 15px;
+}
+
+.skill-header h3 {
+    font-size: 1rem;
+}
+
+.skill-percentage {
+    font-size: 0.85rem;
+
+    font-weight: 700;
+
+    color: #6b7280;
+}
+
+.skill-category {
+    margin-top: 4px;
+
+    margin-bottom: 15px;
+
+    font-size: 0.85rem;
+
+    color: #6b7280;
+}
+
+.skill-bar {
+    width: 100%;
+
+    height: 6px;
+
+    overflow: hidden;
+
+    border-radius: 999px;
+
+    background: #e5e7eb;
+}
+
+.skill-progress {
+    height: 100%;
+
+    border-radius: 999px;
+
+    background: #111827;
+}
+
+
+/* =========================
+   PROJECTS
+========================= */
+
+.projects-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 25px;
+}
+
+.project-card {
+    display: flex;
+
+    min-height: 320px;
+
+    flex-direction: column;
+
+    padding: 35px;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 12px;
+
+    background: #ffffff;
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-6px);
+
+    border-color: #d1d5db;
+
+    box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+.project-top {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 30px;
+}
+
+.project-number {
+    font-size: 0.8rem;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+    color: #9ca3af;
+}
+
+.project-date {
+    font-size: 0.8rem;
+
+    color: #9ca3af;
+}
+
+.project-content {
+    flex: 1;
+}
+
+.project-content h3 {
+    margin-bottom: 15px;
+
+    font-size: 1.5rem;
+
+    line-height: 1.2;
+}
+
+.project-content p {
+    margin-bottom: 20px;
+
+    color: #6b7280;
+}
+
+.project-content .technologies {
+    font-size: 0.85rem;
+
+    color: #4b5563;
+}
+
+.project-content .technologies strong {
+    color: #111827;
+}
+
+.project-footer {
+    display: flex;
+
+    gap: 20px;
+
+    flex-wrap: wrap;
+
+    margin-top: 25px;
+
+    padding-top: 20px;
+
+    border-top: 1px solid #e5e7eb;
+}
+
+.project-link {
+    font-size: 0.9rem;
+
+    font-weight: 700;
+
+    color: #111827;
+}
+
+.project-link:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================
+   CONTACT
+========================= */
+
+.contact-section {
+    padding: 120px 0;
+
+    background: #111827;
+
+    color: #ffffff;
+}
+
+.contact-content {
+    max-width: 750px;
+
+    text-align: center;
+}
+
+.contact-section .hero-label {
+    color: #9ca3af;
+}
+
+.contact-section h2 {
+    margin-bottom: 20px;
+
+    font-size: clamp(2rem, 5vw, 3.5rem);
+}
+
+.contact-section p {
+    margin-bottom: 30px;
+
+    color: #d1d5db;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer {
+    padding: 25px 0;
+
+    background: #0f172a;
+
+    color: #94a3b8;
+
+    text-align: center;
+
+    font-size: 0.85rem;
+}
+
+
+/* =========================
+   TABLET / MOBILE
+========================= */
+
+@media (max-width: 800px) {
+
+    /* Navigation */
+
+    .nav-container {
+        position: relative;
+
+        min-height: 65px;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .nav-links {
+        position: absolute;
+
+        top: 65px;
+        left: 0;
+        right: 0;
+
+        display: none;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 0;
+
+        padding: 10px 0;
+
+        background: #ffffff;
+
+        border-bottom: 1px solid #e5e7eb;
+
+        box-shadow:
+            0 10px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .nav-links a {
+        display: block;
+
+        padding: 14px 5%;
+    }
+
+    .nav-links a::after {
+        display: none;
+    }
+
+
+    /* Hero */
+
+    .hero {
+        min-height: auto;
+
+        padding: 80px 0;
+    }
+
+    .hero-container {
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: center;
+
+        gap: 40px;
+
+        text-align: center;
+    }
+
+    .hero-image-wrapper {
+        order: -1;
+    }
+
+    .hero-image {
+        width: 220px;
+        height: 220px;
+    }
+
+    .hero-content {
+        width: 100%;
+    }
+
+    .hero-description {
+        margin-left: auto;
+
+        margin-right: auto;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+    }
+
+    .hero-socials {
+        justify-content: center;
+    }
+
+
+    /* Sections */
+
+    .section {
+        padding: 80px 0;
+    }
+
+
+    /* Skills */
+
+    .skills-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+
+    /* Projects */
+
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    /* Experience */
+
+    .experience-header {
+        flex-direction: column;
+
+        gap: 5px;
+    }
+
+}
+
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media (max-width: 500px) {
+
+    .container {
+        width: 92%;
+    }
+
+    .hero {
+        padding: 60px 0;
+    }
+
+    .hero h1 {
+        font-size: 2.8rem;
+
+        letter-spacing: -2px;
+    }
+
+    .hero h2 {
+        font-size: 1.25rem;
+    }
+
+    .hero-description {
+        font-size: 1rem;
+    }
+
+    .hero-image {
+        width: 190px;
+        height: 190px;
+    }
+
+    .skills-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .project-card,
+    .experience-card {
+        padding: 25px;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+
+        width: 100%;
+    }
+
+    .hero-buttons .btn {
+        width: 100%;
+
+        text-align: center;
+    }
+
+        .hero-image-wrapper::before {
+        width: 210px;
+        height: 210px;
+
+        transform: translate(10px, 10px);
+    }
+
+    .hero-label {
+        padding-left: 0;
+    }
+
+    .hero-label::before {
+        display: none;
+    }
+
+}
+
+/* =========================
+   SCROLL REVEAL
+========================= */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition:
+        opacity 0.8s ease,
+        transform 0.8s ease;
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* =========================
+   ACTIVE NAVIGATION
+========================= */
+
+.nav-links a.active {
+    color: #111827;
+    font-weight: 700;
+}
+
+.nav-links a.active::after {
+    width: 100%;
+}
+
+/* =========================
+   PROFESSIONAL HERO POLISH
+========================= */
+
+.hero {
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-label {
+    position: relative;
+    padding-left: 45px;
+}
+
+.hero-label::before {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    top: 50%;
+
+    width: 32px;
+    height: 1px;
+
+    background: #94a3b8;
+
+    transform: translateY(-50%);
+}
+
+.hero h1 {
+    font-weight: 800;
+}
+
+.hero h2 {
+    max-width: 760px;
+}
+
+.hero-description {
+    line-height: 1.8;
+}
+
+.hero-image-wrapper {
+    position: relative;
+}
+
+.hero-image-wrapper::before {
+    content: "";
+
+    position: absolute;
+
+    width: 330px;
+    height: 330px;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 50%;
+
+    transform: translate(15px, 15px);
+
+    z-index: 0;
+}
+
+.hero-image {
+    position: relative;
+    z-index: 1;
+}
+
+/* =========================
+   SECTION HEADING POLISH
+========================= */
+
+.section-heading {
+    position: relative;
+}
+
+.section-heading h2 {
+    font-weight: 800;
+}
+
+.section-heading span {
+    text-transform: uppercase;
+}
+
+/* =========================
+   EXPERIENCE POLISH
+========================= */
+
+.experience-card {
+    position: relative;
+
+    overflow: hidden;
+}
+
+.experience-card::before {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 3px;
+    height: 100%;
+
+    background: #111827;
+
+    transform: scaleY(0);
+
+    transform-origin: bottom;
+
+    transition: transform 0.3s ease;
+}
+
+.experience-card:hover::before {
+    transform: scaleY(1);
+}
+
+.experience-header h3 {
+    font-size: 1.3rem;
+}
+
+.experience-header h4 {
+    font-size: 1rem;
+}
+
+.experience-card p {
+    color: #64748b;
+}
+
+/* =========================
+   SKILLS POLISH
+========================= */
+
+.skill-card {
+    position: relative;
+
+    overflow: hidden;
+}
+
+.skill-header h3 {
+    font-weight: 700;
+}
+
+.skill-progress {
+    transform-origin: left;
+    animation: skillLoad 1.2s ease forwards;
+}
+
+@keyframes skillLoad {
+
+    from {
+        transform: scaleX(0);
+    }
+
+    to {
+        transform: scaleX(1);
+    }
+
+}
+
+/* =========================
+   PROJECT POLISH
+========================= */
+
+.project-card {
+    position: relative;
+
+    overflow: hidden;
+}
+
+.project-card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 3px;
+
+    background: #111827;
+
+    transform: scaleX(0);
+
+    transform-origin: left;
+
+    transition: transform 0.35s ease;
+}
+
+.project-card:hover::before {
+    transform: scaleX(1);
+}
+
+.project-content h3 {
+    font-weight: 800;
+}
+
+.project-content p {
+    line-height: 1.7;
+}
+
+.project-footer {
+    align-items: center;
+}
+
+.project-link {
+    transition: transform 0.2s ease;
+}
+
+.project-link:hover {
+    transform: translateX(3px);
+}
+
+/* =========================
+   BUTTON POLISH
+========================= */
+
+.btn {
+    position: relative;
+
+    overflow: hidden;
+
+    border: 1px solid transparent;
+
+    transition:
+        transform 0.25s ease,
+        background 0.25s ease,
+        border-color 0.25s ease;
+}
+
+.btn-primary {
+    border-color: #111827;
+}
+
+.btn-secondary {
+    border-color: #cbd5e1;
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* =========================
+   CONTACT POLISH
+========================= */
+
+.contact-section {
+    position: relative;
+
+    overflow: hidden;
+}
+
+.contact-section::before {
+    content: "";
+
+    position: absolute;
+
+    width: 500px;
+    height: 500px;
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    border-radius: 50%;
+
+    top: -250px;
+    right: -150px;
+}
+
+.contact-content {
+    position: relative;
+
+    z-index: 1;
+
+    margin: 0 auto;
+}
+
+.contact-section h2 {
+    font-weight: 800;
+}
+
+.contact-section .btn {
+    margin-top: 5px;
+}
+
+/* =========================
+   FOOTER POLISH
+========================= */
+
+.footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footer p {
+    line-height: 1.6;
+}
+
+.nav-logout-form {
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-logout-button {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+}
+
+
+
+.google-login-btn:hover {
+    background: #f7f7f7;
+}
+
+/* =========================================================
+   AUTHENTICATION / LOGIN PAGE
+========================================================= */
+
+.auth-page {
+    min-height: 100vh;
+
+    background: #f8fafc;
+
+    display: flex;
+    align-items: stretch;
+}
+
+.auth-wrapper {
+    width: 100%;
+    min-height: 100vh;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+
+/* =========================================================
+   BRAND PANEL
+========================================================= */
+
+.auth-brand {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    padding: 70px;
+
+    background: #111827;
+
+    color: #ffffff;
+
+    overflow: hidden;
+}
+
+.auth-brand::before {
+    content: "";
+
+    position: absolute;
+
+    width: 600px;
+    height: 600px;
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    border-radius: 50%;
+
+    right: -300px;
+    top: -180px;
+}
+
+.auth-brand::after {
+    content: "";
+
+    position: absolute;
+
+    width: 400px;
+    height: 400px;
+
+    border: 1px solid rgba(255, 255, 255, 0.06);
+
+    border-radius: 50%;
+
+    left: -250px;
+    bottom: -180px;
+}
+
+.brand-content {
+    position: relative;
+
+    z-index: 2;
+
+    width: 100%;
+    max-width: 600px;
+
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   AUTH LOGO
+========================================================= */
+
+.auth-logo {
+    display: inline-block;
+
+    margin-bottom: 100px;
+
+    font-size: 1rem;
+    font-weight: 800;
+
+    letter-spacing: -0.3px;
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   BRAND MESSAGE
+========================================================= */
+
+.brand-message {
+    max-width: 560px;
+}
+
+.auth-eyebrow {
+    margin-bottom: 20px;
+
+    font-size: 0.75rem;
+    font-weight: 700;
+
+    letter-spacing: 2.5px;
+
+    color: #94a3b8;
+}
+
+.brand-message h1 {
+    margin-bottom: 25px;
+
+    font-size: clamp(2.8rem, 5vw, 5rem);
+
+    line-height: 1.02;
+
+    letter-spacing: -3px;
+
+    font-weight: 800;
+
+    color: #ffffff;
+}
+
+.brand-message h1 span {
+    display: block;
+
+    color: #cbd5e1;
+}
+
+.brand-message > p:last-child {
+    max-width: 500px;
+
+    font-size: 1.05rem;
+
+    line-height: 1.8;
+
+    color: #cbd5e1;
+}
+
+
+/* =========================================================
+   BRAND FEATURES
+========================================================= */
+
+.brand-features {
+    margin-top: 65px;
+
+    display: grid;
+
+    gap: 25px;
+}
+
+.brand-feature {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 18px;
+}
+
+.feature-icon {
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 42px;
+    height: 42px;
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+
+    border-radius: 50%;
+
+    font-size: 0.7rem;
+    font-weight: 700;
+
+    color: #cbd5e1;
+}
+
+.brand-feature strong {
+    display: block;
+
+    margin-bottom: 3px;
+
+    font-size: 0.9rem;
+
+    color: #ffffff;
+}
+
+.brand-feature p {
+    font-size: 0.82rem;
+
+    line-height: 1.5;
+
+    color: #94a3b8;
+}
+
+
+/* =========================================================
+   AUTH PANEL
+========================================================= */
+
+.auth-panel {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 50px;
+
+    background: #ffffff;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 450px;
+}
+
+
+/* =========================================================
+   AUTH HEADER
+========================================================= */
+
+.auth-header {
+    margin-bottom: 35px;
+}
+
+.auth-mobile-brand {
+    display: none;
+}
+
+.auth-label {
+    margin-bottom: 12px;
+
+    font-size: 0.72rem;
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    color: #64748b;
+}
+
+.auth-header h2 {
+    margin-bottom: 10px;
+
+    font-size: clamp(2rem, 4vw, 2.7rem);
+
+    line-height: 1.1;
+
+    letter-spacing: -1.5px;
+
+    font-weight: 800;
+
+    color: #111827;
+}
+
+.auth-header > p:last-child {
+    color: #64748b;
+
+    font-size: 0.95rem;
+}
+
+
+/* =========================================================
+   AUTH MESSAGES
+========================================================= */
+
+.auth-messages {
+    margin-bottom: 25px;
+}
+
+.auth-message {
+    padding: 12px 15px;
+
+    border: 1px solid #fecaca;
+
+    border-radius: 7px;
+
+    background: #fef2f2;
+
+    color: #991b1b;
+
+    font-size: 0.85rem;
+}
+
+
+/* =========================================================
+   AUTH FORM
+========================================================= */
+
+.auth-form {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 22px;
+}
+
+.form-group {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 0.82rem;
+
+    font-weight: 700;
+
+    color: #374151;
+}
+
+.form-group input {
+    width: 100%;
+
+    height: 50px;
+
+    padding: 0 15px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    color: #111827;
+
+    font-family: inherit;
+
+    font-size: 0.9rem;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.form-group input::placeholder {
+    color: #9ca3af;
+}
+
+.form-group input:focus {
+    border-color: #111827;
+
+    box-shadow:
+        0 0 0 3px rgba(17, 24, 39, 0.08);
+}
+
+
+/* =========================================================
+   PASSWORD
+========================================================= */
+
+.password-label-row {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+}
+
+.forgot-password {
+    font-size: 0.78rem;
+
+    font-weight: 600;
+
+    color: #475569;
+
+    transition: color 0.2s ease;
+}
+
+.forgot-password:hover {
+    color: #111827;
+
+    text-decoration: underline;
+}
+
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper input {
+    padding-right: 65px;
+}
+
+.password-toggle {
+    position: absolute;
+
+    right: 12px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    border: none;
+
+    background: transparent;
+
+    color: #64748b;
+
+    font-family: inherit;
+
+    font-size: 0.75rem;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.password-toggle:hover {
+    color: #111827;
+}
+
+
+/* =========================================================
+   SUBMIT BUTTON
+========================================================= */
+
+.auth-submit {
+    width: 100%;
+
+    height: 52px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 18px;
+
+    border: 1px solid #111827;
+
+    border-radius: 7px;
+
+    background: #111827;
+
+    color: #ffffff;
+
+    font-family: inherit;
+
+    font-size: 0.9rem;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.auth-submit:hover {
+    background: #374151;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(17, 24, 39, 0.15);
+}
+
+.submit-arrow {
+    font-size: 1.2rem;
+
+    transition: transform 0.2s ease;
+}
+
+.auth-submit:hover .submit-arrow {
+    transform: translateX(4px);
+}
+
+
+/* =========================================================
+   DIVIDER
+========================================================= */
+
+.auth-divider {
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    margin: 30px 0 20px;
+
+    color: #9ca3af;
+
+    font-size: 0.65rem;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+    content: "";
+
+    flex: 1;
+
+    height: 1px;
+
+    background: #e5e7eb;
+}
+
+.auth-divider span {
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   SOCIAL LOGIN
+========================================================= */
+
+.social-login-list {
+    display: grid;
+
+    gap: 10px;
+}
+
+.social-login-btn {
+    width: 100%;
+
+    min-height: 48px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 12px;
+
+    padding: 11px 15px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    color: #374151;
+
+    font-size: 0.85rem;
+
+    font-weight: 600;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.social-login-btn:hover {
+    border-color: #9ca3af;
+
+    background: #f9fafb;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.social-icon {
+    min-width: 28px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 0.9rem;
+
+    font-weight: 800;
+}
+
+.microsoft-icon {
+    font-size: 1.1rem;
+}
+
+.github-login-btn .social-icon {
+    font-size: 0.65rem;
+}
+
+
+/* =========================================================
+   SIGNUP
+========================================================= */
+
+.auth-signup {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 5px;
+
+    margin-top: 30px;
+
+    font-size: 0.82rem;
+
+    color: #64748b;
+}
+
+.auth-signup a {
+    font-weight: 700;
+
+    color: #111827;
+}
+
+.auth-signup a:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   AUTH FOOTER
+========================================================= */
+
+.auth-footer {
+    margin-top: 25px;
+
+    padding-top: 20px;
+
+    border-top: 1px solid #f1f5f9;
+
+    text-align: center;
+}
+
+.auth-footer a {
+    font-size: 0.75rem;
+
+    font-weight: 600;
+
+    color: #94a3b8;
+
+    transition: color 0.2s ease;
+}
+
+.auth-footer a:hover {
+    color: #111827;
+}
+
+.auth-footer a span {
+    margin-right: 5px;
+}
+
+
+/* =========================================================
+   AUTH RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .auth-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .auth-brand {
+        display: none;
+    }
+
+    .auth-panel {
+        min-height: 100vh;
+
+        padding: 40px 25px;
+    }
+
+    .auth-card {
+        max-width: 470px;
+    }
+
+    .auth-mobile-brand {
+        display: block;
+
+        margin-bottom: 45px;
+
+        font-size: 0.9rem;
+
+        font-weight: 800;
+
+        color: #111827;
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .auth-panel {
+        padding: 30px 20px;
+    }
+
+    .auth-mobile-brand {
+        margin-bottom: 35px;
+    }
+
+    .auth-header {
+        margin-bottom: 28px;
+    }
+
+    .auth-header h2 {
+        font-size: 2rem;
+    }
+
+    .auth-form {
+        gap: 18px;
+    }
+
+    .auth-divider {
+        margin: 25px 0 18px;
+    }
+
+    .auth-signup {
+        flex-direction: column;
+
+        align-items: center;
+
+        gap: 2px;
+    }
+
+}
+
+/* =========================================================
+   SIGNUP PAGE
+========================================================= */
+
+.signup-form {
+    gap: 18px;
+}
+
+.signup-form .form-group {
+    gap: 7px;
+}
+
+.signup-form input,
+.signup-form select,
+.signup-form textarea {
+    width: 100%;
+
+    min-height: 50px;
+
+    padding: 12px 14px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    color: #111827;
+
+    font-family: inherit;
+
+    font-size: 0.88rem;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.signup-form input:hover,
+.signup-form select:hover,
+.signup-form textarea:hover {
+    border-color: #9ca3af;
+}
+
+.signup-form input:focus,
+.signup-form select:focus,
+.signup-form textarea:focus {
+    border-color: #111827;
+
+    box-shadow:
+        0 0 0 3px rgba(17, 24, 39, 0.07);
+}
+
+.signup-form .helptext {
+    color: #64748b;
+
+    font-size: 0.72rem;
+
+    line-height: 1.5;
+}
+
+.field-help {
+    margin-top: 2px;
+
+    color: #64748b;
+
+    font-size: 0.7rem;
+
+    line-height: 1.5;
+}
+
+.field-help ul {
+    margin: 5px 0 0 17px;
+
+    padding: 0;
+}
+
+.field-help li {
+    margin-bottom: 2px;
+}
+
+.field-errors {
+    margin-top: 2px;
+
+    color: #b42318;
+
+    font-size: 0.75rem;
+
+    line-height: 1.5;
+}
+
+.field-errors ul {
+    margin: 0;
+
+    padding-left: 17px;
+}
+
+.field-errors li {
+    margin-bottom: 2px;
+}
+
+.signup-form .auth-submit {
+    margin-top: 4px;
+}
+
+/* =========================================================
+   PASSWORD RESET
+========================================================= */
+
+.auth-card .auth-header > p:last-child {
+    max-width: 420px;
+}
+
+.auth-card .form-group input[type="email"] {
+    width: 100%;
+    height: 50px;
+
+    padding: 0 14px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    color: #111827;
+
+    font-family: inherit;
+
+    font-size: 0.88rem;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.auth-card .form-group input[type="email"]:focus {
+    border-color: #111827;
+
+    box-shadow:
+        0 0 0 3px rgba(17, 24, 39, 0.07);
+}
+
+/* =========================================================
+   PASSWORD RESET - EMAIL SENT
+   ========================================================= */
+
+.password-reset-info {
+    margin: 20px 0;
+    padding: 16px;
+    border-radius: 10px;
+    background: #f5f7fa;
+    color: #5f6368;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.password-reset-info p {
+    margin: 0 0 10px;
+}
+
+.password-reset-info p:last-child {
+    margin-bottom: 0;
+}
+
+/* =========================================================
+   PASSWORD RESET - CHANGE PASSWORD
+   ========================================================= */
+
+.password-help {
+    margin-top: 18px;
+    margin-bottom: 22px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    background: #f5f7fa;
+    font-size: 13px;
+    color: #5f6368;
+}
+
+.password-help p {
+    margin: 0 0 8px;
+    font-weight: 600;
+}
+
+.password-help ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.password-help li {
+    margin-bottom: 5px;
+}
+
+.password-help li:last-child {
+    margin-bottom: 0;
+}
+
+
+.auth-form input[type="password"] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 15px;
+    font-family: inherit;
+    background: #ffffff;
+    transition: border-color 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+.auth-form input[type="password"]:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+
+.field-error {
+    margin-top: 6px;
+    color: #dc2626;
+    font-size: 13px;
+}
+
+.field-error span {
+    display: block;
+    margin-bottom: 3px;
+}
+
+
+.auth-error-message {
+    margin-bottom: 20px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #b91c1c;
+    font-size: 14px;
+}
+
+.auth-error-message p {
+    margin: 0;
+}
+
+
+.auth-footer {
+    margin-top: 22px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.auth-footer a {
+    text-decoration: none;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+
+/* =========================================================
+   PASSWORD RESET - SUCCESS
+   ========================================================= */
+
+.success-icon {
+    width: 58px;
+    height: 58px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    font-weight: 700;
+    background: #ecfdf5;
+    color: #16a34a;
+}
+
+/* =========================================================
+   LIVE PASSWORD VALIDATION
+   ========================================================= */
+
+.password-validation {
+    margin-top: 12px;
+    margin-bottom: 18px;
+    font-size: 13px;
+}
+
+
+/* ---------------------------------------------------------
+   PASSWORD STRENGTH
+   --------------------------------------------------------- */
+
+.password-strength {
+    margin-bottom: 14px;
+}
+
+.password-strength-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 7px;
+    font-size: 13px;
+    color: #5f6368;
+}
+
+.strength-text {
+    font-weight: 600;
+}
+
+
+/* Strength bar */
+
+.strength-bar {
+    width: 100%;
+    height: 6px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: #e5e7eb;
+}
+
+.strength-progress {
+    width: 0;
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.25s ease;
+}
+
+
+/* Weak */
+
+.password-validation.strength-weak
+.strength-progress {
+    background: #dc2626;
+}
+
+.password-validation.strength-weak
+.strength-text {
+    color: #dc2626;
+}
+
+
+/* Moderate */
+
+.password-validation.strength-moderate
+.strength-progress {
+    background: #f59e0b;
+}
+
+.password-validation.strength-moderate
+.strength-text {
+    color: #d97706;
+}
+
+
+/* Strong */
+
+.password-validation.strength-strong
+.strength-progress {
+    background: #16a34a;
+}
+
+.password-validation.strength-strong
+.strength-text {
+    color: #16a34a;
+}
+
+
+/* ---------------------------------------------------------
+   PASSWORD REQUIREMENTS
+   --------------------------------------------------------- */
+
+.password-requirements {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.password-requirement {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #6b7280;
+    transition: color 0.2s ease;
+}
+
+.requirement-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 17px;
+    height: 17px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #9ca3af;
+}
+
+.password-requirement.valid {
+    color: #15803d;
+}
+
+.password-requirement.valid
+.requirement-icon {
+    color: #16a34a;
+}
+
+
+/* ---------------------------------------------------------
+   PASSWORD MATCH
+   --------------------------------------------------------- */
+
+.password-match-message {
+    min-height: 18px;
+    margin-top: 7px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.password-match-message.valid {
+    color: #16a34a;
+}
+
+.password-match-message.invalid {
+    color: #dc2626;
+}
+
+/* =========================================================
+   SOCIAL AUTHENTICATION
+   Google / Microsoft / GitHub
+   ========================================================= */
+
+.social-auth-page .auth-card {
+    text-align: center;
+}
+
+
+/* ---------------------------------------------------------
+   PROVIDER ICON
+   --------------------------------------------------------- */
+
+.social-provider-icon {
+    width: 64px;
+    height: 64px;
+
+    margin: 0 auto 20px;
+
+    border-radius: 16px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 30px;
+    font-weight: 700;
+
+    background: #f5f7fa;
+    color: #333;
+
+    border: 1px solid #e5e7eb;
+}
+
+
+.provider-google {
+    background: #ffffff;
+    color: #4285f4;
+}
+
+
+.provider-microsoft {
+    background: #ffffff;
+    color: #2563eb;
+}
+
+
+.provider-github {
+    background: #ffffff;
+    color: #24292f;
+}
+
+
+/* ---------------------------------------------------------
+   PROVIDER INFORMATION
+   --------------------------------------------------------- */
+
+.social-provider-info {
+
+    margin: 22px 0;
+
+    padding: 18px;
+
+    border-radius: 12px;
+
+    background: #f8fafc;
+
+    border: 1px solid #e5e7eb;
+
+    text-align: center;
+}
+
+
+.social-provider-name {
+
+    margin-bottom: 6px;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    color: #1f2937;
+}
+
+
+.social-provider-description {
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+    color: #6b7280;
+
+}
+
+
+/* ---------------------------------------------------------
+   CONTINUE BUTTON
+   --------------------------------------------------------- */
+
+.social-continue-btn {
+
+    width: 100%;
+
+    min-height: 48px;
+
+    padding: 12px 18px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    font-family: inherit;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        opacity 0.2s ease;
+}
+
+
+.social-continue-btn:hover {
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 5px 14px rgba(0, 0, 0, 0.12);
+}
+
+
+.social-continue-btn:active {
+
+    transform: translateY(0);
+
+}
+
+
+/* ---------------------------------------------------------
+   GOOGLE
+   --------------------------------------------------------- */
+
+.social-google-btn {
+
+    background: #ffffff;
+
+    color: #202124;
+
+    border: 1px solid #dadce0;
+
+}
+
+
+.social-google-btn:hover {
+
+    background: #f8f9fa;
+
+}
+
+
+/* ---------------------------------------------------------
+   MICROSOFT
+   --------------------------------------------------------- */
+
+.social-microsoft-btn {
+
+    background: #2563eb;
+
+    color: #ffffff;
+
+}
+
+
+.social-microsoft-btn:hover {
+
+    background: #1d4ed8;
+
+}
+
+
+/* ---------------------------------------------------------
+   GITHUB
+   --------------------------------------------------------- */
+
+.social-github-btn {
+
+    background: #24292f;
+
+    color: #ffffff;
+
+}
+
+
+.social-github-btn:hover {
+
+    background: #17191c;
+
+}
+
+
+/* ---------------------------------------------------------
+   BUTTON ICON
+   --------------------------------------------------------- */
+
+.social-btn-icon {
+
+    width: 22px;
+
+    height: 22px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 17px;
+
+    font-weight: 700;
+
+}
+
+
+/* ---------------------------------------------------------
+   SECURITY NOTE
+   --------------------------------------------------------- */
+
+.social-security-note {
+
+    margin-top: 20px;
+
+    padding: 12px 14px;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 8px;
+
+    text-align: left;
+
+    border-radius: 9px;
+
+    background: #f0fdf4;
+
+    border: 1px solid #dcfce7;
+
+    color: #166534;
+
+    font-size: 12px;
+
+    line-height: 1.5;
+
+}
+
+
+.security-icon {
+
+    flex-shrink: 0;
+
+    font-size: 14px;
+
+}
+
+
+/* ---------------------------------------------------------
+   SOCIAL AUTH FOOTER
+   --------------------------------------------------------- */
+
+.social-auth-card .auth-footer {
+
+    margin-top: 22px;
+
+}
+
+
+.social-auth-card .auth-footer a {
+
+    font-size: 14px;
+
+    text-decoration: none;
+
+}
+
+
+.social-auth-card .auth-footer a:hover {
+
+    text-decoration: underline;
+
+}
+
+
+/* ---------------------------------------------------------
+   MOBILE
+   --------------------------------------------------------- */
+
+@media (max-width: 768px) {
+
+    .social-auth-card {
+
+        width: 100%;
+
+    }
+
+    .social-provider-icon {
+
+        width: 58px;
+
+        height: 58px;
+
+        font-size: 26px;
+
+    }
+
+    .social-continue-btn {
+
+        min-height: 46px;
+
+    }
+
+}
+
+/* =========================================================
+   LOGIN CANCELLED PAGE
+   ========================================================= */
+
+.social-auth-page {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background: #f4f7fb;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+.social-auth-page .auth-page {
+    min-height: 100vh;
+    display: flex;
+}
+
+
+/* =========================================================
+   LEFT BRAND PANEL
+   ========================================================= */
+
+.social-auth-page .auth-brand-panel {
+    width: 43%;
+    min-height: 100vh;
+
+    position: relative;
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            #142f55,
+            #234d80
+        );
+
+    color: white;
+}
+
+
+.social-auth-page .auth-brand-panel::after {
+    content: "";
+
+    position: absolute;
+
+    width: 520px;
+    height: 520px;
+
+    right: -280px;
+    bottom: -250px;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,0.04);
+}
+
+
+.social-auth-page .brand-content {
+    position: relative;
+    z-index: 2;
+
+    min-height: 100vh;
+
+    box-sizing: border-box;
+
+    padding: 70px 11% 50px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* BRAND */
+
+.social-auth-page .brand-logo {
+    display: flex;
+    align-items: center;
+
+    gap: 18px;
+}
+
+
+.social-auth-page .brand-logo-icon {
+    width: 52px;
+    height: 52px;
+
+    border: 3px solid #83b7ff;
+
+    border-radius: 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #83b7ff;
+
+    font-size: 30px;
+}
+
+
+.social-auth-page .brand-name {
+    font-size: 21px;
+    font-weight: 700;
+}
+
+
+.social-auth-page .brand-tagline {
+    margin-top: 6px;
+
+    font-size: 15px;
+
+    color: #b8cbe4;
+}
+
+
+/* MESSAGE */
+
+.social-auth-page .brand-message {
+    margin-top: 135px;
+
+    max-width: 500px;
+}
+
+
+.social-auth-page .brand-message h1 {
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size: clamp(42px, 4vw, 62px);
+
+    line-height: 1.05;
+
+    letter-spacing: -1.5px;
+}
+
+
+.social-auth-page .brand-divider {
+    width: 95px;
+    height: 6px;
+
+    margin: 32px 0;
+
+    border-radius: 10px;
+
+    background: #5ba2ff;
+}
+
+
+.social-auth-page .brand-message p {
+    margin: 0;
+
+    max-width: 470px;
+
+    color: #d7e4f4;
+
+    font-size: 18px;
+
+    line-height: 1.75;
+}
+
+
+/* FEATURES */
+
+.social-auth-page .brand-features {
+    margin-top: 55px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 22px;
+}
+
+
+.social-auth-page .brand-feature {
+    display: flex;
+    align-items: center;
+
+    gap: 18px;
+
+    color: #eef5fd;
+
+    font-size: 17px;
+}
+
+
+.social-auth-page .feature-icon {
+    width: 46px;
+    height: 46px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,0.10);
+
+    border: 1px solid rgba(255,255,255,0.12);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #b9d8ff;
+
+    font-size: 22px;
+}
+
+
+/* FOOTER */
+
+.social-auth-page .brand-footer {
+    margin-top: auto;
+
+    display: flex;
+    align-items: center;
+
+    gap: 25px;
+
+    color: #a8bfdc;
+
+    font-size: 17px;
+
+    font-style: italic;
+
+    line-height: 1.4;
+}
+
+
+.social-auth-page .brand-footer-line {
+    flex: 1;
+
+    height: 1px;
+
+    background: rgba(170,200,235,0.4);
+}
+
+
+/* =========================================================
+   RIGHT PANEL
+   ========================================================= */
+
+.social-auth-page .auth-content-panel {
+    width: 57%;
+    min-height: 100vh;
+
+    box-sizing: border-box;
+
+    padding: 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* CARD */
+
+.social-auth-page .social-cancel-card {
+    width: 100%;
+    max-width: 680px;
+
+    box-sizing: border-box;
+
+    padding: 65px 55px 42px;
+
+    background: #ffffff;
+
+    border-radius: 24px;
+
+    text-align: center;
+
+    box-shadow:
+        0 25px 70px rgba(18,47,82,0.10),
+        0 5px 20px rgba(18,47,82,0.05);
+}
+
+
+/* =========================================================
+   CANCEL ICON
+   ========================================================= */
+
+.social-auth-page .cancel-icon-wrapper {
+    width: 110px;
+    height: 110px;
+
+    margin: 0 auto 30px;
+
+    border-radius: 50%;
+
+    background: #fff0f1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.social-auth-page .cancel-icon {
+    width: 72px;
+    height: 72px;
+
+    border-radius: 50%;
+
+    background: #ffe0e3;
+
+    color: #e5484d;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 55px;
+
+    font-weight: 300;
+
+    line-height: 1;
+}
+
+
+/* =========================================================
+   TITLE
+   ========================================================= */
+
+.social-auth-page .social-cancel-card h1 {
+    margin: 0;
+
+    color: #172f55;
+
+    font-size: 38px;
+
+    line-height: 1.2;
+
+    letter-spacing: -0.7px;
+}
+
+
+.social-auth-page .cancel-description {
+    max-width: 560px;
+
+    margin: 22px auto 30px;
+
+    color: #62728a;
+
+    font-size: 17px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   INFO BOX
+   ========================================================= */
+
+.social-auth-page .cancel-info-box {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    margin: 30px 0;
+
+    padding: 22px 25px;
+
+    border-radius: 14px;
+
+    background: #eef6ff;
+
+    display: flex;
+    align-items: center;
+
+    gap: 18px;
+
+    text-align: left;
+}
+
+
+.social-auth-page .cancel-info-icon {
+    width: 40px;
+    height: 40px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #1976e8;
+
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 21px;
+
+    font-weight: 700;
+}
+
+
+.social-auth-page .cancel-info-text {
+    color: #1d3760;
+
+    font-size: 16px;
+
+    line-height: 1.55;
+}
+
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.social-auth-page .cancel-actions {
+    display: flex;
+    flex-direction: column;
+
+    gap: 14px;
+
+    margin-top: 28px;
+}
+
+
+.social-auth-page .social-login-again-btn,
+.social-auth-page .social-home-btn {
+    width: 100%;
+
+    min-height: 62px;
+
+    box-sizing: border-box;
+
+    border-radius: 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 14px;
+
+    text-decoration: none;
+
+    font-size: 17px;
+
+    font-weight: 600;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+
+/* PRIMARY */
+
+.social-auth-page .social-login-again-btn {
+    background: #2875e8;
+
+    color: white;
+}
+
+
+.social-auth-page .social-login-again-btn:hover {
+    background: #1f67d2;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 25px rgba(40,117,232,0.25);
+}
+
+
+/* SECONDARY */
+
+.social-auth-page .social-home-btn {
+    background: white;
+
+    border: 1px solid #cbd7e7;
+
+    color: #243d63;
+}
+
+
+.social-auth-page .social-home-btn:hover {
+    background: #f7faff;
+
+    border-color: #9fb5d3;
+
+    transform: translateY(-2px);
+}
+
+
+.social-auth-page .social-btn-icon {
+    font-size: 25px;
+
+    line-height: 1;
+}
+
+
+/* =========================================================
+   SECURITY FOOTER
+   ========================================================= */
+
+.social-auth-page .cancel-footer {
+    margin-top: 35px;
+
+    padding-top: 25px;
+
+    border-top: 1px solid #edf0f5;
+
+    color: #91a1b5;
+
+    font-size: 12px;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1000px) {
+
+    .social-auth-page .auth-brand-panel {
+        width: 40%;
+    }
+
+    .social-auth-page .auth-content-panel {
+        width: 60%;
+
+        padding: 30px;
+    }
+
+    .social-auth-page .brand-content {
+        padding-left: 8%;
+        padding-right: 8%;
+    }
+
+    .social-auth-page .brand-message {
+        margin-top: 100px;
+    }
+
+}
+
+
+@media (max-width: 760px) {
+
+    .social-auth-page .auth-page {
+        display: block;
+    }
+
+    .social-auth-page .auth-brand-panel {
+        width: 100%;
+
+        min-height: auto;
+    }
+
+    .social-auth-page .brand-content {
+        min-height: auto;
+
+        padding: 35px 25px;
+    }
+
+    .social-auth-page .brand-message {
+        margin-top: 60px;
+    }
+
+    .social-auth-page .brand-message h1 {
+        font-size: 40px;
+    }
+
+    .social-auth-page .brand-features {
+        margin-top: 35px;
+    }
+
+    .social-auth-page .brand-footer {
+        margin-top: 45px;
+    }
+
+    .social-auth-page .auth-content-panel {
+        width: 100%;
+
+        min-height: auto;
+
+        padding: 35px 20px 50px;
+    }
+
+    .social-auth-page .social-cancel-card {
+        padding: 50px 25px 35px;
+
+        border-radius: 20px;
+    }
+
+}
+
+
+@media (max-width: 450px) {
+
+    .social-auth-page .brand-name {
+        font-size: 17px;
+    }
+
+    .social-auth-page .brand-message h1 {
+        font-size: 34px;
+    }
+
+    .social-auth-page .social-cancel-card {
+        padding: 40px 20px 30px;
+    }
+
+    .social-auth-page .cancel-icon-wrapper {
+        width: 90px;
+        height: 90px;
+    }
+
+    .social-auth-page .cancel-icon {
+        width: 60px;
+        height: 60px;
+
+        font-size: 45px;
+    }
+
+    .social-auth-page .social-cancel-card h1 {
+        font-size: 28px;
+    }
+
+    .social-auth-page .cancel-info-box {
+        padding: 18px;
+
+        align-items: flex-start;
+    }
+
+}
+
+/* =========================================================
+   EDUCATION MANAGEMENT
+========================================================= */
+
+.education-page-actions {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 35px;
+}
+
+
+/* =========================================================
+   EDUCATION LIST
+========================================================= */
+
+.education-management-list {
+    display: grid;
+
+    gap: 20px;
+}
+
+
+/* =========================================================
+   EDUCATION CARD
+========================================================= */
+
+.education-management-card {
+    position: relative;
+
+    display: flex;
+
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 30px;
+
+    padding: 30px;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 12px;
+
+    background: #ffffff;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
+}
+
+
+.education-management-card:hover {
+    transform: translateY(-3px);
+
+    border-color: #d1d5db;
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.07);
+}
+
+
+/* =========================================================
+   EDUCATION MAIN CONTENT
+========================================================= */
+
+.education-management-main {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 20px;
+
+    min-width: 0;
+}
+
+
+.education-management-icon {
+    flex-shrink: 0;
+
+    width: 52px;
+    height: 52px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 10px;
+
+    background: #f8fafc;
+
+    font-size: 24px;
+}
+
+
+.education-management-content {
+    min-width: 0;
+}
+
+
+.education-management-content h2 {
+    margin-bottom: 5px;
+
+    font-size: 1.35rem;
+
+    line-height: 1.3;
+
+    font-weight: 800;
+
+    color: #111827;
+}
+
+
+.education-management-content h3 {
+    margin-bottom: 8px;
+
+    font-size: 1rem;
+
+    line-height: 1.5;
+
+    font-weight: 600;
+
+    color: #4b5563;
+}
+
+
+.education-field {
+    margin-bottom: 5px;
+
+    font-size: 0.9rem;
+
+    color: #64748b;
+}
+
+
+.education-period {
+    margin-bottom: 15px;
+
+    font-size: 0.85rem;
+
+    font-weight: 600;
+
+    color: #6b7280;
+}
+
+
+/* =========================================================
+   EDUCATION DESCRIPTION
+========================================================= */
+
+.education-management-description {
+    max-width: 750px;
+
+    padding-top: 15px;
+
+    border-top: 1px solid #f1f5f9;
+
+    color: #64748b;
+
+    font-size: 0.9rem;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   EDUCATION ACTIONS
+========================================================= */
+
+.education-management-actions {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    flex-shrink: 0;
+}
+
+
+/* =========================================================
+   DANGER BUTTON
+========================================================= */
+
+.btn-danger {
+    display: inline-block;
+
+    padding: 12px 22px;
+
+    border: 1px solid #fecaca;
+
+    border-radius: 6px;
+
+    background: #ffffff;
+
+    color: #b91c1c;
+
+    font-family: inherit;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease,
+        color 0.25s ease,
+        transform 0.25s ease;
+}
+
+
+.btn-danger:hover {
+    background: #fef2f2;
+
+    border-color: #fca5a5;
+
+    color: #991b1b;
+
+    transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   DASHBOARD MESSAGES
+========================================================= */
+
+.dashboard-messages {
+    margin-bottom: 25px;
+}
+
+
+.dashboard-message {
+    padding: 13px 16px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 8px;
+
+    background: #f8fafc;
+
+    color: #374151;
+
+    font-size: 0.9rem;
+}
+
+
+.dashboard-message.success {
+    border-color: #bbf7d0;
+
+    background: #f0fdf4;
+
+    color: #166534;
+}
+
+
+.dashboard-message.error {
+    border-color: #fecaca;
+
+    background: #fef2f2;
+
+    color: #991b1b;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.dashboard-empty-state {
+    padding: 70px 30px;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 12px;
+
+    background: #ffffff;
+
+    text-align: center;
+}
+
+
+.dashboard-empty-icon {
+    width: 65px;
+    height: 65px;
+
+    margin: 0 auto 20px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 50%;
+
+    background: #f8fafc;
+
+    font-size: 28px;
+}
+
+
+.dashboard-empty-state h2 {
+    margin-bottom: 10px;
+
+    font-size: 1.5rem;
+
+    color: #111827;
+}
+
+
+.dashboard-empty-state p {
+    max-width: 550px;
+
+    margin: 0 auto 25px;
+
+    color: #64748b;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   EDUCATION MANAGEMENT RESPONSIVE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .education-page-actions {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    .education-page-actions .btn {
+        width: 100%;
+
+        text-align: center;
+    }
+
+
+    .education-management-card {
+        flex-direction: column;
+
+        gap: 25px;
+
+        padding: 25px;
+    }
+
+
+    .education-management-main {
+        gap: 15px;
+    }
+
+
+    .education-management-actions {
+        width: 100%;
+    }
+
+
+    .education-management-actions .btn {
+        flex: 1;
+
+        text-align: center;
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .education-management-card {
+        padding: 20px;
+    }
+
+
+    .education-management-main {
+        flex-direction: column;
+    }
+
+
+    .education-management-icon {
+        width: 46px;
+        height: 46px;
+
+        font-size: 21px;
+    }
+
+
+    .education-management-content h2 {
+        font-size: 1.15rem;
+    }
+
+
+    .education-management-actions {
+        flex-direction: column;
+    }
+
+
+    .education-management-actions .btn {
+        width: 100%;
+    }
+
+
+    .dashboard-empty-state {
+        padding: 50px 20px;
+    }
+
+}
+
+/* =========================================================
+   DASHBOARD ACTION BUTTON ALIGNMENT
+========================================================= */
+
+.dashboard-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+.dashboard-actions form {
+    display: flex !important;
+    align-items: center;
+    margin: 0;
+}
+
+
+.dashboard-actions .btn {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/* =========================================================
+   EDUCATION MANAGEMENT FORM
+========================================================= */
+
+.management-form-card {
+    max-width: 850px;
+
+    margin: 0 auto;
+
+    padding: 35px;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 12px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.04);
+}
+
+
+/* =========================================================
+   FORM GROUP
+========================================================= */
+
+.management-form-group {
+    margin-bottom: 24px;
+}
+
+
+.management-form-group label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 0.9rem;
+
+    font-weight: 700;
+
+    color: #111827;
+}
+
+
+.required {
+    color: #dc2626;
+}
+
+
+.management-form-group small {
+    display: block;
+
+    margin-top: 7px;
+
+    color: #6b7280;
+
+    font-size: 0.8rem;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   FORM INPUTS
+========================================================= */
+
+.management-form-group input,
+.management-form-group textarea,
+.management-form-group select {
+    width: 100%;
+
+    padding: 13px 14px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    color: #111827;
+
+    font-family: inherit;
+
+    font-size: 0.95rem;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.management-form-group input:focus,
+.management-form-group textarea:focus,
+.management-form-group select:focus {
+    border-color: #111827;
+
+    box-shadow:
+        0 0 0 3px rgba(17, 24, 39, 0.08);
+}
+
+
+.management-form-group textarea {
+    min-height: 140px;
+
+    resize: vertical;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   YEAR ROW
+========================================================= */
+
+.management-form-row {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 20px;
+}
+
+
+/* =========================================================
+   FIELD ERRORS
+========================================================= */
+
+.field-error {
+    margin-top: 7px;
+
+    color: #b91c1c;
+
+    font-size: 0.85rem;
+
+    line-height: 1.5;
+}
+
+
+.form-error-summary {
+    margin-bottom: 25px;
+
+    padding: 14px 16px;
+
+    border: 1px solid #fecaca;
+
+    border-radius: 8px;
+
+    background: #fef2f2;
+
+    color: #991b1b;
+}
+
+
+.form-error-summary p {
+    margin: 0;
+}
+
+
+/* =========================================================
+   FORM ACTIONS
+========================================================= */
+
+.management-form-actions {
+    display: flex;
+
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 12px;
+
+    margin-top: 35px;
+
+    padding-top: 25px;
+
+    border-top: 1px solid #f1f5f9;
+}
+
+
+/* =========================================================
+   RESPONSIVE FORM
+========================================================= */
+
+@media (max-width: 650px) {
+
+    .management-form-card {
+        padding: 25px 20px;
+    }
+
+
+    .management-form-row {
+        grid-template-columns: 1fr;
+
+        gap: 0;
+    }
+
+
+    .management-form-actions {
+        flex-direction: column-reverse;
+
+        align-items: stretch;
+    }
+
+
+    .management-form-actions .btn {
+        width: 100%;
+
+        text-align: center;
+    }
+
+}
+
+/* =========================================================
+   EDUCATION DELETE CONFIRMATION
+========================================================= */
+
+.delete-confirmation-card {
+    max-width: 650px;
+
+    margin: 30px auto 0;
+
+    padding: 40px;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 12px;
+
+    background: #ffffff;
+
+    text-align: center;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.04);
+}
+
+
+/* =========================================================
+   WARNING ICON
+========================================================= */
+
+.delete-warning-icon {
+    width: 64px;
+    height: 64px;
+
+    margin: 0 auto 20px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #fecaca;
+
+    border-radius: 50%;
+
+    background: #fef2f2;
+
+    color: #b91c1c;
+
+    font-size: 28px;
+}
+
+
+/* =========================================================
+   CONFIRMATION TEXT
+========================================================= */
+
+.delete-confirmation-card h2 {
+    margin-bottom: 10px;
+
+    font-size: 1.5rem;
+
+    color: #111827;
+}
+
+
+.delete-warning-text {
+    margin-bottom: 25px;
+
+    color: #64748b;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   RECORD DETAILS
+========================================================= */
+
+.delete-record-details {
+    margin: 25px 0;
+
+    padding: 25px;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 10px;
+
+    background: #f8fafc;
+}
+
+
+.delete-record-details h3 {
+    margin-bottom: 8px;
+
+    font-size: 1.15rem;
+
+    color: #111827;
+}
+
+
+.delete-record-details p {
+    margin-bottom: 8px;
+
+    font-weight: 600;
+
+    color: #4b5563;
+}
+
+
+.delete-record-details span {
+    display: block;
+
+    margin-top: 5px;
+
+    color: #64748b;
+
+    font-size: 0.9rem;
+}
+
+
+/* =========================================================
+   WARNING NOTE
+========================================================= */
+
+.delete-warning-note {
+    margin-bottom: 25px;
+
+    color: #b91c1c;
+
+    font-size: 0.85rem;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   CONFIRMATION ACTIONS
+========================================================= */
+
+.delete-confirmation-actions {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 12px;
+
+    margin-top: 25px;
+}
+
+
+.delete-confirm-btn {
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .delete-confirmation-card {
+        padding: 30px 20px;
+    }
+
+
+    .delete-confirmation-actions {
+        flex-direction: column-reverse;
+
+        align-items: stretch;
+    }
+
+
+    .delete-confirmation-actions .btn {
+        width: 100%;
+
+        text-align: center;
+    }
+
+}
+
+/* =========================================
+   WORK EXPERIENCE MANAGEMENT
+   ========================================= */
+
+.work-experience-management-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.work-experience-management-card {
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr);
+    gap: 20px;
+    padding: 28px;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    background: #ffffff;
+}
+
+.work-experience-management-icon {
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: #f8fafc;
+    font-size: 24px;
+}
+
+.work-experience-management-main {
+    min-width: 0;
+}
+
+.work-experience-management-top {
+    display: grid;
+    grid-template-columns: minmax(220px, 1fr) minmax(240px, 2fr) auto;
+    gap: 24px;
+    align-items: start;
+}
+
+.work-experience-management-title h2 {
+    margin: 0 0 6px;
+    font-size: 1.35rem;
+}
+
+.work-experience-management-company {
+    margin: 0;
+    color: #64748b;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.work-experience-management-period {
+    margin: 8px 0 0;
+    color: #475569;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.work-experience-management-description {
+    margin-top: 18px;
+    color: #64748b;
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+.work-experience-management-description p {
+    margin: 0 0 8px;
+}
+
+.work-experience-management-description p:last-child {
+    margin-bottom: 0;
+}
+
+.work-experience-management-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    white-space: nowrap;
+}
+
+.work-experience-management-actions .btn {
+    margin: 0;
+}
+
+
+/* =========================================
+   WORK EXPERIENCE RESPONSIVE
+   ========================================= */
+
+@media (max-width: 900px) {
+
+    .work-experience-management-top {
+        grid-template-columns: minmax(180px, 1fr) minmax(180px, 1fr);
+    }
+
+    .work-experience-management-actions {
+        grid-column: 1 / -1;
+        justify-content: flex-start;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .work-experience-management-card {
+        grid-template-columns: 1fr;
+        padding: 20px;
+    }
+
+    .work-experience-management-icon {
+        margin-bottom: 2px;
+    }
+
+    .work-experience-management-top {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .work-experience-management-actions {
+        grid-column: auto;
+        width: 100%;
+    }
+
+    .work-experience-management-actions .btn {
+        flex: 1;
+        text-align: center;
+    }
+
+}
+
+.management-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.management-checkbox input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+}
+
+/* =========================================
+   WORK EXPERIENCE FORM
+   ========================================= */
+
+.management-form-card {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 30px 0 0;
+    padding: 36px 40px;
+}
+
+
+/* Form Groups */
+
+.management-form-group {
+    margin-bottom: 24px;
+}
+
+.management-form-group label {
+    display: block;
+    margin-bottom: 9px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+
+/* Input Fields */
+
+.management-form-group input[type="text"],
+.management-form-group input[type="email"],
+.management-form-group input[type="url"],
+.management-form-group input[type="date"],
+.management-form-group input[type="number"],
+.management-form-group textarea,
+.management-form-group select {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+/* Date Row */
+
+.management-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 4px;
+}
+
+
+/* Current Position */
+
+.management-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 2px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.management-checkbox input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    flex-shrink: 0;
+}
+
+
+/* Description */
+
+.management-form-group textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+
+/* Required Marker */
+
+.management-form-group .required {
+    color: #dc2626;
+    margin-left: 2px;
+}
+
+
+/* Form Actions */
+
+.management-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.management-form-actions .btn {
+    margin: 0;
+}
+
+
+/* Error Messages */
+
+.field-error {
+    margin-top: 6px;
+    margin-bottom: 0;
+}
+
+.form-error-summary {
+    margin-bottom: 24px;
+}
+
+
+/* =========================================
+   WORK EXPERIENCE FORM RESPONSIVE
+   ========================================= */
+
+@media (max-width: 700px) {
+
+    .management-form-card {
+        padding: 28px 22px;
+    }
+
+    .management-form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .management-form-actions {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+    .management-form-actions .btn {
+        width: 100%;
+        text-align: center;
+    }
+
+}
+
+.management-current-position {
+    margin-top: -4px;
+    margin-bottom: 26px;
+}
+
+/* =========================================================
+   SKILLS MANAGEMENT
+   ========================================================= */
+
+.skill-management-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 30px;
+}
+
+.skill-management-card {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 26px 28px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+}
+
+.skill-management-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    min-width: 52px;
+    height: 52px;
+    margin-right: 22px;
+    border-radius: 12px;
+    background: #f1f5f9;
+    font-size: 24px;
+}
+
+.skill-management-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.skill-management-top {
+    display: grid;
+    grid-template-columns: minmax(180px, 0.8fr) minmax(220px, 1fr) auto;
+    align-items: center;
+    gap: 28px;
+}
+
+.skill-management-title h2 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 1.15rem;
+}
+
+.skill-management-category {
+    margin: 7px 0 0;
+    color: #64748b;
+    font-size: 0.92rem;
+}
+
+.skill-management-proficiency {
+    width: 100%;
+}
+
+.skill-proficiency-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    color: #475569;
+    font-size: 0.88rem;
+}
+
+.skill-proficiency-header strong {
+    color: #0f172a;
+}
+
+.skill-proficiency-bar {
+    width: 100%;
+    height: 9px;
+    overflow: hidden;
+    background: #e2e8f0;
+    border-radius: 999px;
+}
+
+.skill-proficiency-fill {
+    height: 100%;
+    background: #0f172a;
+    border-radius: 999px;
+    transition: width 0.3s ease;
+}
+
+.skill-management-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
+}
+
+.skill-management-actions .btn {
+    margin: 0;
+}
+
+
+/* Mobile */
+@media (max-width: 800px) {
+
+    .skill-management-card {
+        padding: 22px;
+    }
+
+    .skill-management-top {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .skill-management-actions {
+        justify-content: flex-start;
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .skill-management-card {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .skill-management-icon {
+        margin-right: 0;
+    }
+
+    .skill-management-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .skill-management-actions .btn {
+        width: 100%;
+        text-align: center;
+    }
+
+}
+
+/* =========================================================
+   SKILLS FORM
+   ========================================================= */
+
+.management-form-help {
+    margin: 7px 0 0;
+    color: #64748b;
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+/* =========================================================
+   PROJECT MANAGEMENT
+   ========================================================= */
+
+.project-management-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 30px;
+}
+
+.project-management-card {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 28px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+}
+
+.project-management-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    min-width: 52px;
+    height: 52px;
+    margin-right: 22px;
+    border-radius: 12px;
+    background: #f1f5f9;
+    font-size: 24px;
+}
+
+.project-management-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.project-management-top {
+    display: grid;
+    grid-template-columns:
+        minmax(180px, 0.8fr)
+        minmax(220px, 1.5fr)
+        minmax(180px, 0.8fr)
+        minmax(130px, auto);
+    gap: 26px;
+    align-items: start;
+}
+
+.project-management-title h2 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 1.15rem;
+}
+
+.project-management-date {
+    margin: 7px 0 0;
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+.project-management-description {
+    color: #475569;
+    line-height: 1.6;
+}
+
+.project-management-description p {
+    margin: 0 0 8px;
+}
+
+.project-management-description p:last-child {
+    margin-bottom: 0;
+}
+
+.project-management-technologies {
+    min-width: 0;
+}
+
+.project-management-label {
+    display: block;
+    margin-bottom: 7px;
+    color: #64748b;
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.project-management-technologies p {
+    margin: 0;
+    color: #334155;
+    line-height: 1.5;
+}
+
+.project-management-links {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.project-management-link {
+    color: #0f172a;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.project-management-link:hover {
+    text-decoration: underline;
+}
+
+.project-management-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
+}
+
+.project-management-actions .btn {
+    margin: 0;
+}
+
+
+/* Tablet */
+@media (max-width: 1050px) {
+
+    .project-management-top {
+        grid-template-columns:
+            minmax(180px, 1fr)
+            minmax(220px, 1.5fr);
+    }
+
+    .project-management-technologies,
+    .project-management-links,
+    .project-management-actions {
+        grid-column: span 1;
+    }
+
+}
+
+
+/* Mobile */
+@media (max-width: 700px) {
+
+    .project-management-card {
+        padding: 22px;
+    }
+
+    .project-management-top {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .project-management-technologies,
+    .project-management-links,
+    .project-management-actions {
+        grid-column: auto;
+    }
+
+    .project-management-actions {
+        justify-content: flex-start;
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .project-management-card {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .project-management-icon {
+        margin-right: 0;
+    }
+
+    .project-management-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .project-management-actions .btn {
+        width: 100%;
+        text-align: center;
+    }
+
+}

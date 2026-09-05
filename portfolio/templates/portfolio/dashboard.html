@@ -1,0 +1,237 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Owner Dashboard | Portfolio</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'portfolio/css/style.css' %}"
+    >
+
+</head>
+
+<body>
+
+    <main class="dashboard-page">
+
+        <div class="container">
+
+            <!-- Dashboard Header -->
+
+            <div class="dashboard-header">
+
+                <p class="hero-label">
+                    Portfolio Management
+                </p>
+
+                <h1>
+                    Owner Dashboard
+                </h1>
+
+                <p>
+                    Welcome back,
+                    <strong>{{ profile.full_name }}</strong>.
+                </p>
+
+                <p>
+                    Portfolio slug:
+                    <strong>{{ profile.portfolio_slug }}</strong>
+                </p>
+
+            </div>
+
+
+            <!-- Portfolio Overview -->
+
+            <div class="dashboard-grid">
+
+                <div class="dashboard-card">
+
+                    <h2>
+                        Portfolio
+                    </h2>
+
+                    <p>
+                        Manage your professional portfolio
+                        information.
+                    </p>
+
+                    <p>
+                        <strong>{{ profile.full_name }}</strong>
+                    </p>
+
+                    <p>
+                        {{ profile.professional_title }}
+                    </p>
+
+                    <a
+                        href="{% url 'profile_edit' %}"
+                        class="btn btn-primary"
+                    >
+                        Edit Profile
+                    </a>
+
+                </div>
+
+
+                <div class="dashboard-card">
+
+                    <h2>
+                        Education
+                    </h2>
+
+                    <p>
+                        {{ education|length }}
+                        education record{{ education|length|pluralize }}.
+                    </p>
+
+                    <a
+                        href="{% url 'education_list' %}"
+                        class="btn btn-primary"
+                    >
+                        Manage Education
+                    </a>
+
+                </div>
+
+
+                <div class="dashboard-card">
+                    <h2>Experience</h2>
+                    <p>
+                        {{ experience|length }}
+                        experience record{{ experience|length|pluralize }}.
+                    </p>
+                    <a
+                        href="{% url 'work_experience_list' %}"
+                        class="btn btn-primary"
+                    >
+                        Manage Work Experience
+                    </a>
+                </div>
+
+
+                <div class="dashboard-card">
+                    <h2>Skills</h2>
+                    <p>
+                        {{ skills|length }}
+                        skill{{ skills|length|pluralize }}.
+                    </p>
+                    <a
+                        href="{% url 'skill_list' %}"
+                        class="btn btn-primary"
+                    >
+                        Manage Skills
+                    </a>
+                </div>
+
+
+                <div class="dashboard-card">
+                    <h2>Projects</h2>
+
+                    <p>
+                        {{ projects|length }}
+                        project{{ projects|length|pluralize }}.
+                    </p>
+
+                    <a
+                        href="{% url 'project_list' %}"
+                        class="btn btn-primary"
+                    >
+                        Manage Projects
+                    </a>
+                </div>
+
+
+                <div class="dashboard-card">
+
+                    <h2>
+                        Certificates
+                    </h2>
+
+                    <p>
+                        Manage your certificates
+                        and credentials.
+                    </p>
+
+                </div>
+
+
+                <div class="dashboard-card">
+
+                    <h2>
+                        AI Assistant
+                    </h2>
+
+                    <p>
+                        Control the AI assistant
+                        and visitor access.
+                    </p>
+
+                </div>
+
+
+                <div class="dashboard-card">
+
+                    <h2>
+                        Settings
+                    </h2>
+
+                    <p>
+                        Manage your portfolio
+                        assistant settings.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Dashboard Actions -->
+
+            <div class="dashboard-actions">
+
+                <a
+                    href="{{ portfolio_url }}"
+                    class="btn btn-secondary"
+                >
+                    View Portfolio
+                </a>
+
+
+                <form
+                    method="post"
+                    action="{% url 'logout' %}"
+                    style="display: inline;"
+                >
+
+                    {% csrf_token %}
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        Logout
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>

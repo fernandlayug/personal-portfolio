@@ -1,0 +1,268 @@
+{% load static %}
+{% load i18n %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        {% trans "Login Cancelled" %} |
+        Personal Portfolio Assistant
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'portfolio/css/style.css' %}"
+    >
+
+</head>
+
+
+<body class="social-auth-page">
+
+
+<div class="auth-page">
+
+
+    <!-- =====================================================
+         LEFT BRAND PANEL
+         ===================================================== -->
+
+    <div class="auth-brand-panel">
+
+        <div class="brand-content">
+
+
+            <!-- BRAND -->
+            <div class="brand-logo">
+
+                <div class="brand-logo-icon">
+                    ▱
+                </div>
+
+                <div>
+
+                    <div class="brand-name">
+                        Personal Portfolio Assistant
+                    </div>
+
+                    <div class="brand-tagline">
+                        Build. Showcase. Connect.
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- MAIN MESSAGE -->
+            <div class="brand-message">
+
+                <h1>
+                    Your Journey
+                    <br>
+                    Starts Here
+                </h1>
+
+
+                <div class="brand-divider"></div>
+
+
+                <p>
+                    Manage your professional portfolio,
+                    showcase your skills and achievements,
+                    and connect with opportunities.
+                </p>
+
+            </div>
+
+
+            <!-- FEATURES -->
+            <div class="brand-features">
+
+
+                <div class="brand-feature">
+
+                    <div class="feature-icon">
+                        ♙
+                    </div>
+
+                    <span>
+                        Build Your Profile
+                    </span>
+
+                </div>
+
+
+                <div class="brand-feature">
+
+                    <div class="feature-icon">
+                        ▣
+                    </div>
+
+                    <span>
+                        Showcase Your Work
+                    </span>
+
+                </div>
+
+
+                <div class="brand-feature">
+
+                    <div class="feature-icon">
+                        ♧
+                    </div>
+
+                    <span>
+                        Connect with Opportunities
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- BRAND FOOTER -->
+            <div class="brand-footer">
+
+                <span>
+                    More Than a Portfolio
+                    <br>
+                    It's Your Story.
+                </span>
+
+                <div class="brand-footer-line"></div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         RIGHT CONTENT PANEL
+         ===================================================== -->
+
+    <div class="auth-content-panel">
+
+
+        <div class="social-cancel-card">
+
+
+            <!-- CANCEL ICON -->
+            <div class="cancel-icon-wrapper">
+
+                <div class="cancel-icon">
+                    ×
+                </div>
+
+            </div>
+
+
+            <!-- TITLE -->
+            <h1>
+                {% trans "Login Cancelled" %}
+            </h1>
+
+
+            <!-- DESCRIPTION -->
+            <p class="cancel-description">
+
+                {% trans "You decided to cancel logging in to our site using one of your existing accounts." %}
+
+            </p>
+
+
+            <!-- INFORMATION BOX -->
+            <div class="cancel-info-box">
+
+                <div class="cancel-info-icon">
+                    i
+                </div>
+
+                <div class="cancel-info-text">
+
+                    {% trans "If this was a mistake, you can try again and choose your preferred sign in method." %}
+
+                </div>
+
+            </div>
+
+
+            <!-- ACTION BUTTONS -->
+            <div class="cancel-actions">
+
+
+                <!-- BACK TO OUR CUSTOM LOGIN -->
+                <a
+                    href="{% url 'login' %}"
+                    class="social-login-again-btn"
+                >
+
+                    <span class="social-btn-icon">
+                        →
+                    </span>
+
+                    <span>
+                        {% trans "Back to Sign In" %}
+                    </span>
+
+                </a>
+
+
+                <!-- HOMEPAGE -->
+                <a
+                    href="{% url 'site_home' %}"
+                    class="social-home-btn"
+                >
+
+                    <span class="social-btn-icon">
+                        ⌂
+                    </span>
+
+                    <span>
+                        {% trans "Go to Homepage" %}
+                    </span>
+
+                </a>
+
+
+            </div>
+
+
+            <!-- SECURITY FOOTER -->
+            <div class="cancel-footer">
+
+                <span>
+                    🔒 Your security and privacy are important to us.
+                    <br>
+                    Personal Portfolio Assistant
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

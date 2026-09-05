@@ -1,0 +1,111 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Delete Project | Portfolio Management</title>
+
+    <link rel="stylesheet" href="{% static 'portfolio/css/style.css' %}">
+</head>
+
+<body>
+
+<main class="dashboard-page">
+
+    <div class="container">
+
+        <!-- Page Header -->
+        <div class="dashboard-header">
+
+            <p class="hero-label">
+                Portfolio Management
+            </p>
+
+            <h1>Delete Project</h1>
+
+            <p>
+                Please confirm that you want to remove this project
+                from your portfolio.
+            </p>
+
+        </div>
+
+
+        <!-- Confirmation Card -->
+        <div class="management-form-card">
+
+            <div class="form-error-summary">
+
+                <p>
+                    <strong>Warning:</strong>
+                    This action cannot be undone.
+                </p>
+
+            </div>
+
+
+            <!-- Project Information -->
+            <div class="management-form-group">
+
+                <label>
+                    Project
+                </label>
+
+                <p>
+                    <strong>{{ project.title }}</strong>
+                </p>
+
+            </div>
+
+
+            <div class="management-form-group">
+
+                <label>
+                    Description
+                </label>
+
+                <p>
+                    {{ project.description|truncatewords:40 }}
+                </p>
+
+            </div>
+
+
+            <!-- Actions -->
+            <div class="management-form-actions">
+
+                <a
+                    href="{% url 'project_list' %}"
+                    class="btn btn-secondary"
+                >
+                    Cancel
+                </a>
+
+                <form
+                    method="post"
+                    style="display: inline;"
+                >
+
+                    {% csrf_token %}
+
+                    <button
+                        type="submit"
+                        class="btn btn-danger"
+                    >
+                        Delete Project
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+</body>
+</html>

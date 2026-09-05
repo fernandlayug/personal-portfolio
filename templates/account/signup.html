@@ -1,0 +1,360 @@
+{% load static %}
+{% load socialaccount %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Create Account | Personal Portfolio Assistant</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'portfolio/css/style.css' %}"
+    >
+
+</head>
+
+<body>
+
+<main class="auth-page">
+
+    <div class="auth-wrapper">
+
+        <!-- =========================
+             BRAND PANEL
+        ========================== -->
+
+        <section class="auth-brand">
+
+            <div class="brand-content">
+
+                <a
+                    href="{% url 'site_home' %}"
+                    class="auth-logo"
+                >
+                    Personal Portfolio Assistant
+                </a>
+
+                <div class="brand-message">
+
+                    <p class="auth-eyebrow">
+                        YOUR PROFESSIONAL PRESENCE
+                    </p>
+
+                    <h1>
+                        Create your portfolio.
+                        <span>Share your story.</span>
+                    </h1>
+
+                    <p>
+                        Build a professional online presence
+                        that brings your skills, experience,
+                        education, and projects together.
+                    </p>
+
+                </div>
+
+
+                <div class="brand-features">
+
+                    <div class="brand-feature">
+
+                        <span class="feature-icon">
+                            01
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Build Your Profile
+                            </strong>
+
+                            <p>
+                                Create your professional identity
+                                in one place.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="brand-feature">
+
+                        <span class="feature-icon">
+                            02
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Get Your Portfolio URL
+                            </strong>
+
+                            <p>
+                                Share your own professional
+                                portfolio online.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="brand-feature">
+
+                        <span class="feature-icon">
+                            03
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Manage Your Career Story
+                            </strong>
+
+                            <p>
+                                Keep your experience, skills,
+                                and projects organized.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             SIGNUP PANEL
+        ========================== -->
+
+        <section class="auth-panel">
+
+            <div class="auth-card">
+
+                <div class="auth-header">
+
+                    <p class="auth-mobile-brand">
+                        Personal Portfolio Assistant
+                    </p>
+
+                    <p class="auth-label">
+                        GET STARTED
+                    </p>
+
+                    <h2>
+                        Create your account
+                    </h2>
+
+                    <p>
+                        Start building your professional
+                        portfolio today.
+                    </p>
+
+                </div>
+
+
+                <!-- =========================
+                     FORM ERRORS
+                ========================== -->
+
+                {% if form.non_field_errors %}
+
+                    <div class="auth-messages">
+
+                        <div class="auth-message">
+
+                            {{ form.non_field_errors }}
+
+                        </div>
+
+                    </div>
+
+                {% endif %}
+
+
+                <!-- =========================
+                     SIGNUP FORM
+                ========================== -->
+
+                <form
+                    method="post"
+                    class="auth-form signup-form"
+                >
+
+                    {% csrf_token %}
+
+
+                    {% for field in form %}
+
+                        <div class="form-group">
+
+                            {{ field.label_tag }}
+
+                            {{ field }}
+
+                            {% if field.help_text %}
+
+                                <div class="field-help">
+                                    {{ field.help_text|safe }}
+                                </div>
+
+                            {% endif %}
+
+                            {% if field.errors %}
+
+                                <div class="field-errors">
+
+                                    {{ field.errors }}
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+                    {% endfor %}
+
+
+                    <button
+                        type="submit"
+                        class="auth-submit"
+                    >
+
+                        <span>
+                            Create Account
+                        </span>
+
+                        <span class="submit-arrow">
+                            →
+                        </span>
+
+                    </button>
+
+                </form>
+
+
+                <!-- =========================
+                     SOCIAL SIGNUP
+                ========================== -->
+
+                <div class="auth-divider">
+
+                    <span>
+                        OR SIGN UP WITH
+                    </span>
+
+                </div>
+
+
+                <div class="social-login-list">
+
+                    <a
+                        href="{% provider_login_url 'google' %}"
+                        class="social-login-btn google-login-btn"
+                    >
+
+                        <span class="social-icon">
+                            G
+                        </span>
+
+                        <span>
+                            Continue with Google
+                        </span>
+
+                    </a>
+
+
+                    <a
+                        href="{% provider_login_url 'microsoft' %}"
+                        class="social-login-btn microsoft-login-btn"
+                    >
+
+                        <span class="social-icon microsoft-icon">
+                            ▦
+                        </span>
+
+                        <span>
+                            Continue with Microsoft
+                        </span>
+
+                    </a>
+
+
+                    <a
+                        href="{% provider_login_url 'github' %}"
+                        class="social-login-btn github-login-btn"
+                    >
+
+                        <span class="social-icon">
+                            GH
+                        </span>
+
+                        <span>
+                            Continue with GitHub
+                        </span>
+
+                    </a>
+
+                </div>
+
+
+                <!-- =========================
+                     LOGIN
+                ========================== -->
+
+                <div class="auth-signup">
+
+                    <span>
+                        Already have an account?
+                    </span>
+
+                    <a href="{% url 'login' %}">
+                        Sign in
+                    </a>
+
+                </div>
+
+
+                <!-- =========================
+                     BACK HOME
+                ========================== -->
+
+                <div class="auth-footer">
+
+                    <a href="{% url 'site_home' %}">
+
+                        <span>←</span>
+
+                        Back to Personal Portfolio Assistant
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</main>
+
+<script src="{% static 'portfolio/js/password-validation.js' %}"></script>
+
+</body>
+
+</html>
