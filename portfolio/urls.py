@@ -41,12 +41,12 @@ urlpatterns = [
     ),
 
     path(
-    'signup/',
-    views.owner_signup,
-    name='signup'
+        'signup/',
+        views.owner_signup,
+        name='signup'
     ),
 
- # Education Management
+    # Education Management
     path(
         'dashboard/education/',
         views.education_list,
@@ -71,10 +71,11 @@ urlpatterns = [
         name='education_delete'
     ),
 
+    # Work Experience Management
     path(
-    'dashboard/experience/',
-    views.work_experience_list,
-    name='work_experience_list'
+        'dashboard/experience/',
+        views.work_experience_list,
+        name='work_experience_list'
     ),
 
     path(
@@ -94,31 +95,37 @@ urlpatterns = [
         views.work_experience_delete,
         name='work_experience_delete'
     ),
+
+    # Skills Management
     path(
         'dashboard/skills/',
         views.skill_list,
         name='skill_list'
     ),
+
     path(
         'dashboard/skills/add/',
         views.skill_add,
         name='skill_add'
     ),
+
     path(
         'dashboard/skills/edit/<int:pk>/',
         views.skill_edit,
         name='skill_edit'
     ),
+
     path(
         'dashboard/skills/delete/<int:pk>/',
         views.skill_delete,
         name='skill_delete'
     ),
 
+    # Project Management
     path(
-    'dashboard/projects/',
-    views.project_list,
-    name='project_list'
+        'dashboard/projects/',
+        views.project_list,
+        name='project_list'
     ),
 
     path(
@@ -126,37 +133,40 @@ urlpatterns = [
         views.project_add,
         name='project_add'
     ),
+
     path(
         'dashboard/projects/edit/<int:pk>/',
         views.project_edit,
         name='project_edit'
     ),
+
     path(
         'dashboard/projects/delete/<int:pk>/',
         views.project_delete,
         name='project_delete'
     ),
 
+    # Certificate Management
     path(
-    'certificates/',
-    views.certificate_list,
-    name='certificate_list'
+        'dashboard/certificates/',
+        views.certificate_list,
+        name='certificate_list'
     ),
 
     path(
-        'certificates/add/',
+        'dashboard/certificates/add/',
         views.certificate_add,
         name='certificate_add'
     ),
 
     path(
-        'certificates/<int:certificate_id>/edit/',
+        'dashboard/certificates/<int:certificate_id>/edit/',
         views.certificate_edit,
         name='certificate_edit'
     ),
 
     path(
-        'certificates/<int:certificate_id>/delete/',
+        'dashboard/certificates/<int:certificate_id>/delete/',
         views.certificate_delete,
         name='certificate_delete'
     ),
