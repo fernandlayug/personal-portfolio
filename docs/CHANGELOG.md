@@ -1,56 +1,114 @@
 # Personal Portfolio AI Assistant — Changelog
 
-## 2026-09-06 — Phase 3 Completion and License Portfolio Management
+## 2026-09-06 — Phase 3 Completion and Portfolio Domain Expansion
 
 ### Added
 
-- Completed License portfolio management.
-- Added the `License` model with tenant/profile ownership.
-- Added License database migration.
-- Added `LicenseForm`.
-- Added issue-date and expiration-date validation.
-- Added License list view.
-- Added License add workflow.
-- Added License edit workflow.
-- Added License delete confirmation workflow.
-- Added License delete workflow.
-- Added License dashboard integration.
-- Added License management templates.
-- Added tenant-scoped License queries and access control.
+- Completed the Phase 3 structured portfolio-management baseline.
+- Added/confirmed Award portfolio management.
+- Added/confirmed Professional Membership portfolio management.
+- Added Award CRUD workflows and validation.
+- Added Professional Membership CRUD workflows and validation.
+- Added dashboard integration for Awards and Professional Memberships.
+- Added tenant-scoped Award and Professional Membership access.
+- Added privacy boundaries for sensitive identifiers.
+- Established the supporting-document relationship concept without implementing file storage.
 
-### License Validation
+### Phase 3 Portfolio Domains
+
+The complete structured portfolio-management baseline now includes:
+
+- Profile
+- Education
+- Work Experience
+- Skills
+- Projects
+- Certificates
+- Research
+- Licenses
+- Awards
+- Professional Memberships
+
+### Award Validation
+
+Implemented validation rule:
+
+- Award date cannot be in the future.
+
+### Professional Membership Validation
 
 Implemented validation rules:
 
-- Issue date cannot be in the future.
-- Expiration date cannot be earlier than the issue date.
+- Membership start date cannot be in the future.
+- Membership end date cannot be earlier than the start date.
+
+### Supporting-Document Boundary
+
+Supporting documents are architecturally related to portfolio records but remain outside Phase 3 file implementation.
+
+Examples include:
+
+- Award → Certificate of Award
+- Award → Announcement/Evidence
+- Professional Membership → Certificate of Membership
+- Professional Membership → Renewal/Evidence
+- Research → Research Paper/PDF
+
+The design allows a future portfolio record to have multiple supporting documents.
+
+Phase 3 intentionally does not add:
+
+- Django `FileField` storage
+- Local binary document storage
+- Google Drive integration
+- OneDrive integration
+- OCR
+- Document extraction
+- AI document processing
+
+These remain assigned to later roadmap phases.
+
+### Privacy and Security
+
+- Portfolio records remain private by default.
+- License numbers remain private by default.
+- Membership numbers remain private by default.
+- Public exposure requires explicit public-data/visibility controls in the appropriate future phase.
+- Tenant isolation remains mandatory for all management operations.
 
 ### Testing
 
-License browser testing completed successfully:
+Award management testing passed, including:
 
-- Dashboard: passed
-- License list: passed
-- Add License: passed
-- Edit License: passed
-- Cancel workflow: passed
-- Delete confirmation: passed
-- Delete: passed
-- Validation: passed
+- Dashboard integration
+- List workflow
+- Add workflow
+- Save workflow
+- Edit workflow
+- Cancel edit workflow
+- Delete confirmation
+- Cancel delete workflow
+- Delete workflow
+- Future-date validation
+- Tenant isolation
 
-Cross-tenant License testing also passed:
+Professional Membership testing passed, including:
 
-- Other tenants cannot see the record.
-- Other tenants cannot edit the record by changing the URL.
-- Other tenants cannot access the delete page by changing the URL.
-- The owning tenant's record remains intact.
+- Dashboard integration
+- List workflow
+- Add workflow
+- Save workflow
+- Edit workflow
+- Cancel edit workflow
+- Delete confirmation
+- Cancel delete workflow
+- Delete workflow
+- Future start-date validation
+- End-date validation
+- Tenant isolation
+- Django system check
 
-### Security and Privacy
-
-- License records remain private by default.
-- License numbers are not automatically exposed through public portfolio functionality.
-- Future public exposure must use explicit visibility/approval controls.
-- Tenant isolation remains mandatory for all management operations.
+Previously completed Research and License testing remains part of the Phase 3 completion baseline.
 
 ### Phase Status
 
@@ -60,22 +118,28 @@ The Phase 3 completion gate is closed as of 2026-09-06.
 
 Phase 4 — Engagement Management is now the current development phase.
 
+Before Phase 4 implementation, its meaning, purpose, scope, models, relationships, workflows, privacy/security boundaries, tenant-isolation requirements, and completion gate must be established and approved.
+
+Professional Memberships are explicitly distinct from Engagement Management.
+
 ### Deferred
 
 The following remain outside Phase 3:
 
-- Research PDF/document upload
-- General document management
-- Google Drive/OneDrive integration
-- Intelligent document processing
-- OCR and structured extraction
-- AI/RAG
-- Resume/CV/Portfolio generation
-- Public AI
-- Advanced PWA/Mobile
-- Production/SaaS hardening
+- Research PDF/document upload — Phase 5
+- Award/member supporting-document management — Phase 5
+- General document management — Phase 5
+- Google Drive integration — Phase 6
+- OneDrive integration — Phase 6
+- Intelligent document processing — Phase 7
+- OCR and structured extraction — Phase 7
+- AI/RAG — Phase 8
+- Resume/CV/Portfolio generation — Phase 9
+- Public AI — Phase 10
+- Advanced PWA/Mobile — Phase 11
+- Production/SaaS hardening — Phase 12
 
-These features remain assigned to their respective roadmap phases.
+---
 
 ## 2026-09-05 — Research Portfolio Management
 
@@ -112,17 +176,18 @@ Research browser testing completed:
 
 Research PDF/document upload was intentionally deferred to Phase 5 — Document Management.
 
+---
+
 ## 2026-09-05 — Documentation Baseline
 
 Updated the project documentation package to establish the phased development baseline.
 
 Key boundary decisions:
 
-- Phase 3 covers portfolio management CRUD.
+- Phase 3 covers structured portfolio management CRUD.
 - Phase 5 covers document management.
 - Phase 6 covers Google Drive/OneDrive integration.
 - Phase 7 covers intelligent document processing.
 - Phase 8 covers AI/RAG.
 - Phase 10 covers Public AI.
 - Phase 3 must be completed before moving to Phase 4.
-
