@@ -47,13 +47,13 @@
 
                     {% if certificate %}
 
-                        Update your professional certificate
-                        and credential information.
+                        Update your professional
+                        certificate and credential information.
 
                     {% else %}
 
-                        Add your professional certificate
-                        and credential information.
+                        Add a professional certificate
+                        or credential to your portfolio.
 
                     {% endif %}
 
@@ -99,11 +99,14 @@
 
                     <div class="management-form-group">
 
-                        <label
-                            for="{{ form.name.id_for_label }}"
-                        >
+                        <label for="{{ form.name.id_for_label }}">
+
                             Certificate Name
-                            <span class="required">*</span>
+
+                            <span class="required">
+                                *
+                            </span>
+
                         </label>
 
                         {{ form.name }}
@@ -121,8 +124,7 @@
                         {% endif %}
 
                         <small>
-                            Enter the official name of the
-                            certificate or certification.
+                            Enter the official name of the certificate.
                         </small>
 
                     </div>
@@ -135,8 +137,13 @@
                         <label
                             for="{{ form.issuing_organization.id_for_label }}"
                         >
+
                             Issuing Organization
-                            <span class="required">*</span>
+
+                            <span class="required">
+                                *
+                            </span>
+
                         </label>
 
                         {{ form.issuing_organization }}
@@ -154,8 +161,8 @@
                         {% endif %}
 
                         <small>
-                            Enter the organization or institution
-                            that issued the certificate.
+                            Enter the organization, institution,
+                            or platform that issued the certificate.
                         </small>
 
                     </div>
@@ -165,6 +172,7 @@
 
                     <div class="management-form-row">
 
+
                         <!-- ISSUE DATE -->
 
                         <div class="management-form-group">
@@ -172,8 +180,13 @@
                             <label
                                 for="{{ form.issue_date.id_for_label }}"
                             >
+
                                 Issue Date
-                                <span class="required">*</span>
+
+                                <span class="required">
+                                    *
+                                </span>
+
                             </label>
 
                             {{ form.issue_date }}
@@ -218,8 +231,7 @@
                             {% endif %}
 
                             <small>
-                                Leave blank if the certificate
-                                does not expire.
+                                Leave blank if the certificate does not expire.
                             </small>
 
                         </div>
@@ -252,8 +264,40 @@
                         {% endif %}
 
                         <small>
-                            Enter the credential or certificate
-                            identification number, if available.
+                            Enter the certificate or credential
+                            identification number if available.
+                        </small>
+
+                    </div>
+
+
+                    <!-- CREDENTIAL URL -->
+
+                    <div class="management-form-group">
+
+                        <label
+                            for="{{ form.credential_url.id_for_label }}"
+                        >
+                            Credential URL
+                        </label>
+
+                        {{ form.credential_url }}
+
+                        {% if form.credential_url.errors %}
+
+                            <div class="field-error">
+
+                                {% for error in form.credential_url.errors %}
+                                    {{ error }}
+                                {% endfor %}
+
+                            </div>
+
+                        {% endif %}
+
+                        <small>
+                            Add a public verification link
+                            for this credential if available.
                         </small>
 
                     </div>
@@ -284,8 +328,8 @@
                         {% endif %}
 
                         <small>
-                            Include relevant skills, competencies,
-                            examination details, or other information.
+                            Include relevant details about the
+                            certification, training, or achievement.
                         </small>
 
                     </div>

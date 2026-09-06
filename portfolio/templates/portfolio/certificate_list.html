@@ -12,9 +12,7 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>
-        Certificates | Portfolio Dashboard
-    </title>
+    <title>Certificates | Portfolio Dashboard</title>
 
     <link
         rel="stylesheet"
@@ -45,7 +43,7 @@
 
                 <p>
                     Manage your professional certificates,
-                    certifications, and credentials.
+                    credentials, and certifications.
                 </p>
 
             </div>
@@ -120,47 +118,34 @@
                                         {{ certificate.name }}
                                     </h2>
 
-
-                                    {% if certificate.issuing_organization %}
-
-                                        <h3>
-                                            {{ certificate.issuing_organization }}
-                                        </h3>
-
-                                    {% endif %}
+                                    <h3>
+                                        {{ certificate.issuing_organization }}
+                                    </h3>
 
 
-                                    {% if certificate.issue_date %}
+                                    <p class="education-period">
 
-                                        <p class="education-field">
-                                            Issued:
-                                            {{ certificate.issue_date|date:"F d, Y" }}
-                                        </p>
+                                        Issued
+                                        {{ certificate.issue_date|date:"F Y" }}
 
-                                    {% endif %}
+                                        {% if certificate.expiration_date %}
+                                            · Expires
+                                            {{ certificate.expiration_date|date:"F Y" }}
+                                        {% endif %}
 
-
-                                    {% if certificate.expiration_date %}
-
-                                        <p class="education-period">
-                                            Expires:
-                                            {{ certificate.expiration_date|date:"F d, Y" }}
-                                        </p>
-
-                                    {% else %}
-
-                                        <p class="education-period">
-                                            No Expiration
-                                        </p>
-
-                                    {% endif %}
+                                    </p>
 
 
                                     {% if certificate.credential_id %}
 
                                         <p class="education-field">
-                                            Credential ID:
+
+                                            <strong>
+                                                Credential ID:
+                                            </strong>
+
                                             {{ certificate.credential_id }}
+
                                         </p>
 
                                     {% endif %}
@@ -176,14 +161,30 @@
 
                                     {% endif %}
 
+
+                                    {% if certificate.credential_url %}
+
+                                        <p>
+
+                                            <a
+                                                href="{{ certificate.credential_url }}"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                class="project-management-link"
+                                            >
+                                                View Credential ↗
+                                            </a>
+
+                                        </p>
+
+                                    {% endif %}
+
                                 </div>
 
                             </div>
 
 
-                            <!-- =================================
-                                 ACTIONS
-                            ================================== -->
+                            <!-- ACTIONS -->
 
                             <div class="education-management-actions">
 
@@ -226,9 +227,9 @@
                     </h2>
 
                     <p>
-                        Add your professional certificates,
-                        certifications, and credentials
-                        to strengthen your portfolio.
+                        Add your professional certificates
+                        and credentials to showcase your
+                        qualifications on your portfolio.
                     </p>
 
                     <a
@@ -259,13 +260,14 @@
                 <form
                     method="post"
                     action="{% url 'logout' %}"
+                    style="display: inline;"
                 >
 
                     {% csrf_token %}
 
                     <button
                         type="submit"
-                        class="btn btn-secondary"
+                        class="btn btn-primary"
                     >
                         Logout
                     </button>

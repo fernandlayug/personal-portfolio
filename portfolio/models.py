@@ -155,13 +155,31 @@ class Project(models.Model):
         return self.title
 
 class Certificate(models.Model):
+
+    profile = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE,
+        related_name='certificates',
+  
+    )
+
     name = models.CharField(max_length=200)
     issuing_organization = models.CharField(max_length=200)
     issue_date = models.DateField()
-    expiration_date = models.DateField(blank=True, null=True)
-    credential_id = models.CharField(max_length=200, blank=True)
-    credential_url = models.URLField(blank=True)
-    description = models.TextField(blank=True)
+    expiration_date = models.DateField(
+        blank=True,
+        null=True
+    )
+    credential_id = models.CharField(
+        max_length=200,
+        blank=True
+    )
+    credential_url = models.URLField(
+        blank=True
+    )
+    description = models.TextField(
+        blank=True
+    )
 
     def __str__(self):
         return self.name

@@ -81,25 +81,23 @@
                         {{ certificate.name }}
                     </h3>
 
+                    <p>
+                        {{ certificate.issuing_organization }}
+                    </p>
 
-                    {% if certificate.issuing_organization %}
+                    <span>
+                        Issued
+                        {{ certificate.issue_date|date:"F Y" }}
+                    </span>
 
-                        <p>
-                            {{ certificate.issuing_organization }}
-                        </p>
-
-                    {% endif %}
-
-
-                    {% if certificate.issue_date %}
+                    {% if certificate.expiration_date %}
 
                         <span>
-                            Issued:
-                            {{ certificate.issue_date|date:"F d, Y" }}
+                            Expires
+                            {{ certificate.expiration_date|date:"F Y" }}
                         </span>
 
                     {% endif %}
-
 
                     {% if certificate.credential_id %}
 

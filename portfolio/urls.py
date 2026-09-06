@@ -138,25 +138,25 @@ urlpatterns = [
     ),
 
     path(
-    'certificates/',
+    'dashboard/certificates/',
     views.certificate_list,
     name='certificate_list'
     ),
 
     path(
-        'certificates/add/',
+        'dashboard/certificates/add/',
         views.certificate_add,
         name='certificate_add'
     ),
 
     path(
-        'certificates/<int:certificate_id>/edit/',
+        'dashboard/certificates/<int:certificate_id>/edit/',
         views.certificate_edit,
         name='certificate_edit'
     ),
 
     path(
-        'certificates/<int:certificate_id>/delete/',
+        'dashboard/certificates/<int:certificate_id>/delete/',
         views.certificate_delete,
         name='certificate_delete'
     ),
