@@ -1,6 +1,6 @@
 # Personal Portfolio Assistant — Development Rules
 
-These rules govern implementation of the Personal Portfolio Assistant.
+These rules govern implementation of the Personal Portfolio AI Assistant.
 
 ---
 
@@ -28,6 +28,8 @@ Before changing core behavior:
 - Preserve storage abstraction boundaries.
 - Avoid introducing future-phase dependencies.
 - Avoid silently changing architectural decisions.
+
+If a requested feature exposes an unclear domain concept, establish the domain architecture before writing implementation code.
 
 ---
 
@@ -58,10 +60,21 @@ For tenant-owned CRUD:
 - Never trust a submitted profile/tenant identifier.
 - Assign ownership server-side.
 - Prevent access to another tenant's records.
+- Test direct/manipulated URLs for edit/delete access where applicable.
 
 ---
 
-# 5. Validation
+# 5. Privacy by Default
+
+Portfolio records are private by default.
+
+Sensitive identifiers such as license numbers and membership numbers must not automatically be treated as public data.
+
+Do not add public/visibility behavior merely to support private CRUD. Public exposure must be designed explicitly in the appropriate later phase.
+
+---
+
+# 6. Validation
 
 Validate data before persistence.
 
@@ -77,7 +90,7 @@ Errors should be presented clearly to the user.
 
 ---
 
-# 6. UI Consistency
+# 7. UI Consistency
 
 Reuse the existing Django template and CSS architecture.
 
@@ -87,25 +100,55 @@ New management pages should follow existing conventions.
 
 ---
 
-# 7. Future Feature Boundaries
+# 8. Supporting Documents
+
+Supporting documents are a separate architectural concern from structured portfolio records.
+
+Examples include:
+
+- Award → Certificate of Award
+- Professional Membership → Certificate of Membership
+- Research → Research Paper/PDF
+
+Phase 3 must not introduce local `FileField` storage solely to attach these files.
+
+Future document management should support multiple supporting documents where appropriate and should follow the approved Document Management and Cloud Storage phases.
+
+---
+
+# 9. Future Feature Boundaries
 
 Do not pull future functionality into the current phase merely because it appears convenient.
 
 Examples:
 
-- Research PDF upload -> Phase 5
-- Google Drive -> Phase 6
-- OneDrive -> Phase 6
-- Document extraction -> Phase 7
-- AI extraction -> Phase 7
-- RAG -> Phase 8
-- AI Assistant -> Phase 8
-- Resume/CV generation -> Phase 9
-- Public AI -> Phase 10
+- Research PDF/document upload → Phase 5
+- Award/member supporting-document management → Phase 5
+- General document management → Phase 5
+- Google Drive → Phase 6
+- OneDrive → Phase 6
+- Document extraction/OCR → Phase 7
+- AI document processing → Phase 7
+- RAG → Phase 8
+- AI Assistant → Phase 8
+- Resume/CV generation → Phase 9
+- Public AI → Phase 10
+- Advanced PWA/Mobile → Phase 11
+- Production/SaaS hardening → Phase 12
 
 ---
 
-# 8. Testing Before Commit
+# 10. Domain Boundary: Professional Membership vs Engagement
+
+Professional Memberships and Engagement Management are separate concepts.
+
+A Professional Membership is a structured portfolio affiliation/credential record.
+
+Engagement Management is a separate domain and must not be inferred or implemented from the membership model. Its purpose, scope, models, relationships, workflows, and completion gate must be established during Phase 4 architecture work.
+
+---
+
+# 11. Testing Before Commit
 
 Before committing a significant feature:
 
@@ -114,13 +157,14 @@ Before committing a significant feature:
 3. Test validation.
 4. Test CRUD behavior.
 5. Test tenant isolation where applicable.
-6. Review affected templates.
-7. Confirm URLs work.
-8. Confirm no unrelated changes are included.
+6. Test direct URL access where applicable.
+7. Review affected templates.
+8. Confirm URLs work.
+9. Confirm no unrelated changes are included.
 
 ---
 
-# 9. GitHub Synchronization
+# 12. GitHub Synchronization
 
 GitHub is the source of truth for committed code.
 
@@ -145,7 +189,7 @@ Preferred commit history should use focused commits where practical.
 
 ---
 
-# 10. Documentation
+# 13. Documentation
 
 After meaningful milestones:
 
@@ -155,9 +199,11 @@ After meaningful milestones:
 - Update `ARCHITECTURE.md` when architecture changes.
 - Update `ARCHITECTURE_DECISIONS.md` when a significant architectural decision changes.
 
+Documentation must describe the implementation that actually exists, not planned behavior as though it were already implemented.
+
 ---
 
-# 11. Phase Completion
+# 14. Phase Completion
 
 A phase can only be marked COMPLETE when its completion gate has been satisfied.
 
@@ -172,7 +218,7 @@ The completion gate includes:
 
 ---
 
-# 12. Roadmap Check Response
+# 15. Roadmap Check Response
 
 When a requested feature may belong to another phase, use this format:
 
@@ -188,7 +234,7 @@ Do not silently move features between phases.
 
 ---
 
-# 13. Project Owner Control
+# 16. Project Owner Control
 
 The project owner controls changes to:
 
