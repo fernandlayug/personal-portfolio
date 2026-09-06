@@ -2,11 +2,11 @@
 
 ## Project Overview
 
-The Personal Portfolio AI Assistant is a multi-tenant SaaS platform for managing professional portfolio information, documents, and future AI-assisted portfolio services.
+The Personal Portfolio AI Assistant is a multi-tenant SaaS platform for managing professional portfolio information, professional documents, and future AI-assisted portfolio services.
 
-Each tenant owns isolated portfolio data and settings. Structured portfolio metadata is stored in MySQL. Actual professional documents, PDFs, and images are designed to be stored through the tenant's connected cloud storage account using a storage abstraction layer.
+Each tenant owns an isolated portfolio and its settings. Structured portfolio metadata is stored in MySQL. Actual professional documents, PDFs, images, and other supporting files are designed to reside in the tenant's connected Google Drive or Microsoft OneDrive through a storage abstraction layer.
 
-The system is being developed in controlled phases so that portfolio management, document management, cloud storage, intelligent processing, AI/RAG, public AI, mobile/PWA capabilities, and production SaaS hardening remain clearly separated.
+Development is organized into controlled phases so that portfolio management, engagement management, document management, cloud storage, intelligent processing, AI/RAG, public AI, mobile/PWA capabilities, and production SaaS hardening remain clearly separated.
 
 ---
 
@@ -65,7 +65,7 @@ Phase 3 established the core private portfolio-management layer and tenant isola
 
 ## Portfolio Management Domains
 
-The portfolio management layer includes:
+The complete Phase 3 structured portfolio domain set is:
 
 - Profile
 - Education
@@ -75,20 +75,26 @@ The portfolio management layer includes:
 - Certificates
 - Research
 - Licenses
+- Awards
+- Professional Memberships
+
+These are structured portfolio records stored in MySQL and managed through Django.
 
 ## Implemented Capabilities
 
-Each supported portfolio domain follows the tenant-scoped management pattern:
+The implemented portfolio management domains support the appropriate:
 
-- List records
-- Add records
-- Edit records
-- Delete records
+- List workflows
+- Add workflows
+- Edit workflows
+- Delete workflows
 - Form validation
 - Success/error messaging
 - Dashboard integration
-- Tenant-scoped database queries
-- Protected management views
+- Tenant-scoped queries
+- Authenticated management access
+
+Ownership is assigned server-side from the authenticated tenant/profile context rather than from submitted form data.
 
 ## Research Management
 
@@ -122,7 +128,7 @@ License CRUD is implemented and tested.
 
 License records support:
 
-- License name
+- Name
 - Issuing organization
 - License type
 - License number
@@ -137,30 +143,101 @@ Validation includes:
 - Issue date cannot be in the future
 - Expiration date cannot be earlier than the issue date
 
-License management includes:
-
-- List view
-- Add form
-- Edit form
-- Delete confirmation
-- Dashboard integration
-- Tenant-scoped access
-
 ### License Privacy Boundary
 
-License records are private by default.
+License records are private by default. License numbers must not become public merely because they are stored in the portfolio database.
 
-The system does not automatically expose license records to a future public portfolio or public AI interface. In particular, license numbers must not become public merely because they are stored in the portfolio database.
+Future public exposure must use an explicit public-data/visibility mechanism and must respect tenant ownership and privacy requirements.
 
-Future public exposure must use an explicit public-data/visibility mechanism and must respect the project's privacy and security requirements.
+## Awards
+
+Award CRUD is implemented and tested.
+
+Award records support:
+
+- Name
+- Awarding organization
+- Award type
+- Award date
+- Level
+- Description
+- Award URL
+
+Validation includes:
+
+- Award date cannot be in the future
+
+Supporting award certificates are conceptually related documents, but actual file upload and document management are deferred to Phase 5.
+
+## Professional Memberships
+
+Professional Membership CRUD is implemented and tested.
+
+Membership records support:
+
+- Organization name
+- Membership type
+- Membership number
+- Role
+- Start date
+- End date
+- Status
+- Description
+- Membership URL
+
+Validation includes:
+
+- Start date cannot be in the future
+- End date cannot be earlier than the start date
+
+### Professional Membership Privacy Boundary
+
+Membership records are private by default. Membership numbers must not become public merely because they are stored in the portfolio database.
+
+Future public exposure must use explicit public-data/visibility controls in the appropriate later phase.
+
+Supporting membership certificates are conceptually related documents, but actual file upload and document management are deferred to Phase 5.
 
 ---
 
-## Phase 3 Security and Tenant Isolation
+# Phase 3 Supporting-Document Boundary
+
+Phase 3 establishes the relationship concept between structured portfolio records and future supporting documents without implementing document storage.
+
+Examples include:
+
+```text
+Award
+  |
+  +-- Supporting Document: Certificate of Award
+  +-- Supporting Document: Announcement / Evidence
+```
+
+```text
+Professional Membership
+  |
+  +-- Supporting Document: Certificate of Membership
+  +-- Supporting Document: Renewal / Evidence
+```
+
+A portfolio record may eventually have multiple supporting documents. The implementation of document records, upload/management workflows, and actual file storage belongs to Phase 5 and later phases.
+
+Therefore Phase 3 does **not** add:
+
+- Django `FileField` storage
+- Local binary document storage
+- Google Drive upload code
+- OneDrive upload code
+- OCR/extraction code
+- AI document processing
+
+---
+
+# Phase 3 Security and Tenant Isolation
 
 Management views use authenticated access and tenant verification.
 
-The implementation pattern includes:
+The established implementation pattern includes:
 
 - `@login_required`
 - `verify_current_tenant(request)`
@@ -169,7 +246,7 @@ The implementation pattern includes:
 - No client-controlled profile assignment
 - Tenant-scoped edit/delete operations
 
-Tenant isolation testing has been performed successfully.
+Tenant isolation testing has been successfully performed for the implemented management domains, including direct URL access attempts.
 
 Verified behavior includes:
 
@@ -182,9 +259,9 @@ Verified behavior includes:
 
 # Phase 3 Completion Gate — CLOSED
 
-The following Phase 3 requirements are complete:
+The Phase 3 gate is satisfied:
 
-- [x] Portfolio management domains implemented
+- [x] Profile management foundation established
 - [x] Education CRUD complete
 - [x] Work Experience CRUD complete
 - [x] Skills CRUD complete
@@ -192,14 +269,16 @@ The following Phase 3 requirements are complete:
 - [x] Certificates CRUD complete
 - [x] Research CRUD complete
 - [x] Licenses CRUD complete
-- [x] Validation implemented for Research
-- [x] Validation implemented for Licenses
+- [x] Awards CRUD complete
+- [x] Professional Membership CRUD complete
+- [x] Domain validation implemented where required
 - [x] Dashboard integration complete
 - [x] Authentication protection applied
 - [x] Tenant-scoped queries verified
 - [x] Cross-tenant access testing completed
-- [x] Git/local synchronization maintained
-- [x] Phase 3 documentation updated
+- [x] Supporting-document boundary established
+- [x] Privacy boundaries for sensitive identifiers established
+- [x] Documentation synchronized
 
 **Phase 3 completion date:** 2026-09-06
 
@@ -207,36 +286,42 @@ The following Phase 3 requirements are complete:
 
 # Phase 4 — Engagement Management — CURRENT
 
-Phase 4 focuses on professional engagement and interaction management.
+Phase 4 is the next development phase.
 
-The detailed Phase 4 implementation scope should be completed before development begins on later phases.
+The exact meaning, scope, models, relationships, workflows, privacy/security boundaries, tenant-isolation requirements, and completion gate for Engagement Management must be established and approved before implementation begins.
 
-The Phase 4 boundary must remain separate from:
+Phase 4 must remain conceptually distinct from Professional Memberships. A professional membership is a portfolio credential/affiliation record; it is not automatically an engagement record.
 
-- Document management
-- Cloud storage integration
-- Intelligent document processing
+Phase 4 must also remain separate from:
+
+- Document Management
+- Cloud Storage Integration
+- Intelligent Document Processing
 - AI/RAG
+- Resume/CV/Portfolio Generation
 - Public AI
-- PWA/mobile expansion
+- PWA/Mobile expansion
 - Production SaaS hardening
+
+No detailed Engagement Management implementation is assumed by this roadmap until Phase 4 architecture is explicitly established.
 
 ---
 
 # Phase 5 — Document Management — FUTURE
 
-Document Management is the dedicated phase for portfolio documents.
+Document Management is the dedicated phase for professional documents and supporting evidence.
 
-Planned scope includes concepts such as:
+Planned scope includes:
 
 - Document records
 - Document metadata
 - Document categorization
-- Document association with portfolio domains
-- Document upload/management workflows
+- Relationships between documents and portfolio records
+- Multiple supporting documents per portfolio record
+- Upload and management workflows
 - Document lifecycle management
 
-Research PDF/document upload belongs here, not in Phase 3.
+Examples include research papers/PDFs, certificates of award, certificates of membership, and other professional evidence.
 
 ---
 
@@ -255,8 +340,6 @@ A storage abstraction layer should prevent portfolio business logic from becomin
 
 # Phase 7 — Intelligent Document Processing — FUTURE
 
-This phase will handle intelligent processing of stored professional documents.
-
 Potential capabilities include:
 
 - Text extraction
@@ -266,12 +349,11 @@ Potential capabilities include:
 - Structured information extraction
 - Document classification
 - AI-assisted document analysis
+- Human verification workflows
 
 ---
 
 # Phase 8 — AI Assistant & RAG — FUTURE
-
-This phase introduces the portfolio AI assistant.
 
 Potential capabilities include:
 
@@ -282,7 +364,7 @@ Potential capabilities include:
 - Owner-only AI access
 - Context-aware professional assistance
 
-The AI layer must respect tenant isolation and document/data permissions.
+The AI layer must respect tenant isolation and data/document permissions.
 
 ---
 
@@ -303,17 +385,9 @@ Potential capabilities include:
 
 Public AI is opt-in.
 
-Public AI must operate only on tenant-approved public information.
+Public AI must operate only on tenant-approved public information. Private portfolio data must not automatically become available to public users.
 
-Private portfolio data must not automatically become available to public users.
-
-Public AI design must include explicit controls for:
-
-- Public visibility
-- Approved data
-- Privacy boundaries
-- Tenant ownership
-- Abuse/security controls
+Public AI design must include explicit controls for public visibility, approved data, privacy, tenant ownership, and abuse/security protection.
 
 ---
 
@@ -340,7 +414,7 @@ Production hardening will address:
 - Logging
 - Monitoring
 - Backups
-- Tenant isolation auditing
+- Tenant-isolation auditing
 - Performance
 - Reliability
 - SaaS operational concerns
@@ -351,11 +425,15 @@ Production hardening will address:
 
 | Feature | Phase |
 |---|---|
-| Profile/Education/Work/Skills/Projects | Phase 3 |
+| Profile, Education, Work Experience, Skills, Projects | Phase 3 |
 | Certificates | Phase 3 |
 | Research CRUD | Phase 3 |
 | Licenses | Phase 3 |
+| Awards | Phase 3 |
+| Professional Memberships | Phase 3 |
+| Supporting-document relationship concept | Phase 3 |
 | Research PDF/document upload | Phase 5 |
+| Award/member supporting-document management | Phase 5 |
 | General document management | Phase 5 |
 | Google Drive | Phase 6 |
 | OneDrive | Phase 6 |
@@ -370,7 +448,8 @@ Production hardening will address:
 
 # Current Development Direction
 
-**Phase 3 is complete. Phase 4 — Engagement Management is now the current development phase.**
+**Phase 3 — Multi-Tenant Portfolio Management is complete. Phase 4 — Engagement Management is now current.**
 
-Do not pull Phase 5, 6, 7, 8, 9, 10, 11, or 12 functionality into Phase 4 unless the roadmap is deliberately revised and documented.
+Before writing Phase 4 code, establish and approve its architecture, scope, models, relationships, workflows, security/privacy boundaries, tenant-isolation rules, and completion gate.
 
+Do not pull Phase 5–12 implementation into Phase 4 unless the roadmap is deliberately revised and documented.
