@@ -259,6 +259,38 @@
                     </div>
 
 
+                    <!-- CREDENTIAL URL -->
+
+                    <div class="management-form-group">
+
+                        <label
+                            for="{{ form.credential_url.id_for_label }}"
+                        >
+                            Credential URL
+                        </label>
+
+                        {{ form.credential_url }}
+
+                        {% if form.credential_url.errors %}
+
+                            <div class="field-error">
+
+                                {% for error in form.credential_url.errors %}
+                                    {{ error }}
+                                {% endfor %}
+
+                            </div>
+
+                        {% endif %}
+
+                        <small>
+                            Optional public link where the certificate
+                            or credential can be verified.
+                        </small>
+
+                    </div>
+
+
                     <!-- DESCRIPTION -->
 
                     <div class="management-form-group">
