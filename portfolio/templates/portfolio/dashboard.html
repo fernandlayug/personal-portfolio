@@ -210,6 +210,40 @@
 
                 </div>
 
+                <div class="dashboard-card">
+
+                    <h2>Awards</h2>
+
+                    <p>
+                        {{ profile.awards.all|length }}
+                        award{{ profile.awards.all|length|pluralize }}.
+                    </p>
+
+                    <a
+                        href="{% url 'award_list' %}"
+                        class="btn btn-primary"
+                    >
+                        Manage Awards
+                    </a>
+
+                </div>
+
+                <div class="dashboard-card">
+                    <h2>Professional Memberships</h2>
+
+                    <p>
+                        {{ profile.professional_memberships.all|length }}
+                        professional membership{{ profile.professional_memberships.all|length|pluralize }}.
+                    </p>
+
+                    <a
+                        href="{% url 'professional_membership_list' %}"
+                        class="btn btn-primary"
+                    >
+                        Manage Professional Memberships
+                    </a>
+                </div>
+
 
                 <div class="dashboard-card">
 

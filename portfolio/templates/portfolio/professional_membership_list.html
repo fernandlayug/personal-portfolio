@@ -1,0 +1,197 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+    <title>Professional Memberships - Portfolio Dashboard</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'portfolio/css/style.css' %}"
+    >
+</head>
+
+<body class="dashboard-page">
+
+    <div class="container">
+
+        <header class="dashboard-header">
+            <div>
+                <h1>Professional Memberships</h1>
+                <p>
+                    Manage your professional organization memberships.
+                </p>
+            </div>
+
+            <div class="education-page-actions">
+                <a
+                    href="{% url 'professional_membership_add' %}"
+                    class="btn btn-primary"
+                >
+                    Add Professional Membership
+                </a>
+
+                <a
+                    href="{% url 'dashboard' %}"
+                    class="btn btn-secondary"
+                >
+                    Back to Dashboard
+                </a>
+            </div>
+        </header>
+
+        {% if messages %}
+            <div class="dashboard-messages">
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if memberships %}
+
+            <div class="education-management-list">
+
+                {% for membership in memberships %}
+
+                    <div class="education-management-card">
+
+                        <div class="education-management-main">
+
+                            <div class="education-management-icon">
+                                🤝
+                            </div>
+
+                            <div class="education-management-content">
+
+                                <h2>
+                                    {{ membership.organization_name }}
+                                </h2>
+
+                                {% if membership.membership_type %}
+                                    <p>
+                                        <strong>
+                                            Membership Type:
+                                        </strong>
+                                        {{ membership.membership_type }}
+                                    </p>
+                                {% endif %}
+
+                                {% if membership.role %}
+                                    <p>
+                                        <strong>
+                                            Role:
+                                        </strong>
+                                        {{ membership.role }}
+                                    </p>
+                                {% endif %}
+
+                                <p>
+                                    <strong>
+                                        Status:
+                                    </strong>
+                                    {{ membership.status }}
+                                </p>
+
+                                <p>
+                                    <strong>
+                                        Membership Period:
+                                    </strong>
+
+                                    {{ membership.start_date|date:"F j, Y" }}
+
+                                    {% if membership.end_date %}
+                                        – {{ membership.end_date|date:"F j, Y" }}
+                                    {% else %}
+                                        – Present
+                                    {% endif %}
+                                </p>
+
+                                {% if membership.membership_number %}
+                                    <p>
+                                        <strong>
+                                            Membership Number:
+                                        </strong>
+                                        {{ membership.membership_number }}
+                                    </p>
+                                {% endif %}
+
+                                {% if membership.description %}
+                                    <p class="education-management-description">
+                                        {{ membership.description }}
+                                    </p>
+                                {% endif %}
+
+                                {% if membership.membership_url %}
+                                    <p>
+                                        <a
+                                            href="{{ membership.membership_url }}"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            View Membership Information
+                                        </a>
+                                    </p>
+                                {% endif %}
+
+                            </div>
+
+                            <div class="education-management-actions">
+
+                                <a
+                                    href="{% url 'professional_membership_edit' membership.id %}"
+                                    class="btn btn-secondary"
+                                >
+                                    Edit
+                                </a>
+
+                                <a
+                                    href="{% url 'professional_membership_delete' membership.id %}"
+                                    class="btn btn-danger"
+                                >
+                                    Delete
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="dashboard-empty-state">
+
+                <h2>No Professional Memberships Yet</h2>
+
+                <p>
+                    Add your professional organization memberships
+                    to your portfolio.
+                </p>
+
+                <a
+                    href="{% url 'professional_membership_add' %}"
+                    class="btn btn-primary"
+                >
+                    Add Professional Membership
+                </a>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</body>
+</html>

@@ -310,3 +310,109 @@ class License(models.Model):
             '-issue_date',
             'name'
         ]
+
+class Award(models.Model):
+
+    profile = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE,
+        related_name='awards'
+    )
+
+    name = models.CharField(
+        max_length=200
+    )
+
+    awarding_organization = models.CharField(
+        max_length=200
+    )
+
+    award_type = models.CharField(
+        max_length=100,
+        blank=True,
+        help_text="Example: Academic, Professional, Research, Leadership"
+    )
+
+    award_date = models.DateField()
+
+    level = models.CharField(
+        max_length=100,
+        blank=True,
+        help_text="Example: Institutional, Local, Regional, National, International"
+    )
+
+    description = models.TextField(
+        blank=True
+    )
+
+    award_url = models.URLField(
+        blank=True
+    )
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = [
+            '-award_date',
+            'name'
+        ]
+
+class ProfessionalMembership(models.Model):
+
+    profile = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE,
+        related_name='professional_memberships'
+    )
+
+    organization_name = models.CharField(
+        max_length=200
+    )
+
+    membership_type = models.CharField(
+        max_length=100,
+        blank=True,
+        help_text="Example: Regular Member, Associate Member, Fellow, Student Member"
+    )
+
+    membership_number = models.CharField(
+        max_length=200,
+        blank=True
+    )
+
+    role = models.CharField(
+        max_length=100,
+        blank=True,
+        help_text="Example: Member, Officer, Board Member, Chapter President"
+    )
+
+    start_date = models.DateField()
+
+    end_date = models.DateField(
+        blank=True,
+        null=True
+    )
+
+    status = models.CharField(
+        max_length=50,
+        default='Active'
+    )
+
+    description = models.TextField(
+        blank=True
+    )
+
+    membership_url = models.URLField(
+        blank=True
+    )
+
+    def __str__(self):
+        return self.organization_name
+
+    class Meta:
+        ordering = [
+            '-start_date',
+            'organization_name'
+        ]
+

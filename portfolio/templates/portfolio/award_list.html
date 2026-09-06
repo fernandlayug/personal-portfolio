@@ -1,0 +1,232 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Awards | {{ profile.full_name }}
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'portfolio/css/style.css' %}"
+    >
+
+</head>
+
+<body class="dashboard-page">
+
+<div class="container">
+
+    <header class="dashboard-header">
+
+        <div>
+            <h1>My Awards</h1>
+
+            <p>
+                Manage your professional and academic recognitions.
+            </p>
+        </div>
+
+        <div class="dashboard-actions">
+
+            <a
+                href="{% url 'dashboard' %}"
+                class="btn btn-secondary"
+            >
+                Back to Dashboard
+            </a>
+
+            <a
+                href="{% url 'award_add' %}"
+                class="btn btn-primary"
+            >
+                Add Award
+            </a>
+
+        </div>
+
+    </header>
+
+
+    {% if messages %}
+
+        <div class="dashboard-messages">
+
+            {% for message in messages %}
+
+                <div class="message {{ message.tags }}">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+
+    {% if awards %}
+
+        <div class="education-management-list">
+
+            {% for award in awards %}
+
+                <div class="education-management-card">
+
+                    <div class="education-management-main">
+
+                        <div class="education-management-icon">
+                            🏆
+                        </div>
+
+                        <div class="education-management-content">
+
+                            <h2>
+                                {{ award.name }}
+                            </h2>
+
+                            <p>
+                                <strong>
+                                    Awarding Organization:
+                                </strong>
+
+                                {{ award.awarding_organization }}
+                            </p>
+
+                            {% if award.award_type %}
+
+                                <p>
+                                    <strong>
+                                        Type:
+                                    </strong>
+
+                                    {{ award.award_type }}
+                                </p>
+
+                            {% endif %}
+
+
+                            <p>
+                                <strong>
+                                    Award Date:
+                                </strong>
+
+                                {{ award.award_date|date:"F j, Y" }}
+                            </p>
+
+
+                            {% if award.level %}
+
+                                <p>
+                                    <strong>
+                                        Level:
+                                    </strong>
+
+                                    {{ award.level }}
+                                </p>
+
+                            {% endif %}
+
+
+                            {% if award.description %}
+
+                                <div class="education-management-description">
+
+                                    <strong>
+                                        Description:
+                                    </strong>
+
+                                    <p>
+                                        {{ award.description|linebreaksbr }}
+                                    </p>
+
+                                </div>
+
+                            {% endif %}
+
+
+                            {% if award.award_url %}
+
+                                <p>
+
+                                    <a
+                                        href="{{ award.award_url }}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        View Award Reference
+                                    </a>
+
+                                </p>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="education-management-actions">
+
+                        <a
+                            href="{% url 'award_edit' award.id %}"
+                            class="btn btn-secondary"
+                        >
+                            Edit
+                        </a>
+
+                        <a
+                            href="{% url 'award_delete' award.id %}"
+                            class="btn btn-danger"
+                        >
+                            Delete
+                        </a>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="dashboard-empty-state">
+
+            <h2>
+                No Awards Yet
+            </h2>
+
+            <p>
+                You have not added any awards to your portfolio.
+            </p>
+
+            <div class="dashboard-actions">
+
+                <a
+                    href="{% url 'award_add' %}"
+                    class="btn btn-primary"
+                >
+                    Add Your First Award
+                </a>
+
+            </div>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>

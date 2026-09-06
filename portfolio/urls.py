@@ -219,4 +219,49 @@ urlpatterns = [
         name='license_delete'
     ),
 
+
+    path(
+        'dashboard/awards/',
+        views.award_list,
+        name='award_list'
+    ),
+
+    path(
+        'dashboard/awards/add/',
+        views.award_add,
+        name='award_add'
+    ),
+
+    path(
+        'dashboard/awards/<int:award_id>/edit/',
+        views.award_edit,
+        name='award_edit'
+    ),
+
+    path(
+        'dashboard/awards/<int:award_id>/delete/',
+        views.award_delete,
+        name='award_delete'
+    ),
+
+    path(
+    'dashboard/memberships/',
+    views.professional_membership_list,
+    name='professional_membership_list'
+    ),
+    path(
+        'dashboard/memberships/add/',
+        views.professional_membership_add,
+        name='professional_membership_add'
+    ),
+    path(
+        'dashboard/memberships/<int:membership_id>/edit/',
+        views.professional_membership_edit,
+        name='professional_membership_edit'
+    ),
+    path(
+        'dashboard/memberships/<int:membership_id>/delete/',
+        views.professional_membership_delete,
+        name='professional_membership_delete'
+    ),
 ]

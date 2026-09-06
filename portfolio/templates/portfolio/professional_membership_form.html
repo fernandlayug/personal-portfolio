@@ -1,0 +1,211 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+    <title>
+        {{ page_title }} - Portfolio Dashboard
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'portfolio/css/style.css' %}"
+    >
+</head>
+
+<body class="dashboard-page">
+
+    <div class="container">
+
+        <header class="dashboard-header">
+            <div>
+                <h1>{{ page_title }}</h1>
+                <p>
+                    Add or update your professional membership information.
+                </p>
+            </div>
+        </header>
+
+        <div class="management-form-card">
+
+            {% if form.non_field_errors %}
+                <div class="form-error-summary">
+                    {% for error in form.non_field_errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <form method="post">
+
+                {% csrf_token %}
+
+                <div class="management-form-group">
+                    <label for="{{ form.organization_name.id_for_label }}">
+                        Organization Name
+                    </label>
+
+                    {{ form.organization_name }}
+
+                    {% for error in form.organization_name.errors %}
+                        <div class="field-error">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="management-form-row">
+
+                    <div class="management-form-group">
+                        <label for="{{ form.membership_type.id_for_label }}">
+                            Membership Type
+                        </label>
+
+                        {{ form.membership_type }}
+
+                        {% for error in form.membership_type.errors %}
+                            <div class="field-error">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="management-form-group">
+                        <label for="{{ form.status.id_for_label }}">
+                            Status
+                        </label>
+
+                        {{ form.status }}
+
+                        {% for error in form.status.errors %}
+                            <div class="field-error">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+
+                <div class="management-form-row">
+
+                    <div class="management-form-group">
+                        <label for="{{ form.membership_number.id_for_label }}">
+                            Membership Number
+                        </label>
+
+                        {{ form.membership_number }}
+
+                        {% for error in form.membership_number.errors %}
+                            <div class="field-error">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="management-form-group">
+                        <label for="{{ form.role.id_for_label }}">
+                            Role
+                        </label>
+
+                        {{ form.role }}
+
+                        {% for error in form.role.errors %}
+                            <div class="field-error">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+
+                <div class="management-form-row">
+
+                    <div class="management-form-group">
+                        <label for="{{ form.start_date.id_for_label }}">
+                            Start Date
+                        </label>
+
+                        {{ form.start_date }}
+
+                        {% for error in form.start_date.errors %}
+                            <div class="field-error">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="management-form-group">
+                        <label for="{{ form.end_date.id_for_label }}">
+                            End Date
+                        </label>
+
+                        {{ form.end_date }}
+
+                        {% for error in form.end_date.errors %}
+                            <div class="field-error">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+
+                <div class="management-form-group">
+                    <label for="{{ form.description.id_for_label }}">
+                        Description
+                    </label>
+
+                    {{ form.description }}
+
+                    {% for error in form.description.errors %}
+                        <div class="field-error">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="management-form-group">
+                    <label for="{{ form.membership_url.id_for_label }}">
+                        Membership URL
+                    </label>
+
+                    {{ form.membership_url }}
+
+                    {% for error in form.membership_url.errors %}
+                        <div class="field-error">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="management-form-actions">
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        Save Membership
+                    </button>
+
+                    <a
+                        href="{% url 'professional_membership_list' %}"
+                        class="btn btn-secondary"
+                    >
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

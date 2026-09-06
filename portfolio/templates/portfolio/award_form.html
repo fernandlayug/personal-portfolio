@@ -1,0 +1,235 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        {{ page_title }} | {{ profile.full_name }}
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'portfolio/css/style.css' %}"
+    >
+
+</head>
+
+<body class="dashboard-page">
+
+<div class="container">
+
+    <header class="dashboard-header">
+
+        <div>
+            <h1>
+                {{ page_title }}
+            </h1>
+
+            <p>
+                Add or update an award in your professional portfolio.
+            </p>
+        </div>
+
+        <div class="dashboard-actions">
+
+            <a
+                href="{% url 'award_list' %}"
+                class="btn btn-secondary"
+            >
+                Back to Awards
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <div class="management-form-card">
+
+        <form method="post">
+
+            {% csrf_token %}
+
+
+            {% if form.non_field_errors %}
+
+                <div class="form-error-summary">
+
+                    {{ form.non_field_errors }}
+
+                </div>
+
+            {% endif %}
+
+
+            <div class="management-form-group">
+
+                <label for="{{ form.name.id_for_label }}">
+                    Award Name
+                </label>
+
+                {{ form.name }}
+
+                {% if form.name.errors %}
+
+                    <div class="field-error">
+                        {{ form.name.errors }}
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="management-form-group">
+
+                <label for="{{ form.awarding_organization.id_for_label }}">
+                    Awarding Organization
+                </label>
+
+                {{ form.awarding_organization }}
+
+                {% if form.awarding_organization.errors %}
+
+                    <div class="field-error">
+                        {{ form.awarding_organization.errors }}
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="management-form-row">
+
+                <div class="management-form-group">
+
+                    <label for="{{ form.award_type.id_for_label }}">
+                        Award Type
+                    </label>
+
+                    {{ form.award_type }}
+
+                    {% if form.award_type.errors %}
+
+                        <div class="field-error">
+                            {{ form.award_type.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="management-form-group">
+
+                    <label for="{{ form.level.id_for_label }}">
+                        Level
+                    </label>
+
+                    {{ form.level }}
+
+                    {% if form.level.errors %}
+
+                        <div class="field-error">
+                            {{ form.level.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <div class="management-form-group">
+
+                <label for="{{ form.award_date.id_for_label }}">
+                    Award Date
+                </label>
+
+                {{ form.award_date }}
+
+                {% if form.award_date.errors %}
+
+                    <div class="field-error">
+                        {{ form.award_date.errors }}
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="management-form-group">
+
+                <label for="{{ form.description.id_for_label }}">
+                    Description
+                </label>
+
+                {{ form.description }}
+
+                {% if form.description.errors %}
+
+                    <div class="field-error">
+                        {{ form.description.errors }}
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="management-form-group">
+
+                <label for="{{ form.award_url.id_for_label }}">
+                    Award URL
+                </label>
+
+                {{ form.award_url }}
+
+                {% if form.award_url.errors %}
+
+                    <div class="field-error">
+                        {{ form.award_url.errors }}
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="management-form-actions">
+
+                <a
+                    href="{% url 'award_list' %}"
+                    class="btn btn-secondary"
+                >
+                    Cancel
+                </a>
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    Save Award
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

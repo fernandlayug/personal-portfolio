@@ -11,6 +11,8 @@ from .models import (
     Certificate,
     Research,
     License,
+    Award,
+    ProfessionalMembership,
 )
 
 class ProfileForm(forms.ModelForm):
@@ -552,6 +554,109 @@ class LicenseForm(forms.ModelForm):
             self.add_error(
                 'expiration_date',
                 'Expiration date cannot be earlier than the issue date.'
+            )
+
+        return cleaned_data
+
+class AwardForm(forms.ModelForm):
+
+    class Meta:
+        model = Award
+
+        fields = [
+            'name',
+            'awarding_organization',
+            'award_type',
+            'award_date',
+            'level',
+            'description',
+            'award_url',
+        ]
+
+        widgets = {
+            'award_date': forms.DateInput(
+                attrs={
+                    'type': 'date'
+                }
+            ),
+
+            'description': forms.Textarea(
+                attrs={
+                    'rows': 5
+                }
+            ),
+        }
+
+    def clean(self):
+
+        cleaned_data = super().clean()
+
+        award_date = cleaned_data.get(
+            'award_date'
+        )
+
+        today = timezone.localdate()
+
+        if award_date and award_date > today:
+
+            self.add_error(
+                'award_date',
+                'Award date cannot be in the future.'
+            )
+
+        return cleaned_data
+
+class ProfessionalMembershipForm(forms.ModelForm):
+
+    class Meta:
+        model = ProfessionalMembership
+
+        fields = [
+            'organization_name',
+            'membership_type',
+            'membership_number',
+            'role',
+            'start_date',
+            'end_date',
+            'status',
+            'description',
+            'membership_url',
+        ]
+
+        widgets = {
+            'start_date': forms.DateInput(
+                attrs={'type': 'date'}
+            ),
+            'end_date': forms.DateInput(
+                attrs={'type': 'date'}
+            ),
+            'description': forms.Textarea(
+                attrs={'rows': 5}
+            ),
+        }
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        start_date = cleaned_data.get('start_date')
+        end_date = cleaned_data.get('end_date')
+
+        today = timezone.localdate()
+
+        if start_date and start_date > today:
+            self.add_error(
+                'start_date',
+                'Membership start date cannot be in the future.'
+            )
+
+        if (
+            start_date
+            and end_date
+            and end_date < start_date
+        ):
+            self.add_error(
+                'end_date',
+                'Membership end date cannot be earlier than the start date.'
             )
 
         return cleaned_data

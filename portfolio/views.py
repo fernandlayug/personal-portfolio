@@ -17,6 +17,8 @@ from .models import (
     Certificate,
     Research,
     License,
+    Award,
+    ProfessionalMembership,
     
 )
 
@@ -29,6 +31,8 @@ from .forms import (
     CertificateForm,
     ResearchForm,
     LicenseForm,
+    AwardForm,
+    ProfessionalMembershipForm, 
 )
 
 def portfolio_home(request):
@@ -1327,3 +1331,277 @@ def license_delete(request, license_id):
             ),
         }
     )
+
+@login_required
+def award_list(request):
+    profile = verify_current_tenant(request)
+
+    awards = profile.awards.all()
+
+    return render(
+        request,
+        'portfolio/award_list.html',
+        {
+            'profile': profile,
+            'awards': awards,
+            'portfolio_url': request.build_absolute_uri(
+                f'/portfolio/{profile.portfolio_slug}/'
+            ),
+        }
+    )
+
+
+@login_required
+def award_add(request):
+    profile = verify_current_tenant(request)
+
+    if request.method == 'POST':
+        form = AwardForm(request.POST)
+
+        if form.is_valid():
+            award = form.save(commit=False)
+
+            award.profile = profile
+
+            award.save()
+
+            messages.success(
+                request,
+                'Award record added successfully.'
+            )
+
+            return redirect('award_list')
+
+    else:
+        form = AwardForm()
+
+    return render(
+        request,
+        'portfolio/award_form.html',
+        {
+            'profile': profile,
+            'form': form,
+            'page_title': 'Add Award',
+            'portfolio_url': request.build_absolute_uri(
+                f'/portfolio/{profile.portfolio_slug}/'
+            ),
+        }
+    )
+
+
+@login_required
+def award_edit(request, award_id):
+    profile = verify_current_tenant(request)
+
+    award = profile.awards.get(
+        id=award_id
+    )
+
+    if request.method == 'POST':
+        form = AwardForm(
+            request.POST,
+            instance=award
+        )
+
+        if form.is_valid():
+            form.save()
+
+            messages.success(
+                request,
+                'Award record updated successfully.'
+            )
+
+            return redirect('award_list')
+
+    else:
+        form = AwardForm(
+            instance=award
+        )
+
+    return render(
+        request,
+        'portfolio/award_form.html',
+        {
+            'profile': profile,
+            'form': form,
+            'award': award,
+            'page_title': 'Edit Award',
+            'portfolio_url': request.build_absolute_uri(
+                f'/portfolio/{profile.portfolio_slug}/'
+            ),
+        }
+    )
+
+
+@login_required
+def award_delete(request, award_id):
+    profile = verify_current_tenant(request)
+
+    award = profile.awards.get(
+        id=award_id
+    )
+
+    if request.method == 'POST':
+        award.delete()
+
+        messages.success(
+            request,
+            'Award record deleted successfully.'
+        )
+
+        return redirect('award_list')
+
+    return render(
+        request,
+        'portfolio/award_confirm_delete.html',
+        {
+            'profile': profile,
+            'award': award,
+            'portfolio_url': request.build_absolute_uri(
+                f'/portfolio/{profile.portfolio_slug}/'
+            ),
+        }
+    )
+
+@login_required
+def professional_membership_list(request):
+    profile = verify_current_tenant(request)
+
+    memberships = profile.professional_memberships.all()
+
+    return render(
+        request,
+        'portfolio/professional_membership_list.html',
+        {
+            'profile': profile,
+            'memberships': memberships,
+            'portfolio_url': request.build_absolute_uri(
+                f'/portfolio/{profile.portfolio_slug}/'
+            ),
+        }
+    )
+
+
+@login_required
+def professional_membership_add(request):
+    profile = verify_current_tenant(request)
+
+    if request.method == 'POST':
+        form = ProfessionalMembershipForm(request.POST)
+
+        if form.is_valid():
+            membership = form.save(commit=False)
+
+            membership.profile = profile
+            membership.save()
+
+            messages.success(
+                request,
+                'Professional membership added successfully.'
+            )
+
+            return redirect(
+                'professional_membership_list'
+            )
+
+    else:
+        form = ProfessionalMembershipForm()
+
+    return render(
+        request,
+        'portfolio/professional_membership_form.html',
+        {
+            'profile': profile,
+            'form': form,
+            'page_title': 'Add Professional Membership',
+            'portfolio_url': request.build_absolute_uri(
+                f'/portfolio/{profile.portfolio_slug}/'
+            ),
+        }
+    )
+
+
+@login_required
+def professional_membership_edit(
+    request,
+    membership_id
+):
+    profile = verify_current_tenant(request)
+
+    membership = profile.professional_memberships.get(
+        id=membership_id
+    )
+
+    if request.method == 'POST':
+        form = ProfessionalMembershipForm(
+            request.POST,
+            instance=membership
+        )
+
+        if form.is_valid():
+            form.save()
+
+            messages.success(
+                request,
+                'Professional membership updated successfully.'
+            )
+
+            return redirect(
+                'professional_membership_list'
+            )
+
+    else:
+        form = ProfessionalMembershipForm(
+            instance=membership
+        )
+
+    return render(
+        request,
+        'portfolio/professional_membership_form.html',
+        {
+            'profile': profile,
+            'form': form,
+            'membership': membership,
+            'page_title': 'Edit Professional Membership',
+            'portfolio_url': request.build_absolute_uri(
+                f'/portfolio/{profile.portfolio_slug}/'
+            ),
+        }
+    )
+
+
+@login_required
+def professional_membership_delete(
+    request,
+    membership_id
+):
+    profile = verify_current_tenant(request)
+
+    membership = profile.professional_memberships.get(
+        id=membership_id
+    )
+
+    if request.method == 'POST':
+        membership.delete()
+
+        messages.success(
+            request,
+            'Professional membership deleted successfully.'
+        )
+
+        return redirect(
+            'professional_membership_list'
+        )
+
+    return render(
+        request,
+        'portfolio/professional_membership_confirm_delete.html',
+        {
+            'profile': profile,
+            'membership': membership,
+            'portfolio_url': request.build_absolute_uri(
+                f'/portfolio/{profile.portfolio_slug}/'
+            ),
+        }
+    )
+
