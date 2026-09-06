@@ -1,233 +1,303 @@
-# Personal Portfolio Assistant — Project Status
+# Personal Portfolio AI Assistant — Project Status
 
-## Current Phase
-
-**Phase 3 — Multi-Tenant Portfolio Management**
-
-**Status: CURRENT**
-
-## Current Feature
-
-**Research Portfolio Management**
-
-**Status: IMPLEMENTED AND TESTED**
+**Project:** Personal Portfolio AI Assistant  
+**Architecture:** Multi-tenant SaaS  
+**Current Date:** 2026-09-06  
+**Current Phase:** Phase 3 — Multi-Tenant Portfolio Management
 
 ---
 
-# 1. Phase Status
+# 1. Overall Status
 
-| Phase | Area | Status |
-|---|---|---|
-| Phase 1 | Foundation | COMPLETE |
-| Phase 2 | Professional Portfolio UI | COMPLETE |
-| Phase 3 | Multi-Tenant Portfolio Management | CURRENT |
-| Phase 4 | Engagement Management | FUTURE |
-| Phase 5 | Document Management | FUTURE |
-| Phase 6 | Cloud Storage Integration | FUTURE |
-| Phase 7 | Intelligent Document Processing | FUTURE |
-| Phase 8 | AI Assistant & RAG | FUTURE |
-| Phase 9 | Resume/CV/Portfolio Generator | FUTURE |
-| Phase 10 | Public AI | FUTURE |
-| Phase 11 | Advanced PWA/Mobile | FUTURE |
-| Phase 12 | Production & SaaS Hardening | FUTURE |
+The project is currently in **Phase 3 — Multi-Tenant Portfolio Management**.
+
+Phase 1 and Phase 2 are complete.
+
+Phase 3 is active and substantially implemented, but the Phase 3 completion gate is not yet closed.
+
+The immediate next feature is **Licenses CRUD**.
 
 ---
 
-# 2. Completed Phases
+# 2. Phase Status
 
-## Phase 1 — Foundation
-
-**Status: COMPLETE**
-
-Completed:
-
-- Django and MySQL setup
-- Portfolio application
-- Initial portfolio models
-- Migrations
-- Django Admin
-- Initial portfolio data
-- Dynamic portfolio homepage
-
-## Phase 2 — Professional Portfolio UI
-
-**Status: COMPLETE**
-
-Completed:
-
-- Professional portfolio interface
-- Responsive UI improvements
-- Portfolio navigation
-- Existing Django template/CSS architecture retained
+| Phase | Status |
+|---|---|
+| Phase 1 — Foundation | COMPLETE |
+| Phase 2 — Professional Portfolio UI | COMPLETE |
+| Phase 3 — Multi-Tenant Portfolio Management | CURRENT |
+| Phase 4 — Engagement Management | FUTURE |
+| Phase 5 — Document Management | FUTURE |
+| Phase 6 — Cloud Storage Integration | FUTURE |
+| Phase 7 — Intelligent Document Processing | FUTURE |
+| Phase 8 — AI Assistant & RAG | FUTURE |
+| Phase 9 — Resume/CV/Portfolio Generator | FUTURE |
+| Phase 10 — Public AI | FUTURE |
+| Phase 11 — Advanced PWA/Mobile | FUTURE |
+| Phase 12 — Production & SaaS Hardening | FUTURE |
 
 ---
 
-# 3. Current Phase — Phase 3
+# 3. Phase 3 Progress
 
-## Multi-Tenant Portfolio Management
+## Completed
 
-**Status: CURRENT**
+### Profile
+- Profile foundation implemented.
+- Tenant/profile relationship established.
 
-Phase 3 focuses on tenant-scoped portfolio management and CRUD functionality.
+### Education
+- Education CRUD implemented.
+- Tenant-scoped management implemented.
 
-### Completed Portfolio Areas
+### Work Experience
+- Work Experience CRUD implemented.
+- Tenant-scoped management implemented.
 
-- Profile
-- Education
-- Work Experience
-- Skills
-- Projects
-- Certificates
-- Research
+### Skills
+- Skills CRUD implemented.
+- Tenant-scoped management implemented.
 
----
+### Projects
+- Projects CRUD implemented.
+- Tenant-scoped management implemented.
 
-# 4. Research Portfolio Management
+### Certificates
+- Certificate model implemented.
+- Certificate CRUD implemented.
+- Dashboard integration implemented.
+- Existing certificate data preserved.
+- Tenant-scoped management implemented.
+- Browser testing completed.
 
-**Status: IMPLEMENTED AND TESTED**
+### Research
+- Research model implemented.
+- ResearchForm implemented.
+- Research validation implemented.
+- Research CRUD implemented.
+- Research dashboard integration implemented.
+- Tenant-scoped management implemented.
+- Browser testing completed.
 
-## Implemented
-
-- Research model
-- Research migration
-- Research form
-- Research validation
-- Research list
-- Add Research
-- Edit Research
-- Delete Research
-- Tenant-scoped Research access
-- Dashboard integration
-
-## Validation Implemented
+Research validation includes:
 
 - Start date cannot be in the future.
 - Completion date cannot be in the future.
 - Completion date cannot be earlier than the start date.
 
-## Testing Completed
-
-The Research feature has been browser-tested for:
-
-- Research page loading
-- Adding Research
-- Date validation
-- Editing Research
-- Canceling edit/add operations
-- Deleting Research
-- Tenant-scoped access
-
 ---
 
-# 5. Phase 3 Completion Gate
+# 4. Research Boundary
 
-Phase 3 is NOT marked COMPLETE yet.
+Research CRUD is complete for Phase 3.
 
-Before closing Phase 3, verify:
+However, research documents are deliberately deferred.
 
-1. Required features are implemented.
-2. Tenant isolation has been considered and tested where applicable.
-3. Validation and error handling are tested.
-4. Documentation reflects the implementation.
-5. Local code is synchronized with GitHub.
-6. This file explicitly marks Phase 3 as COMPLETE.
+The following are NOT part of the current Research implementation:
 
-The remaining project work before closing Phase 3 is the final verification, documentation update, commit, push, and synchronization check.
+- Research PDF upload
+- Research document storage
+- Research document extraction
+- OCR
+- AI analysis
+- RAG
 
----
-
-# 6. Deferred Features
-
-The following features must remain deferred until their assigned roadmap phases:
-
-| Feature | Phase |
-|---|---|
-| Research PDF/document upload | Phase 5 |
-| Document management | Phase 5 |
-| Google Drive integration | Phase 6 |
-| OneDrive integration | Phase 6 |
-| Cloud storage abstraction | Phase 6 |
-| Document extraction | Phase 7 |
-| OCR | Phase 7 |
-| AI document extraction | Phase 7 |
-| RAG indexing | Phase 8 |
-| AI Assistant | Phase 8 |
-| Resume/CV generation | Phase 9 |
-| Public AI | Phase 10 |
-| Advanced PWA/Mobile | Phase 11 |
-| Production SaaS hardening | Phase 12 |
-
----
-
-# 7. Current Development Direction
+These belong to later phases:
 
 ```text
-Phase 3
-   |
-   v
-Portfolio Management
-   |
-   v
 Research CRUD
-   |
-   v
-Complete implementation verification
-   |
-   v
-Synchronize with GitHub
-   |
-   v
-Phase 3 Completion Gate
-   |
-   v
-Phase 3 COMPLETE
-   |
-   v
-Phase 4 - Engagement Management
+    |
+    |-- Phase 3
+    |
+    +-- Research Documents
+            |
+            +-- Phase 5 Document Management
+            |
+            +-- Phase 6 Cloud Storage
+            |
+            +-- Phase 7 Intelligent Processing
+            |
+            +-- Phase 8 AI/RAG
 ```
 
 ---
 
-# 8. Next Immediate Actions
+# 5. Immediate Next Feature — Licenses
 
-1. Finalize project documentation.
-2. Commit project governance documentation.
-3. Commit Research CRUD implementation.
-4. Push changes to GitHub.
-5. Verify local branch is synchronized with `origin/main`.
-6. Perform the Phase 3 completion gate.
-7. Mark Phase 3 COMPLETE in this document.
-8. Begin Phase 4 — Engagement Management.
+Licenses will be implemented before Phase 4 because professional portfolios may contain academic, professional, teaching, technical, or other recognized licenses.
+
+Planned License fields:
+
+- Name
+- Issuing organization
+- License type
+- License number
+- Issue date
+- Expiration date
+- Status
+- License URL
+- Description
+
+Planned management routes:
+
+```text
+/dashboard/licenses/
+/dashboard/licenses/add/
+/dashboard/licenses/<id>/edit/
+/dashboard/licenses/<id>/delete/
+```
+
+Planned validation:
+
+- Issue date cannot be in the future.
+- Expiration date cannot be earlier than issue date.
+- Status is stored explicitly and is not automatically derived solely from expiration.
 
 ---
 
-# 9. Important Development Boundary
+# 6. Phase 3 Security Pattern
 
-Do not implement Research document/PDF upload during Phase 3.
+Tenant isolation remains a core requirement.
 
-The correct sequence is:
+Management views follow this pattern:
 
 ```text
-Phase 3
-   |
-   v
-Research CRUD
-   |
-   v
-Phase 3 COMPLETE
-   |
-   v
-Phase 4 - Engagement Management
-   |
-   v
-Phase 5 - Document Management
-   |
-   v
-Phase 6 - Cloud Storage Integration
-   |
-   v
-Phase 7 - Intelligent Document Processing
-   |
-   v
-Phase 8 - AI Assistant & RAG
+@login_required
+        |
+        v
+verify_current_tenant(request)
+        |
+        v
+Current Profile
+        |
+        v
+Profile-scoped records
 ```
+
+Creation:
+
+```text
+Form submission
+      |
+      v
+Validate form
+      |
+      v
+save(commit=False)
+      |
+      v
+record.profile = current_profile
+      |
+      v
+save()
+```
+
+Editing/deleting:
+
+```text
+Current Profile
+      |
+      v
+profile.related_records.get(id=...)
+      |
+      v
+Edit/Delete
+```
+
+The browser must never be trusted to choose the tenant/profile owner.
+
+---
+
+# 7. Current Codebase Direction
+
+The project uses the existing Django application and established template/CSS conventions.
+
+Templates remain standalone templates using the existing portfolio stylesheet.
+
+New CRUD features should continue using existing CSS classes rather than introducing a new UI framework or unrelated design system.
+
+---
+
+# 8. Phase 3 Completion Gate
+
+Current gate:
+
+- [x] Profile foundation
+- [x] Education CRUD
+- [x] Work Experience CRUD
+- [x] Skills CRUD
+- [x] Projects CRUD
+- [x] Certificates CRUD
+- [x] Research CRUD
+- [ ] Licenses CRUD
+- [ ] Licenses dashboard integration
+- [ ] Tenant-isolation verification
+- [ ] Final browser testing
+- [ ] Final Django checks
+- [ ] Documentation update
+- [ ] Git commit and push
+- [ ] Phase 3 completion review
+
+**Phase 3 status: NOT YET COMPLETE**
+
+---
+
+# 9. Next Development Sequence
+
+The immediate sequence is:
+
+```text
+1. Implement License model
+2. Create migration
+3. Run migration
+4. Run Django system check
+5. Implement LicenseForm
+6. Add validation
+7. Implement tenant-scoped CRUD views
+8. Add License URLs
+9. Create License templates
+10. Add Dashboard card
+11. Browser-test License CRUD
+12. Verify tenant isolation
+13. Run final checks
+14. Update documentation
+15. Commit and push
+16. Close Phase 3
+17. Begin Phase 4
+```
+
+---
+
+# 10. Deferred Features
+
+Do not implement these during the current License/Phase 3 work:
+
+- Research PDF uploads
+- Generic document management
+- Google Drive integration
+- OneDrive integration
+- OCR
+- Document extraction
+- RAG
+- AI Assistant
+- Resume/CV generator
+- Public AI
+- Advanced PWA/mobile features
+- Production SaaS hardening
+
+Those features remain assigned to their respective roadmap phases.
+
+---
+
+# 11. Current Project State
+
+**Phase 1:** Complete  
+**Phase 2:** Complete  
+**Phase 3:** In progress  
+**Research CRUD:** Implemented and tested  
+**Certificates CRUD:** Implemented and tested  
+**Licenses CRUD:** Next  
+**Phase 3 gate:** Open  
+**Phase 4:** Not started
+
+The project should proceed with the License implementation before moving to Engagement Management.

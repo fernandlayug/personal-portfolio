@@ -15,6 +15,8 @@ from .models import (
     Skill,
     Project,
     Certificate,
+    Research,
+    License,
     
 )
 
@@ -26,6 +28,7 @@ from .forms import (
     ProjectForm,
     CertificateForm,
     ResearchForm,
+    LicenseForm,
 )
 
 def portfolio_home(request):
@@ -1196,3 +1199,131 @@ def owner_signup(request):
         )
 
     return redirect('/accounts/signup/')
+
+@login_required
+def license_list(request):
+    profile = verify_current_tenant(request)
+
+    licenses = profile.licenses.all()
+
+    return render(
+        request,
+        'portfolio/license_list.html',
+        {
+            'profile': profile,
+            'licenses': licenses,
+            'portfolio_url': request.build_absolute_uri(
+                f'/portfolio/{profile.portfolio_slug}/'
+            ),
+        }
+    )
+
+@login_required
+def license_add(request):
+    profile = verify_current_tenant(request)
+
+    if request.method == 'POST':
+        form = LicenseForm(request.POST)
+
+        if form.is_valid():
+            license_record = form.save(commit=False)
+
+            license_record.profile = profile
+
+            license_record.save()
+
+            messages.success(
+                request,
+                'License record added successfully.'
+            )
+
+            return redirect('license_list')
+
+    else:
+        form = LicenseForm()
+
+    return render(
+        request,
+        'portfolio/license_form.html',
+        {
+            'profile': profile,
+            'form': form,
+            'page_title': 'Add License',
+            'portfolio_url': request.build_absolute_uri(
+                f'/portfolio/{profile.portfolio_slug}/'
+            ),
+        }
+    )
+
+@login_required
+def license_edit(request, license_id):
+    profile = verify_current_tenant(request)
+
+    license_record = profile.licenses.get(
+        id=license_id
+    )
+
+    if request.method == 'POST':
+        form = LicenseForm(
+            request.POST,
+            instance=license_record
+        )
+
+        if form.is_valid():
+            form.save()
+
+            messages.success(
+                request,
+                'License record updated successfully.'
+            )
+
+            return redirect('license_list')
+
+    else:
+        form = LicenseForm(
+            instance=license_record
+        )
+
+    return render(
+        request,
+        'portfolio/license_form.html',
+        {
+            'profile': profile,
+            'form': form,
+            'license': license_record,
+            'page_title': 'Edit License',
+            'portfolio_url': request.build_absolute_uri(
+                f'/portfolio/{profile.portfolio_slug}/'
+            ),
+        }
+    )
+
+@login_required
+def license_delete(request, license_id):
+    profile = verify_current_tenant(request)
+
+    license_record = profile.licenses.get(
+        id=license_id
+    )
+
+    if request.method == 'POST':
+        license_record.delete()
+
+        messages.success(
+            request,
+            'License record deleted successfully.'
+        )
+
+        return redirect('license_list')
+
+    return render(
+        request,
+        'portfolio/license_confirm_delete.html',
+        {
+            'profile': profile,
+            'license': license_record,
+            'portfolio_url': request.build_absolute_uri(
+                f'/portfolio/{profile.portfolio_slug}/'
+            ),
+        }
+    )

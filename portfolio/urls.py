@@ -195,4 +195,28 @@ urlpatterns = [
         name='research_delete'
     ),
 
+    path(
+    'dashboard/licenses/',
+    views.license_list,
+    name='license_list'
+    ),
+
+    path(
+        'dashboard/licenses/add/',
+        views.license_add,
+        name='license_add'
+    ),
+
+    path(
+        'dashboard/licenses/<int:license_id>/edit/',
+        views.license_edit,
+        name='license_edit'
+    ),
+
+    path(
+        'dashboard/licenses/<int:license_id>/delete/',
+        views.license_delete,
+        name='license_delete'
+    ),
+
 ]

@@ -2,7 +2,16 @@ from allauth.account.forms import SignupForm
 from django import forms
 from django.utils import timezone
 
-from .models import Profile, Education, WorkExperience, Skill, Project, Certificate, Research
+from .models import (
+    Profile,
+    Education,
+    WorkExperience,
+    Skill,
+    Project,
+    Certificate,
+    Research,
+    License,
+)
 
 class ProfileForm(forms.ModelForm):
 
@@ -471,6 +480,78 @@ class ResearchForm(forms.ModelForm):
             self.add_error(
                 'completion_date',
                 'Completion date cannot be earlier than the start date.'
+            )
+
+        return cleaned_data
+
+
+class LicenseForm(forms.ModelForm):
+
+    class Meta:
+        model = License
+
+        fields = [
+            'name',
+            'issuing_organization',
+            'license_type',
+            'license_number',
+            'issue_date',
+            'expiration_date',
+            'status',
+            'license_url',
+            'description',
+        ]
+
+        widgets = {
+            'issue_date': forms.DateInput(
+                attrs={
+                    'type': 'date'
+                }
+            ),
+
+            'expiration_date': forms.DateInput(
+                attrs={
+                    'type': 'date'
+                }
+            ),
+
+            'description': forms.Textarea(
+                attrs={
+                    'rows': 5
+                }
+            ),
+        }
+
+    def clean(self):
+
+        cleaned_data = super().clean()
+
+        issue_date = cleaned_data.get(
+            'issue_date'
+        )
+
+        expiration_date = cleaned_data.get(
+            'expiration_date'
+        )
+
+        today = timezone.localdate()
+
+        if issue_date and issue_date > today:
+
+            self.add_error(
+                'issue_date',
+                'Issue date cannot be in the future.'
+            )
+
+        if (
+                issue_date
+                and expiration_date
+                and expiration_date < issue_date
+            ):
+
+            self.add_error(
+                'expiration_date',
+                'Expiration date cannot be earlier than the issue date.'
             )
 
         return cleaned_data

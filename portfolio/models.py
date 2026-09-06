@@ -254,3 +254,59 @@ class Research(models.Model):
             '-completion_date',
             'title'
         ]
+
+class License(models.Model):
+
+    profile = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE,
+        related_name='licenses'
+    )
+
+    name = models.CharField(
+        max_length=200
+    )
+
+    issuing_organization = models.CharField(
+        max_length=200
+    )
+
+    license_type = models.CharField(
+        max_length=100,
+        blank=True,
+        help_text="Example: Professional License, Academic License, Teaching License"
+    )
+
+    license_number = models.CharField(
+        max_length=200,
+        blank=True
+    )
+
+    issue_date = models.DateField()
+
+    expiration_date = models.DateField(
+        blank=True,
+        null=True
+    )
+
+    status = models.CharField(
+        max_length=50,
+        default='Active'
+    )
+
+    license_url = models.URLField(
+        blank=True
+    )
+
+    description = models.TextField(
+        blank=True
+    )
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = [
+            '-issue_date',
+            'name'
+        ]

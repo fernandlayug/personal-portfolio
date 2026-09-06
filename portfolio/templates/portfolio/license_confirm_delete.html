@@ -1,0 +1,159 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Delete License | {{ profile.full_name }}
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'portfolio/css/style.css' %}"
+    >
+
+</head>
+
+<body>
+
+<div class="dashboard-page">
+
+    <div class="container">
+
+        <header class="dashboard-header">
+
+            <div>
+
+                <h1>
+                    Delete License
+                </h1>
+
+                <p>
+                    Confirm removal of this license record.
+                </p>
+
+            </div>
+
+        </header>
+
+
+        <div class="delete-confirmation-card">
+
+            <div class="delete-warning-icon">
+                ⚠️
+            </div>
+
+
+            <h2>
+                Are you sure you want to delete this license?
+            </h2>
+
+
+            <div class="delete-record-details">
+
+                <p>
+                    <strong>
+                        License:
+                    </strong>
+
+                    {{ license.name }}
+                </p>
+
+
+                <p>
+                    <strong>
+                        Issuing Organization:
+                    </strong>
+
+                    {{ license.issuing_organization }}
+                </p>
+
+
+                {% if license.license_type %}
+
+                    <p>
+                        <strong>
+                            Type:
+                        </strong>
+
+                        {{ license.license_type }}
+                    </p>
+
+                {% endif %}
+
+
+                {% if license.license_number %}
+
+                    <p>
+                        <strong>
+                            License Number:
+                        </strong>
+
+                        {{ license.license_number }}
+                    </p>
+
+                {% endif %}
+
+
+                <p>
+                    <strong>
+                        Status:
+                    </strong>
+
+                    {{ license.status }}
+                </p>
+
+            </div>
+
+
+            <div class="delete-warning-note">
+
+                <p>
+                    This action cannot be undone.
+                </p>
+
+            </div>
+
+
+            <form method="post">
+
+                {% csrf_token %}
+
+                <div class="delete-confirmation-actions">
+
+                    <a
+                        href="{% url 'license_list' %}"
+                        class="btn btn-secondary"
+                    >
+                        Cancel
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="btn btn-danger"
+                    >
+                        Delete License
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

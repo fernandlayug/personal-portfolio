@@ -1,0 +1,277 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Licenses | {{ profile.full_name }}
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'portfolio/css/style.css' %}"
+    >
+
+</head>
+
+<body>
+
+<div class="dashboard-page">
+
+    <div class="container">
+
+        <header class="dashboard-header">
+
+            <div>
+
+                <h1>
+                    Licenses
+                </h1>
+
+                <p>
+                    Manage your professional and academic licenses.
+                </p>
+
+            </div>
+
+            <div class="dashboard-actions">
+
+                <a
+                    href="{% url 'dashboard' %}"
+                    class="btn btn-secondary"
+                >
+                    Back to Dashboard
+                </a>
+
+                <a
+                    href="{% url 'license_add' %}"
+                    class="btn btn-primary"
+                >
+                    Add License
+                </a>
+
+            </div>
+
+        </header>
+
+
+        {% if messages %}
+
+            <div class="dashboard-messages">
+
+                {% for message in messages %}
+
+                    <div class="message {{ message.tags }}">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+
+        {% if licenses %}
+
+            <div class="education-management-list">
+
+                {% for license in licenses %}
+
+                    <article class="education-management-card">
+
+                        <div class="education-management-main">
+
+                            <div class="education-management-icon">
+                                🎓
+                            </div>
+
+
+                            <div class="education-management-content">
+
+                                <h2>
+                                    {{ license.name }}
+                                </h2>
+
+                                <p>
+                                    <strong>
+                                        Issuing Organization:
+                                    </strong>
+
+                                    {{ license.issuing_organization }}
+                                </p>
+
+
+                                {% if license.license_type %}
+
+                                    <p>
+                                        <strong>
+                                            Type:
+                                        </strong>
+
+                                        {{ license.license_type }}
+                                    </p>
+
+                                {% endif %}
+
+
+                                {% if license.license_number %}
+
+                                    <p>
+                                        <strong>
+                                            License Number:
+                                        </strong>
+
+                                        {{ license.license_number }}
+                                    </p>
+
+                                {% endif %}
+
+
+                                <p>
+                                    <strong>
+                                        Status:
+                                    </strong>
+
+                                    {{ license.status }}
+                                </p>
+
+
+                                <p>
+                                    <strong>
+                                        Issue Date:
+                                    </strong>
+
+                                    {{ license.issue_date|date:"F j, Y" }}
+                                </p>
+
+
+                                {% if license.expiration_date %}
+
+                                    <p>
+                                        <strong>
+                                            Expiration Date:
+                                        </strong>
+
+                                        {{ license.expiration_date|date:"F j, Y" }}
+                                    </p>
+
+                                {% else %}
+
+                                    <p>
+                                        <strong>
+                                            Expiration:
+                                        </strong>
+
+                                        No expiration date
+                                    </p>
+
+                                {% endif %}
+
+
+                                {% if license.description %}
+
+                                    <div class="education-management-description">
+
+                                        <strong>
+                                            Description
+                                        </strong>
+
+                                        <p>
+                                            {{ license.description|linebreaksbr }}
+                                        </p>
+
+                                    </div>
+
+                                {% endif %}
+
+
+                                {% if license.license_url %}
+
+                                    <p>
+
+                                        <a
+                                            href="{{ license.license_url }}"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            Verify License
+                                        </a>
+
+                                    </p>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="education-management-actions">
+
+                            <a
+                                href="{% url 'license_edit' license.id %}"
+                                class="btn btn-secondary"
+                            >
+                                Edit
+                            </a>
+
+                            <a
+                                href="{% url 'license_delete' license.id %}"
+                                class="btn btn-danger"
+                            >
+                                Delete
+                            </a>
+
+                        </div>
+
+                    </article>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="dashboard-empty-state">
+
+                <h2>
+                    No Licenses Yet
+                </h2>
+
+                <p>
+                    Add your professional, academic, teaching,
+                    or other recognized licenses to your portfolio.
+                </p>
+
+                <div class="dashboard-actions">
+
+                    <a
+                        href="{% url 'license_add' %}"
+                        class="btn btn-primary"
+                    >
+                        Add Your First License
+                    </a>
+
+                </div>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

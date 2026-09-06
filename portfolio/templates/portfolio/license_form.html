@@ -1,0 +1,291 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        {{ page_title }} | {{ profile.full_name }}
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'portfolio/css/style.css' %}"
+    >
+
+</head>
+
+<body>
+
+<div class="dashboard-page">
+
+    <div class="container">
+
+        <header class="dashboard-header">
+
+            <div>
+
+                <h1>
+                    {{ page_title }}
+                </h1>
+
+                <p>
+                    Add or update a professional license.
+                </p>
+
+            </div>
+
+            <div class="dashboard-actions">
+
+                <a
+                    href="{% url 'license_list' %}"
+                    class="btn btn-secondary"
+                >
+                    Back to Licenses
+                </a>
+
+            </div>
+
+        </header>
+
+
+        <div class="management-form-card">
+
+            {% if form.non_field_errors %}
+
+                <div class="form-error-summary">
+
+                    {% for error in form.non_field_errors %}
+
+                        <p>
+                            {{ error }}
+                        </p>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+
+            <form method="post">
+
+                {% csrf_token %}
+
+
+                <div class="management-form-group">
+
+                    <label for="{{ form.name.id_for_label }}">
+                        License Name
+                    </label>
+
+                    {{ form.name }}
+
+                    {% for error in form.name.errors %}
+
+                        <div class="field-error">
+                            {{ error }}
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+
+                <div class="management-form-group">
+
+                    <label for="{{ form.issuing_organization.id_for_label }}">
+                        Issuing Organization
+                    </label>
+
+                    {{ form.issuing_organization }}
+
+                    {% for error in form.issuing_organization.errors %}
+
+                        <div class="field-error">
+                            {{ error }}
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+
+                <div class="management-form-row">
+
+                    <div class="management-form-group">
+
+                        <label for="{{ form.license_type.id_for_label }}">
+                            License Type
+                        </label>
+
+                        {{ form.license_type }}
+
+                        {% for error in form.license_type.errors %}
+
+                            <div class="field-error">
+                                {{ error }}
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+
+                    <div class="management-form-group">
+
+                        <label for="{{ form.license_number.id_for_label }}">
+                            License Number
+                        </label>
+
+                        {{ form.license_number }}
+
+                        {% for error in form.license_number.errors %}
+
+                            <div class="field-error">
+                                {{ error }}
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+
+                <div class="management-form-row">
+
+                    <div class="management-form-group">
+
+                        <label for="{{ form.issue_date.id_for_label }}">
+                            Issue Date
+                        </label>
+
+                        {{ form.issue_date }}
+
+                        {% for error in form.issue_date.errors %}
+
+                            <div class="field-error">
+                                {{ error }}
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+
+                    <div class="management-form-group">
+
+                        <label for="{{ form.expiration_date.id_for_label }}">
+                            Expiration Date
+                        </label>
+
+                        {{ form.expiration_date }}
+
+                        {% for error in form.expiration_date.errors %}
+
+                            <div class="field-error">
+                                {{ error }}
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+
+                <div class="management-form-group">
+
+                    <label for="{{ form.status.id_for_label }}">
+                        Status
+                    </label>
+
+                    {{ form.status }}
+
+                    {% for error in form.status.errors %}
+
+                        <div class="field-error">
+                            {{ error }}
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+
+                <div class="management-form-group">
+
+                    <label for="{{ form.license_url.id_for_label }}">
+                        License / Verification URL
+                    </label>
+
+                    {{ form.license_url }}
+
+                    {% for error in form.license_url.errors %}
+
+                        <div class="field-error">
+                            {{ error }}
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+
+                <div class="management-form-group">
+
+                    <label for="{{ form.description.id_for_label }}">
+                        Description
+                    </label>
+
+                    {{ form.description }}
+
+                    {% for error in form.description.errors %}
+
+                        <div class="field-error">
+                            {{ error }}
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+
+                <div class="management-form-actions">
+
+                    <a
+                        href="{% url 'license_list' %}"
+                        class="btn btn-secondary"
+                    >
+                        Cancel
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        Save License
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

@@ -1,14 +1,31 @@
-# Personal Portfolio Assistant — Master Roadmap
+# Personal Portfolio AI Assistant — Master Roadmap
 
-## Purpose
-
-This document is the authoritative development roadmap for the Personal Portfolio Assistant project.
-
-Development must follow the phase sequence below. Features assigned to future phases must not be pulled into the current phase unless the project owner explicitly changes the roadmap.
+**Project:** Personal Portfolio AI Assistant  
+**Architecture:** Multi-tenant SaaS  
+**Current Date:** 2026-09-06  
+**Current Phase:** Phase 3 — Multi-Tenant Portfolio Management
 
 ---
 
-## Phase Status
+## 1. Project Vision
+
+The Personal Portfolio AI Assistant is a multi-tenant professional portfolio platform that allows each user/tenant to maintain structured professional information, manage supporting documents, connect cloud storage, and eventually use AI to search, analyze, generate, and present portfolio information.
+
+Each tenant has isolated portfolio data and settings.
+
+### Core architecture principles
+
+- Structured portfolio metadata is stored in MySQL.
+- Professional documents, PDFs, and images are stored through a storage abstraction layer.
+- Tenant-owned Google Drive or OneDrive storage will be integrated in a later phase.
+- Tenant data must remain isolated.
+- Owner/private AI capabilities will be separated from public AI capabilities.
+- Public AI is opt-in and must only use tenant-approved public information.
+- Document processing, OCR, extraction, RAG, and AI capabilities are deliberately deferred to later phases.
+
+---
+
+# 2. Phase Roadmap
 
 | Phase | Area | Status |
 |---|---|---|
@@ -27,40 +44,66 @@ Development must follow the phase sequence below. Features assigned to future ph
 
 ---
 
-# Phase 1 — Foundation
+# 3. Phase 1 — Foundation
 
 **Status: COMPLETE**
 
-Foundation includes:
+Completed foundation work includes:
 
 - Django project setup
-- MySQL database setup
+- MySQL database configuration
 - Portfolio application
-- Initial portfolio models
-- Database migrations
+- Initial portfolio data models
+- Django migrations
 - Django Admin configuration
-- Initial portfolio data
+- Initial portfolio records
 - Dynamic portfolio homepage
+- Basic authentication foundation
 
 ---
 
-# Phase 2 — Professional Portfolio UI
+# 4. Phase 2 — Professional Portfolio UI
 
 **Status: COMPLETE**
 
-This phase established the professional responsive portfolio interface and navigation while retaining the existing Django template and CSS architecture.
+Completed UI work includes:
+
+- Professional portfolio homepage
+- Responsive navigation
+- Portfolio presentation sections
+- Dashboard foundation
+- Login interface
+- Management interfaces
+- Consistent CSS design system
+- Responsive desktop/mobile presentation
 
 ---
 
-# Phase 3 — Multi-Tenant Portfolio Management
+# 5. Phase 3 — Multi-Tenant Portfolio Management
 
 **Status: CURRENT**
 
-The current phase establishes tenant-scoped portfolio management and CRUD functionality.
+The objective of Phase 3 is to establish reliable tenant-scoped CRUD management for the professional portfolio.
 
-## Portfolio Management
+## 5.1 Portfolio domains
 
-The portfolio management area includes:
+The current portfolio management structure is:
+
+```text
+Profile
+   |
+   +-- Education
+   +-- Work Experience
+   +-- Skills
+   +-- Projects
+   +-- Certificates
+   +-- Licenses
+   +-- Research
+```
+
+## 5.2 Implemented portfolio management
+
+The following are implemented and tested:
 
 - Profile
 - Education
@@ -70,212 +113,372 @@ The portfolio management area includes:
 - Certificates
 - Research
 
-## Research CRUD
+### Research status
 
-Research portfolio management is implemented and tested.
+Research CRUD is implemented and browser-tested:
 
-Implemented functionality:
-
-- Research model
-- Research database migration
-- Research form
-- Research validation
 - Research list
 - Add Research
 - Edit Research
 - Delete Research
-- Tenant-scoped Research access
+- Date validation
+- Tenant-scoped access
 - Dashboard integration
 
-Research validation includes:
-
-- Start date cannot be in the future.
-- Completion date cannot be in the future.
-- Completion date cannot be earlier than the start date.
-
-## Phase 3 Boundary
-
-Research CRUD is part of Phase 3.
-
-Research PDF/document upload is NOT part of Phase 3.
-
-Document functionality is intentionally deferred to:
-
-**Phase 5 — Document Management**
-
-Cloud storage integration is intentionally deferred to:
-
-**Phase 6 — Cloud Storage Integration**
-
-AI document extraction and RAG functionality are intentionally deferred to later phases.
+**Important boundary:** Research PDF/document upload is NOT part of Research CRUD. It belongs to Phase 5 — Document Management.
 
 ---
 
-# Phase 4 — Engagement Management
+## 5.3 Licenses — NEXT PHASE 3 FEATURE
 
-**Status: FUTURE**
+Professional and academic licenses will be added as a Phase 3 portfolio-management feature.
 
-This phase will introduce professional engagement management.
+Planned capabilities:
 
-The detailed implementation will be defined when Phase 4 begins.
+- License list
+- Add License
+- Edit License
+- Delete License
+- License type
+- Issuing organization
+- License number
+- Issue date
+- Expiration date
+- Status
+- Verification/license URL
+- Description
+- Tenant-scoped access
+- Dashboard integration
+
+### Planned License structure
+
+```text
+Profile
+   |
+   +-- Licenses
+          |
+          +-- Name
+          +-- Issuing Organization
+          +-- License Type
+          +-- License Number
+          +-- Issue Date
+          +-- Expiration Date
+          +-- Status
+          +-- License URL
+          +-- Description
+```
+
+### Planned validation
+
+- Issue date cannot be in the future.
+- Expiration date cannot be earlier than the issue date.
+- Status is stored as portfolio information and is not automatically inferred solely from the expiration date.
 
 ---
 
-# Phase 5 — Document Management
+## 5.4 Phase 3 security requirements
 
-**Status: FUTURE**
+All management functionality must preserve tenant isolation.
 
-This phase will introduce document management associated with portfolio and professional records.
+Required pattern:
 
-Planned scope includes document-related functionality and evidence management.
+```text
+@login_required
+        |
+        v
+verify_current_tenant(request)
+        |
+        v
+Current Profile
+        |
+        v
+Profile-scoped QuerySet
+        |
+        v
+CRUD operation
+```
 
-Research documents belong to this phase rather than Phase 3.
+Rules:
+
+- Never trust a profile ID supplied by the browser for ownership.
+- Do not expose a `profile` field in tenant-facing ModelForms.
+- Assign the current profile server-side when creating records.
+- Retrieve existing records through the current profile relationship.
+- Use Django authentication for protected management views.
+- Use POST + CSRF protection for destructive operations.
+- Preserve existing CSS and template conventions.
 
 ---
 
-# Phase 6 — Cloud Storage Integration
+# 6. Phase 3 Completion Gate
+
+Phase 3 must NOT be marked complete until the following are verified:
+
+- [x] Profile management foundation
+- [x] Education CRUD
+- [x] Work Experience CRUD
+- [x] Skills CRUD
+- [x] Projects CRUD
+- [x] Certificates CRUD
+- [x] Research CRUD
+- [ ] Licenses CRUD
+- [ ] Dashboard integration for Licenses
+- [ ] Tenant isolation verification
+- [ ] Final browser testing
+- [ ] Final Django checks
+- [ ] Documentation update
+- [ ] Git commit and push
+- [ ] Phase 3 completion review
+
+Only after this gate is satisfied should the project proceed to Phase 4.
+
+---
+
+# 7. Phase 4 — Engagement Management
 
 **Status: FUTURE**
 
-This phase will introduce integration with tenant-owned cloud storage.
+Phase 4 will introduce professional engagement and relationship-oriented portfolio capabilities.
 
-Planned providers:
+Potential areas include:
+
+- Professional contacts
+- Organizations
+- Clients
+- Professional relationships
+- Engagement records
+- Collaboration history
+- Other approved engagement-management features
+
+Phase 4 must not absorb document management or cloud-storage responsibilities.
+
+---
+
+# 8. Phase 5 — Document Management
+
+**Status: FUTURE**
+
+This phase is responsible for managing professional documents associated with portfolio records.
+
+Potential capabilities:
+
+- Document records
+- Document metadata
+- Document categories
+- Document-to-portfolio-record relationships
+- Upload workflows
+- Document listing
+- Document replacement/deletion
+- Document access rules
+- Document versioning where appropriate
+
+### Important boundary
+
+Research documents belong here.
+
+For example:
+
+```text
+Research
+   |
+   +-- Research metadata
+   |
+   +-- Research document(s)
+```
+
+Do not implement Research PDF upload during Phase 3.
+
+---
+
+# 9. Phase 6 — Cloud Storage Integration
+
+**Status: FUTURE**
+
+This phase will implement the storage abstraction layer and tenant-owned cloud storage connections.
+
+Target providers:
 
 - Google Drive
-- OneDrive
+- Microsoft OneDrive
 
-The architecture uses a storage abstraction layer so portfolio features remain independent of a specific storage provider.
+Conceptually:
+
+```text
+Django Application
+        |
+        v
+Storage Abstraction Layer
+        |
+        +---- Google Drive
+        |
+        +---- OneDrive
+```
+
+The application should avoid coupling portfolio logic directly to one storage provider.
 
 ---
 
-# Phase 7 — Intelligent Document Processing
+# 10. Phase 7 — Intelligent Document Processing
 
 **Status: FUTURE**
 
-Planned capabilities include:
+Potential capabilities:
 
-- Document extraction
-- OCR where applicable
-- Intelligent document processing
-- AI-assisted extraction
-- Human verification of extracted information
+- PDF text extraction
+- OCR
+- Metadata extraction
+- Structured information extraction
+- Document classification
+- Document summarization
+- Validation of extracted information
+- Human review workflows
+
+This phase depends on the document-management and storage foundations.
 
 ---
 
-# Phase 8 — AI Assistant & RAG
+# 11. Phase 8 — AI Assistant & RAG
 
 **Status: FUTURE**
 
-Planned capabilities include:
+Potential capabilities:
 
-- Portfolio-aware AI assistant
+- Portfolio question answering
+- Semantic search
 - Retrieval-Augmented Generation
-- Tenant-scoped retrieval
-- Private owner AI
-- Grounded responses based on authorized portfolio information
+- Personal professional assistant
+- Context-aware portfolio queries
+- Source-grounded answers
+- Document-aware responses
+
+The AI layer must respect tenant boundaries and document permissions.
 
 ---
 
-# Phase 9 — Resume/CV/Portfolio Generator
+# 12. Phase 9 — Resume/CV/Portfolio Generator
 
 **Status: FUTURE**
 
-Planned capabilities include generation of professional outputs from structured portfolio information and approved documents.
+Potential capabilities:
+
+- Resume generation
+- CV generation
+- Portfolio document generation
+- Job-specific customization
+- Professional profile summaries
+- Export workflows
+
+Generated outputs should be based on tenant-approved portfolio information.
 
 ---
 
-# Phase 10 — Public AI
+# 13. Phase 10 — Public AI
 
 **Status: FUTURE**
 
 Public AI is opt-in.
 
-Public AI must:
+The public assistant must:
 
-- Be explicitly enabled by the tenant.
+- Be disabled by default.
 - Use only tenant-approved public information.
-- Respect tenant isolation.
 - Never expose private portfolio information.
+- Respect tenant configuration.
+- Preserve tenant isolation.
+
+Conceptually:
+
+```text
+Private Portfolio Data
+        |
+        +---- Owner AI
+        |
+        +---- Restricted / approved public data
+                         |
+                         v
+                    Public AI
+```
 
 ---
 
-# Phase 11 — Advanced PWA/Mobile
+# 14. Phase 11 — Advanced PWA/Mobile
 
 **Status: FUTURE**
 
-This phase will expand the platform's progressive web and mobile capabilities.
+Potential capabilities:
+
+- Progressive Web App enhancements
+- Mobile-first workflows
+- Offline support where appropriate
+- Installable application experience
+- Mobile portfolio management
+- Mobile document workflows
 
 ---
 
-# Phase 12 — Production & SaaS Hardening
+# 15. Phase 12 — Production & SaaS Hardening
 
 **Status: FUTURE**
 
-This phase will address production readiness and SaaS hardening, including security, reliability, deployment, monitoring, and operational concerns.
+Potential capabilities:
+
+- Production deployment
+- Security hardening
+- Monitoring
+- Logging
+- Backups
+- Rate limiting
+- SaaS subscription architecture
+- Tenant administration
+- Operational controls
+- Performance optimization
+- Production database/storage strategy
 
 ---
 
-# Feature Boundary Rules
+# 16. Feature Boundary
 
-The following features are intentionally assigned to future phases:
+The following boundaries are locked:
 
-| Feature | Assigned Phase |
+| Feature | Phase |
 |---|---|
+| Portfolio metadata CRUD | Phase 3 |
+| Certificates CRUD | Phase 3 |
+| Research CRUD | Phase 3 |
+| Licenses CRUD | Phase 3 |
 | Research PDF/document upload | Phase 5 |
 | Document management | Phase 5 |
 | Google Drive integration | Phase 6 |
 | OneDrive integration | Phase 6 |
-| Cloud storage abstraction | Phase 6 |
-| Document extraction | Phase 7 |
-| OCR | Phase 7 |
-| AI document extraction | Phase 7 |
-| RAG indexing | Phase 8 |
+| Document extraction/OCR | Phase 7 |
+| Intelligent document processing | Phase 7 |
 | AI Assistant | Phase 8 |
+| RAG | Phase 8 |
 | Resume/CV generation | Phase 9 |
 | Public AI | Phase 10 |
 | Advanced PWA/Mobile | Phase 11 |
 | Production SaaS hardening | Phase 12 |
 
----
-
-# Phase Gate Rules
-
-A phase may only be marked COMPLETE when:
-
-1. Required features are implemented.
-2. Tenant isolation has been considered and tested where applicable.
-3. Validation and error handling are tested.
-4. Documentation reflects the implementation.
-5. Local code is synchronized with GitHub.
-6. `PROJECT_STATUS.md` explicitly marks the phase COMPLETE.
+These boundaries prevent later-phase functionality from being prematurely introduced into the current CRUD implementation.
 
 ---
 
-# Current Development Direction
+# 17. Current Development Direction
+
+The immediate development sequence is:
 
 ```text
 Phase 3
    |
-   v
-Portfolio Management
+   +-- Research CRUD [COMPLETE]
+   |
+   +-- Licenses CRUD [NEXT]
+   |
+   +-- Phase 3 security/testing gate
    |
    v
-Research CRUD
-   |
-   v
-Complete implementation verification
-   |
-   v
-Synchronize with GitHub
-   |
-   v
-Phase 3 Completion Gate
-   |
-   v
-Phase 3 COMPLETE
-   |
-   v
-Phase 4 - Engagement Management
+Phase 4 — Engagement Management
 ```
 
-The roadmap must be checked before implementing significant new features.
+After Phase 3 is formally closed, the project may proceed to Phase 4.
+

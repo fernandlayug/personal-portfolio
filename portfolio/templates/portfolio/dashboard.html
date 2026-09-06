@@ -194,6 +194,25 @@
 
                 <div class="dashboard-card">
 
+                    <h2>Licenses</h2>
+
+                    <p>
+                        {{ profile.licenses.all|length }}
+                        license{{ profile.licenses.all|length|pluralize }}.
+                    </p>
+
+                    <a
+                        href="{% url 'license_list' %}"
+                        class="btn btn-primary"
+                    >
+                        Manage Licenses
+                    </a>
+
+                </div>
+
+
+                <div class="dashboard-card">
+
                     <h2>
                         AI Assistant
                     </h2>
