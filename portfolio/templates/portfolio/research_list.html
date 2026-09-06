@@ -1,0 +1,200 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Research | {{ profile.full_name }}</title>
+
+    <link rel="stylesheet" href="{% static 'portfolio/css/style.css' %}">
+</head>
+
+<body class="dashboard-page">
+
+    <div class="container">
+
+        <header class="dashboard-header">
+            <div>
+                <h1>Research</h1>
+                <p>Manage your research work and publications.</p>
+            </div>
+
+            <div class="dashboard-actions">
+                <a
+                    href="{% url 'dashboard' %}"
+                    class="btn btn-secondary"
+                >
+                    Back to Dashboard
+                </a>
+
+                <a
+                    href="{% url 'research_add' %}"
+                    class="btn btn-primary"
+                >
+                    Add Research
+                </a>
+            </div>
+        </header>
+
+        {% if messages %}
+            <div class="dashboard-messages">
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if research %}
+
+            <div class="education-management-list">
+
+                {% for item in research %}
+
+                    <article class="education-management-card">
+
+                        <div class="education-management-main">
+
+                            <div class="education-management-icon">
+                                🔬
+                            </div>
+
+                            <div class="education-management-content">
+
+                                <h2>
+                                    {{ item.title }}
+                                </h2>
+
+                                <p>
+                                    <strong>
+                                        {{ item.research_type }}
+                                    </strong>
+                                </p>
+
+                                {% if item.role %}
+                                    <p>
+                                        Role:
+                                        {{ item.role }}
+                                    </p>
+                                {% endif %}
+
+                                {% if item.institution %}
+                                    <p>
+                                        Institution:
+                                        {{ item.institution }}
+                                    </p>
+                                {% endif %}
+
+                                <p>
+                                    Status:
+                                    {{ item.status }}
+                                </p>
+
+                                {% if item.start_date or item.completion_date %}
+                                    <p>
+                                        {% if item.start_date %}
+                                            {{ item.start_date|date:"M Y" }}
+                                        {% endif %}
+
+                                        {% if item.start_date and item.completion_date %}
+                                            –
+                                        {% endif %}
+
+                                        {% if item.completion_date %}
+                                            {{ item.completion_date|date:"M Y" }}
+                                        {% endif %}
+                                    </p>
+                                {% endif %}
+
+                                {% if item.abstract %}
+                                    <p class="education-management-description">
+                                        {{ item.abstract|truncatewords:35 }}
+                                    </p>
+                                {% endif %}
+
+                                {% if item.collaborators %}
+                                    <p>
+                                        <strong>Collaborators:</strong>
+                                        {{ item.collaborators }}
+                                    </p>
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                        <div class="education-management-actions">
+
+                            {% if item.research_url %}
+                                <a
+                                    href="{{ item.research_url }}"
+                                    class="btn btn-secondary"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Research
+                                </a>
+                            {% endif %}
+
+                            {% if item.publication_url %}
+                                <a
+                                    href="{{ item.publication_url }}"
+                                    class="btn btn-secondary"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Publication
+                                </a>
+                            {% endif %}
+
+                            <a
+                                href="{% url 'research_edit' item.id %}"
+                                class="btn btn-primary"
+                            >
+                                Edit
+                            </a>
+
+                            <a
+                                href="{% url 'research_delete' item.id %}"
+                                class="btn btn-danger"
+                            >
+                                Delete
+                            </a>
+
+                        </div>
+
+                    </article>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="dashboard-empty-state">
+
+                <h2>No Research Records Yet</h2>
+
+                <p>
+                    Add your research projects, studies,
+                    publications, or other research work.
+                </p>
+
+                <a
+                    href="{% url 'research_add' %}"
+                    class="btn btn-primary"
+                >
+                    Add Your First Research Record
+                </a>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</body>
+</html>

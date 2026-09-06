@@ -171,4 +171,28 @@ urlpatterns = [
         name='certificate_delete'
     ),
 
+    path(
+    'dashboard/research/',
+    views.research_list,
+    name='research_list'
+    ),
+
+    path(
+        'dashboard/research/add/',
+        views.research_add,
+        name='research_add'
+    ),
+
+    path(
+        'dashboard/research/<int:research_id>/edit/',
+        views.research_edit,
+        name='research_edit'
+    ),
+
+    path(
+        'dashboard/research/<int:research_id>/delete/',
+        views.research_delete,
+        name='research_delete'
+    ),
+
 ]

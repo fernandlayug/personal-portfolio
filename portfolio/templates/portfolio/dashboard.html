@@ -173,6 +173,24 @@
 
                 </div>
 
+                <div class="dashboard-card">
+
+                    <h2>Research</h2>
+
+                    <p>
+                        {{ profile.research.all|length }}
+                        research record{{ profile.research.all|length|pluralize }}.
+                    </p>
+
+                    <a
+                        href="{% url 'research_list' %}"
+                        class="btn btn-primary"
+                    >
+                        Manage Research
+                    </a>
+
+                </div>
+
 
                 <div class="dashboard-card">
 

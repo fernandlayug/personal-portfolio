@@ -186,3 +186,71 @@ class Certificate(models.Model):
 
     class Meta:
         ordering = ['-issue_date']
+
+
+class Research(models.Model):
+
+    profile = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE,
+        related_name='research'
+    )
+
+    title = models.CharField(max_length=250)
+
+    research_type = models.CharField(
+        max_length=100,
+        help_text="Example: Thesis, Journal Article, Conference Paper"
+    )
+
+    role = models.CharField(
+        max_length=100,
+        blank=True,
+        help_text="Example: Researcher, Author, Adviser"
+    )
+
+    institution = models.CharField(
+        max_length=200,
+        blank=True
+    )
+
+    start_date = models.DateField(
+        blank=True,
+        null=True
+    )
+
+    completion_date = models.DateField(
+        blank=True,
+        null=True
+    )
+
+    status = models.CharField(
+        max_length=50,
+        default='Completed'
+    )
+
+    abstract = models.TextField(
+        blank=True
+    )
+
+    research_url = models.URLField(
+        blank=True
+    )
+
+    publication_url = models.URLField(
+        blank=True
+    )
+
+    collaborators = models.TextField(
+        blank=True,
+        help_text="List co-researchers or authors."
+    )
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = [
+            '-completion_date',
+            'title'
+        ]

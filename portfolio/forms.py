@@ -2,7 +2,7 @@ from allauth.account.forms import SignupForm
 from django import forms
 from django.utils import timezone
 
-from .models import Profile, Education, WorkExperience, Skill, Project, Certificate
+from .models import Profile, Education, WorkExperience, Skill, Project, Certificate, Research
 
 class ProfileForm(forms.ModelForm):
 
@@ -385,6 +385,92 @@ class CertificateForm(forms.ModelForm):
 
             raise forms.ValidationError(
                 'Expiration date cannot be earlier than the issue date.'
+            )
+
+        return cleaned_data
+
+class ResearchForm(forms.ModelForm):
+
+    class Meta:
+        model = Research
+
+        fields = [
+            'title',
+            'research_type',
+            'role',
+            'institution',
+            'start_date',
+            'completion_date',
+            'status',
+            'abstract',
+            'research_url',
+            'publication_url',
+            'collaborators',
+        ]
+
+        widgets = {
+            'start_date': forms.DateInput(
+                attrs={
+                    'type': 'date'
+                }
+            ),
+
+            'completion_date': forms.DateInput(
+                attrs={
+                    'type': 'date'
+                }
+            ),
+
+            'abstract': forms.Textarea(
+                attrs={
+                    'rows': 5
+                }
+            ),
+
+            'collaborators': forms.Textarea(
+                attrs={
+                    'rows': 3
+                }
+            ),
+        }
+
+    def clean(self):
+
+        cleaned_data = super().clean()
+
+        start_date = cleaned_data.get(
+            'start_date'
+        )
+
+        completion_date = cleaned_data.get(
+            'completion_date'
+        )
+
+        today = timezone.localdate()
+
+        if start_date and start_date > today:
+
+            self.add_error(
+                'start_date',
+                'Start date cannot be in the future.'
+            )
+
+        if completion_date and completion_date > today:
+
+            self.add_error(
+                'completion_date',
+                'Completion date cannot be in the future.'
+            )
+
+        if (
+            start_date
+            and completion_date
+            and completion_date < start_date
+        ):
+
+            self.add_error(
+                'completion_date',
+                'Completion date cannot be earlier than the start date.'
             )
 
         return cleaned_data

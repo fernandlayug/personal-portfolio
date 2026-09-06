@@ -25,6 +25,7 @@ from .forms import (
     SkillForm,
     ProjectForm,
     CertificateForm,
+    ResearchForm,
 )
 
 def portfolio_home(request):
@@ -914,6 +915,128 @@ def certificate_delete(
         context
     )
 
+@login_required
+def research_list(request):
+    profile = verify_current_tenant(request)
+
+    research = profile.research.all()
+
+    return render(
+        request,
+        'portfolio/research_list.html',
+        {
+            'profile': profile,
+            'research': research,
+            'portfolio_url': request.build_absolute_uri(
+                f'/portfolio/{profile.portfolio_slug}/'
+            ),
+        }
+    )
+
+
+@login_required
+def research_add(request):
+    profile = verify_current_tenant(request)
+
+    if request.method == 'POST':
+        form = ResearchForm(request.POST)
+
+        if form.is_valid():
+            research = form.save(commit=False)
+            research.profile = profile
+            research.save()
+
+            messages.success(
+                request,
+                'Research record added successfully.'
+            )
+
+            return redirect('research_list')
+
+    else:
+        form = ResearchForm()
+
+    return render(
+        request,
+        'portfolio/research_form.html',
+        {
+            'profile': profile,
+            'form': form,
+            'page_title': 'Add Research',
+            'portfolio_url': request.build_absolute_uri(
+                f'/portfolio/{profile.portfolio_slug}/'
+            ),
+        }
+    )
+
+
+@login_required
+def research_edit(request, research_id):
+    profile = verify_current_tenant(request)
+
+    research = profile.research.get(id=research_id)
+
+    if request.method == 'POST':
+        form = ResearchForm(
+            request.POST,
+            instance=research
+        )
+
+        if form.is_valid():
+            form.save()
+
+            messages.success(
+                request,
+                'Research record updated successfully.'
+            )
+
+            return redirect('research_list')
+
+    else:
+        form = ResearchForm(instance=research)
+
+    return render(
+        request,
+        'portfolio/research_form.html',
+        {
+            'profile': profile,
+            'form': form,
+            'research': research,
+            'page_title': 'Edit Research',
+            'portfolio_url': request.build_absolute_uri(
+                f'/portfolio/{profile.portfolio_slug}/'
+            ),
+        }
+    )
+
+
+@login_required
+def research_delete(request, research_id):
+    profile = verify_current_tenant(request)
+
+    research = profile.research.get(id=research_id)
+
+    if request.method == 'POST':
+        research.delete()
+
+        messages.success(
+            request,
+            'Research record deleted successfully.'
+        )
+
+        return redirect('research_list')
+
+    return render(
+        request,
+        'portfolio/research_confirm_delete.html',
+        {
+            'profile': profile,
+            'research': research,
+            'portfolio_url': request.build_absolute_uri(
+                f'/portfolio/{profile.portfolio_slug}/'
+            ),
+        }
+    )
 
 
 def redirect_owner_to_portfolio(request):
