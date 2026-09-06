@@ -160,9 +160,16 @@
                     </h2>
 
                     <p>
-                        Manage your certificates
-                        and credentials.
+                        {{ profile.certificates.all|length }}
+                        certificate{{ profile.certificates.all|length|pluralize }}.
                     </p>
+
+                    <a
+                        href="{% url 'certificate_list' %}"
+                        class="btn btn-primary"
+                    >
+                        Manage Certificates
+                    </a>
 
                 </div>
 
