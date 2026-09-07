@@ -1,4 +1,33 @@
 # Personal Portfolio AI Assistant — Changelog
+## 2026-09-07 — UI Template Architecture Decision
+
+### Added
+
+- Adopted `portfolio/templates/portfolio/base.html` as the shared template foundation for newly developed functionality beginning with Phase 4.
+- Established progressive template architecture for the SaaS application.
+- Added a dedicated Phase 11 UI Enhancement workstream.
+- Planned migration of Phase 1–3 standalone templates to `base.html` during Phase 11.
+- Added UI modernization activities including:
+  - Template migration
+  - Navigation standardization
+  - Layout standardization
+  - Form and validation standardization
+  - Reusable UI patterns
+  - Responsive refinement
+  - Accessibility improvements
+  - Application-wide visual consistency
+
+### Architectural Boundary
+
+Existing Phase 1–3 templates will remain operational during Phase 4 and will not be broadly refactored as part of the Engagement Management implementation.
+
+Phase 4 and subsequent feature development will progressively adopt the shared template architecture.
+
+Broad UI migration and modernization are intentionally deferred to Phase 11.
+
+### Rationale
+
+This approach avoids mixing feature development with application-wide UI refactoring while establishing a maintainable template foundation for the growing SaaS platform.
 
 ## 2026-09-07 — Phase 4 Engagement Architecture Locked
 

@@ -397,15 +397,86 @@ Public AI must operate only on tenant-approved public information. Private portf
 
 ---
 
-# Phase 11 — Advanced PWA/Mobile — FUTURE
+# Phase 11 — Advanced PWA/Mobile & UI Enhancement — FUTURE
 
-Planned capabilities include:
+### Objective
 
-- Progressive Web App improvements
-- Mobile-oriented workflows
-- Offline-capable experiences where appropriate
-- Installable application behavior
-- Responsive mobile portfolio management
+Transform the application into a polished, consistent, responsive, accessible, and progressively web-app-oriented SaaS experience while completing the migration of the earlier standalone UI architecture.
+
+### Workstream 11A — UI Architecture Enhancement
+
+The UI Enhancement workstream will modernize and unify the application's presentation architecture.
+
+#### Major Activities
+
+- Complete adoption of `base.html`
+- Migrate Phase 1–3 standalone templates
+- Standardize dashboard layouts
+- Standardize page structures
+- Standardize navigation
+- Standardize forms
+- Standardize validation and error presentation
+- Standardize buttons and action patterns
+- Standardize cards and list views
+- Standardize empty states
+- Standardize messages and notifications
+- Improve responsive behavior
+- Improve accessibility
+- Establish reusable template/UI patterns
+- Review visual consistency across portfolio domains
+- Review UI consistency across tenant-facing SaaS workflows
+- Regression test migrated functionality
+
+### Workstream 11B — Advanced PWA/Mobile
+
+The PWA/mobile workstream will build on the unified UI architecture.
+
+#### Major Activities
+
+- Progressive Web App architecture
+- Web app manifest
+- Service worker
+- Installability
+- Offline-capable functionality where appropriate
+- Mobile-first workflow refinement
+- Responsive optimization
+- Touch-friendly interactions
+- Mobile dashboard experience
+- Mobile portfolio management
+- Performance optimization
+- Appropriate device capabilities where supported
+
+### Phase 11 UI Migration Principle
+
+Phase 11 is the planned application-wide UI enhancement point.
+
+The objective is not simply to convert templates to `base.html`, but to establish a consistent, maintainable, responsive, accessible, and reusable presentation architecture across the entire SaaS platform.
+
+### Phase 11 Boundary
+
+Phase 4 introduces `base.html` for newly developed functionality.
+
+Phase 1–3 templates remain operational until Phase 11.
+
+No broad Phase 1–3 UI migration is required during Phase 4 unless necessary for functionality or security.
+
+### Expected Outcome
+
+By completion of Phase 11:
+
+```text
+All major application interfaces
+        │
+        ▼
+Shared template architecture
+        │
+        ├── Consistent navigation
+        ├── Consistent layouts
+        ├── Consistent forms
+        ├── Consistent components
+        ├── Responsive design
+        ├── Accessibility
+        └── PWA/mobile readiness
 
 ---
 

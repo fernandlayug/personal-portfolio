@@ -1,0 +1,642 @@
+[1mdiff --git a/portfolio/forms.py b/portfolio/forms.py[m
+[1mindex 3113536..abfc6d3 100644[m
+[1m--- a/portfolio/forms.py[m
+[1m+++ b/portfolio/forms.py[m
+[36m@@ -11,6 +11,8 @@[m [mfrom .models import ([m
+     Certificate,[m
+     Research,[m
+     License,[m
+[32m+[m[32m    Award,[m
+[32m+[m[32m    ProfessionalMembership,[m
+ )[m
+ [m
+ class ProfileForm(forms.ModelForm):[m
+[36m@@ -554,4 +556,107 @@[m [mclass LicenseForm(forms.ModelForm):[m
+                 'Expiration date cannot be earlier than the issue date.'[m
+             )[m
+ [m
+[32m+[m[32m        return cleaned_data[m
+[32m+[m
+[32m+[m[32mclass AwardForm(forms.ModelForm):[m
+[32m+[m
+[32m+[m[32m    class Meta:[m
+[32m+[m[32m        model = Award[m
+[32m+[m
+[32m+[m[32m        fields = [[m
+[32m+[m[32m            'name',[m
+[32m+[m[32m            'awarding_organization',[m
+[32m+[m[32m            'award_type',[m
+[32m+[m[32m            'award_date',[m
+[32m+[m[32m            'level',[m
+[32m+[m[32m            'description',[m
+[32m+[m[32m            'award_url',[m
+[32m+[m[32m        ][m
+[32m+[m
+[32m+[m[32m        widgets = {[m
+[32m+[m[32m            'award_date': forms.DateInput([m
+[32m+[m[32m                attrs={[m
+[32m+[m[32m                    'type': 'date'[m
+[32m+[m[32m                }[m
+[32m+[m[32m            ),[m
+[32m+[m
+[32m+[m[32m            'description': forms.Textarea([m
+[32m+[m[32m                attrs={[m
+[32m+[m[32m                    'rows': 5[m
+[32m+[m[32m                }[m
+[32m+[m[32m            ),[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m[32m    def clean(self):[m
+[32m+[m
+[32m+[m[32m        cleaned_data = super().clean()[m
+[32m+[m
+[32m+[m[32m        award_date = cleaned_data.get([m
+[32m+[m[32m            'award_date'[m
+[32m+[m[32m        )[m
+[32m+[m
+[32m+[m[32m        today = timezone.localdate()[m
+[32m+[m
+[32m+[m[32m        if award_date and award_date > today:[m
+[32m+[m
+[32m+[m[32m            self.add_error([m
+[32m+[m[32m                'award_date',[m
+[32m+[m[32m                'Award date cannot be in the future.'[m
+[32m+[m[32m            )[m
+[32m+[m
+[32m+[m[32m        return cleaned_data[m
+[32m+[m
+[32m+[m[32mclass ProfessionalMembershipForm(forms.ModelForm):[m
+[32m+[m
+[32m+[m[32m    class Meta:[m
+[32m+[m[32m        model = ProfessionalMembership[m
+[32m+[m
+[32m+[m[32m        fields = [[m
+[32m+[m[32m            'organization_name',[m
+[32m+[m[32m            'membership_type',[m
+[32m+[m[32m            'membership_number',[m
+[32m+[m[32m            'role',[m
+[32m+[m[32m            'start_date',[m
+[32m+[m[32m            'end_date',[m
+[32m+[m[32m            'status',[m
+[32m+[m[32m            'description',[m
+[32m+[m[32m            'membership_url',[m
+[32m+[m[32m        ][m
+[32m+[m
+[32m+[m[32m        widgets = {[m
+[32m+[m[32m            'start_date': forms.DateInput([m
+[32m+[m[32m                attrs={'type': 'date'}[m
+[32m+[m[32m            ),[m
+[32m+[m[32m            'end_date': forms.DateInput([m
+[32m+[m[32m                attrs={'type': 'date'}[m
+[32m+[m[32m            ),[m
+[32m+[m[32m            'description': forms.Textarea([m
+[32m+[m[32m                attrs={'rows': 5}[m
+[32m+[m[32m            ),[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m[32m    def clean(self):[m
+[32m+[m[32m        cleaned_data = super().clean()[m
+[32m+[m
+[32m+[m[32m        start_date = cleaned_data.get('start_date')[m
+[32m+[m[32m        end_date = cleaned_data.get('end_date')[m
+[32m+[m
+[32m+[m[32m        today = timezone.localdate()[m
+[32m+[m
+[32m+[m[32m        if start_date and start_date > today:[m
+[32m+[m[32m            self.add_error([m
+[32m+[m[32m                'start_date',[m
+[32m+[m[32m                'Membership start date cannot be in the future.'[m
+[32m+[m[32m            )[m
+[32m+[m
+[32m+[m[32m        if ([m
+[32m+[m[32m            start_date[m
+[32m+[m[32m            and end_date[m
+[32m+[m[32m            and end_date < start_date[m
+[32m+[m[32m        ):[m
+[32m+[m[32m            self.add_error([m
+[32m+[m[32m                'end_date',[m
+[32m+[m[32m                'Membership end date cannot be earlier than the start date.'[m
+[32m+[m[32m            )[m
+[32m+[m
+         return cleaned_data[m
+\ No newline at end of file[m
+[1mdiff --git a/portfolio/models.py b/portfolio/models.py[m
+[1mindex 8fe7e2a..632db61 100644[m
+[1m--- a/portfolio/models.py[m
+[1m+++ b/portfolio/models.py[m
+[36m@@ -309,4 +309,110 @@[m [mclass License(models.Model):[m
+         ordering = [[m
+             '-issue_date',[m
+             'name'[m
+[31m-        ][m
+\ No newline at end of file[m
+[32m+[m[32m        ][m
+[32m+[m
+[32m+[m[32mclass Award(models.Model):[m
+[32m+[m
+[32m+[m[32m    profile = models.ForeignKey([m
+[32m+[m[32m        Profile,[m
+[32m+[m[32m        on_delete=models.CASCADE,[m
+[32m+[m[32m        related_name='awards'[m
+[32m+[m[32m    )[m
+[32m+[m
+[32m+[m[32m    name = models.CharField([m
+[32m+[m[32m        max_length=200[m
+[32m+[m[32m    )[m
+[32m+[m
+[32m+[m[32m    awarding_organization = models.CharField([m
+[32m+[m[32m        max_length=200[m
+[32m+[m[32m    )[m
+[32m+[m
+[32m+[m[32m    award_type = models.CharField([m
+[32m+[m[32m        max_length=100,[m
+[32m+[m[32m        blank=True,[m
+[32m+[m[32m        help_text="Example: Academic, Professional, Research, Leadership"[m
+[32m+[m[32m    )[m
+[32m+[m
+[32m+[m[32m    award_date = models.DateField()[m
+[32m+[m
+[32m+[m[32m    level = models.CharField([m
+[32m+[m[32m        max_length=100,[m
+[32m+[m[32m        blank=True,[m
+[32m+[m[32m        help_text="Example: Institutional, Local, Regional, National, International"[m
+[32m+[m[32m    )[m
+[32m+[m
+[32m+[m[32m    description = models.TextField([m
+[32m+[m[32m        blank=True[m
+[32m+[m[32m    )[m
+[32m+[m
+[32m+[m[32m    award_url = models.URLField([m
+[32m+[m[32m        blank=True[m
+[32m+[m[32m    )[m
+[32m+[m
+[32m+[m[32m    def __str__(self):[m
+[32m+[m[32m        return self.name[m
+[32m+[m
+[32m+[m[32m    class Meta:[m
+[32m+[m[32m        ordering = [[m
+[32m+[m[32m            '-award_date',[m
+[32m+[m[32m            'name'[m
+[32m+[m[32m        ][m
+[32m+[m
+[32m+[m[32mclass ProfessionalMembership(models.Model):[m
+[32m+[m
+[32m+[m[32m    profile = models.ForeignKey([m
+[32m+[m[32m        Profile,[m
+[32m+[m[32m        on_delete=models.CASCADE,[m
+[32m+[m[32m        related_name='professional_memberships'[m
+[32m+[m[32m    )[m
+[32m+[m
+[32m+[m[32m    organization_name = models.CharField([m
+[32m+[m[32m        max_length=200[m
+[32m+[m[32m    )[m
+[32m+[m
+[32m+[m[32m    membership_type = models.CharField([m
+[32m+[m[32m        max_length=100,[m
+[32m+[m[32m        blank=True,[m
+[32m+[m[32m        help_text="Example: Regular Member, Associate Member, Fellow, Student Member"[m
+[32m+[m[32m    )[m
+[32m+[m
+[32m+[m[32m    membership_number = models.CharField([m
+[32m+[m[32m        max_length=200,[m
+[32m+[m[32m        blank=True[m
+[32m+[m[32m    )[m
+[32m+[m
+[32m+[m[32m    role = models.CharField([m
+[32m+[m[32m        max_length=100,[m
+[32m+[m[32m        blank=True,[m
+[32m+[m[32m        help_text="Example: Member, Officer, Board Member, Chapter President"[m
+[32m+[m[32m    )[m
+[32m+[m
+[32m+[m[32m    start_date = models.DateField()[m
+[32m+[m
+[32m+[m[32m    end_date = models.DateField([m
+[32m+[m[32m        blank=True,[m
+[32m+[m[32m        null=True[m
+[32m+[m[32m    )[m
+[32m+[m
+[32m+[m[32m    status = models.CharField([m
+[32m+[m[32m        max_length=50,[m
+[32m+[m[32m        default='Active'[m
+[32m+[m[32m    )[m
+[32m+[m
+[32m+[m[32m    description = models.TextField([m
+[32m+[m[32m        blank=True[m
+[32m+[m[32m    )[m
+[32m+[m
+[32m+[m[32m    membership_url = models.URLField([m
+[32m+[m[32m        blank=True[m
+[32m+[m[32m    )[m
+[32m+[m
+[32m+[m[32m    def __str__(self):[m
+[32m+[m[32m        return self.organization_name[m
+[32m+[m
+[32m+[m[32m    class Meta:[m
+[32m+[m[32m        ordering = [[m
+[32m+[m[32m            '-start_date',[m
+[32m+[m[32m            'organization_name'[m
+[32m+[m[32m        ][m
+[41m+[m
+[1mdiff --git a/portfolio/templates/portfolio/dashboard.html b/portfolio/templates/portfolio/dashboard.html[m
+[1mindex 5960b56..67f27f6 100644[m
+[1m--- a/portfolio/templates/portfolio/dashboard.html[m
+[1m+++ b/portfolio/templates/portfolio/dashboard.html[m
+[36m@@ -210,6 +210,40 @@[m
+ [m
+                 </div>[m
+ [m
+[32m+[m[32m                <div class="dashboard-card">[m
+[32m+[m
+[32m+[m[32m                    <h2>Awards</h2>[m
+[32m+[m
+[32m+[m[32m                    <p>[m
+[32m+[m[32m                        {{ profile.awards.all|length }}[m
+[32m+[m[32m                        award{{ profile.awards.all|length|pluralize }}.[m
+[32m+[m[32m                    </p>[m
+[32m+[m
+[32m+[m[32m                    <a[m
+[32m+[m[32m                        href="{% url 'award_list' %}"[m
+[32m+[m[32m                        class="btn btn-primary"[m
+[32m+[m[32m                    >[m
+[32m+[m[32m                        Manage Awards[m
+[32m+[m[32m                    </a>[m
+[32m+[m
+[32m+[m[32m                </div>[m
+[32m+[m
+[32m+[m[32m                <div class="dashboard-card">[m
+[32m+[m[32m                    <h2>Professional Memberships</h2>[m
+[32m+[m
+[32m+[m[32m                    <p>[m
+[32m+[m[32m                        {{ profile.professional_memberships.all|length }}[m
+[32m+[m[32m                        professional membership{{ profile.professional_memberships.all|length|pluralize }}.[m
+[32m+[m[32m                    </p>[m
+[32m+[m
+[32m+[m[32m                    <a[m
+[32m+[m[32m                        href="{% url 'professional_membership_list' %}"[m
+[32m+[m[32m                        class="btn btn-primary"[m
+[32m+[m[32m                    >[m
+[32m+[m[32m                        Manage Professional Memberships[m
+[32m+[m[32m                    </a>[m
+[32m+[m[32m                </div>[m
+[32m+[m
+ [m
+                 <div class="dashboard-card">[m
+ [m
+[1mdiff --git a/portfolio/urls.py b/portfolio/urls.py[m
+[1mindex 01ac8e7..197cd2f 100644[m
+[1m--- a/portfolio/urls.py[m
+[1m+++ b/portfolio/urls.py[m
+[36m@@ -219,4 +219,49 @@[m [murlpatterns = [[m
+         name='license_delete'[m
+     ),[m
+ [m
+[32m+[m
+[32m+[m[32m    path([m
+[32m+[m[32m        'dashboard/awards/',[m
+[32m+[m[32m        views.award_list,[m
+[32m+[m[32m        name='award_list'[m
+[32m+[m[32m    ),[m
+[32m+[m
+[32m+[m[32m    path([m
+[32m+[m[32m        'dashboard/awards/add/',[m
+[32m+[m[32m        views.award_add,[m
+[32m+[m[32m        name='award_add'[m
+[32m+[m[32m    ),[m
+[32m+[m
+[32m+[m[32m    path([m
+[32m+[m[32m        'dashboard/awards/<int:award_id>/edit/',[m
+[32m+[m[32m        views.award_edit,[m
+[32m+[m[32m        name='award_edit'[m
+[32m+[m[32m    ),[m
+[32m+[m
+[32m+[m[32m    path([m
+[32m+[m[32m        'dashboard/awards/<int:award_id>/delete/',[m
+[32m+[m[32m        views.award_delete,[m
+[32m+[m[32m        name='award_delete'[m
+[32m+[m[32m    ),[m
+[32m+[m
+[32m+[m[32m    path([m
+[32m+[m[32m    'dashboard/memberships/',[m
+[32m+[m[32m    views.professional_membership_list,[m
+[32m+[m[32m    name='professional_membership_list'[m
+[32m+[m[32m    ),[m
+[32m+[m[32m    path([m
+[32m+[m[32m        'dashboard/memberships/add/',[m
+[32m+[m[32m        views.professional_membership_add,[m
+[32m+[m[32m        name='professional_membership_add'[m
+[32m+[m[32m    ),[m
+[32m+[m[32m    path([m
+[32m+[m[32m        'dashboard/memberships/<int:membership_id>/edit/',[m
+[32m+[m[32m        views.professional_membership_edit,[m
+[32m+[m[32m        name='professional_membership_edit'[m
+[32m+[m[32m    ),[m
+[32m+[m[32m    path([m
+[32m+[m[32m        'dashboard/memberships/<int:membership_id>/delete/',[m
+[32m+[m[32m        views.professional_membership_delete,[m
+[32m+[m[32m        name='professional_membership_delete'[m
+[32m+[m[32m    ),[m
+ ][m
+\ No newline at end of file[m
+[1mdiff --git a/portfolio/views.py b/portfolio/views.py[m
+[1mindex b7b41ed..0333444 100644[m
+[1m--- a/portfolio/views.py[m
+[1m+++ b/portfolio/views.py[m
+[36m@@ -17,6 +17,8 @@[m [mfrom .models import ([m
+     Certificate,[m
+     Research,[m
+     License,[m
+[32m+[m[32m    Award,[m
+[32m+[m[32m    ProfessionalMembership,[m
+     [m
+ )[m
+ [m
+[36m@@ -29,6 +31,8 @@[m [mfrom .forms import ([m
+     CertificateForm,[m
+     ResearchForm,[m
+     LicenseForm,[m
+[32m+[m[32m    AwardForm,[m
+[32m+[m[32m    ProfessionalMembershipForm,[m[41m [m
+ )[m
+ [m
+ def portfolio_home(request):[m
+[36m@@ -1326,4 +1330,278 @@[m [mdef license_delete(request, license_id):[m
+                 f'/portfolio/{profile.portfolio_slug}/'[m
+             ),[m
+         }[m
+[31m-    )[m
+\ No newline at end of file[m
+[32m+[m[32m    )[m
+[32m+[m
+[32m+[m[32m@login_required[m
+[32m+[m[32mdef award_list(request):[m
+[32m+[m[32m    profile = verify_current_tenant(request)[m
+[32m+[m
+[32m+[m[32m    awards = profile.awards.all()[m
+[32m+[m
+[32m+[m[32m    return render([m
+[32m+[m[32m        request,[m
+[32m+[m[32m        'portfolio/award_list.html',[m
+[32m+[m[32m        {[m
+[32m+[m[32m            'profile': profile,[m
+[32m+[m[32m            'awards': awards,[m
+[32m+[m[32m            'portfolio_url': request.build_absolute_uri([m
+[32m+[m[32m                f'/portfolio/{profile.portfolio_slug}/'[m
+[32m+[m[32m            ),[m
+[32m+[m[32m        }[m
+[32m+[m[32m    )[m
+[32m+[m
+[32m+[m
+[32m+[m[32m@login_required[m
+[32m+[m[32mdef award_add(request):[m
+[32m+[m[32m    profile = verify_current_tenant(request)[m
+[32m+[m
+[32m+[m[32m    if request.method == 'POST':[m
+[32m+[m[32m        form = AwardForm(request.POST)[m
+[32m+[m
+[32m+[m[32m        if form.is_valid():[m
+[32m+[m[32m            award = form.save(commit=False)[m
+[32m+[m
+[32m+[m[32m            award.profile = profile[m
+[32m+[m
+[32m+[m[32m            award.save()[m
+[32m+[m
+[32m+[m[32m            messages.success([m
+[32m+[m[32m                request,[m
+[32m+[m[32m                'Award record added successfully.'[m
+[32m+[m[32m            )[m
+[32m+[m
+[32m+[m[32m            return redirect('award_list')[m
+[32m+[m
+[32m+[m[32m    else:[m
+[32m+[m[32m        form = AwardForm()[m
+[32m+[m
+[32m+[m[32m    return render([m
+[32m+[m[32m        request,[m
+[32m+[m[32m        'portfolio/award_form.html',[m
+[32m+[m[32m        {[m
+[32m+[m[32m            'profile': profile,[m
+[32m+[m[32m            'form': form,[m
+[32m+[m[32m            'page_title': 'Add Award',[m
+[32m+[m[32m            'portfolio_url': request.build_absolute_uri([m
+[32m+[m[32m                f'/portfolio/{profile.portfolio_slug}/'[m
+[32m+[m[32m            ),[m
+[32m+[m[32m        }[m
+[32m+[m[32m    )[m
+[32m+[m
+[32m+[m
+[32m+[m[32m@login_required[m
+[32m+[m[32mdef award_edit(request, award_id):[m
+[32m+[m[32m    profile = verify_current_tenant(request)[m
+[32m+[m
+[32m+[m[32m    award = profile.awards.get([m
+[32m+[m[32m        id=award_id[m
+[32m+[m[32m    )[m
+[32m+[m
+[32m+[m[32m    if request.method == 'POST':[m
+[32m+[m[32m        form = AwardForm([m
+[32m+[m[32m            request.POST,[m
+[32m+[m[32m            instance=award[m
+[32m+[m[32m        )[m
+[32m+[m
+[32m+[m[32m        if form.is_valid():[m
+[32m+[m[32m            form.save()[m
+[32m+[m
+[32m+[m[32m            messages.success([m
+[32m+[m[32m                request,[m
+[32m+[m[32m                'Award record updated successfully.'[m
+[32m+[m[32m            )[m
+[32m+[m
+[32m+[m[32m            return redirect('award_list')[m
+[32m+[m
+[32m+[m[32m    else:[m
+[32m+[m[32m        form = AwardForm([m
+[32m+[m[32m            instance=award[m
+[32m+[m[32m        )[m
+[32m+[m
+[32m+[m[32m    return render([m
+[32m+[m[32m        request,[m
+[32m+[m[32m        'portfolio/award_form.html',[m
+[32m+[m[32m        {[m
+[32m+[m[32m            'profile': profile,[m
+[32m+[m[32m            'form': form,[m
+[32m+[m[32m            'award': award,[m
+[32m+[m[32m            'page_title': 'Edit Award',[m
+[32m+[m[32m            'portfolio_url': request.build_absolute_uri([m
+[32m+[m[32m                f'/portfolio/{profile.portfolio_slug}/'[m
+[32m+[m[32m            ),[m
+[32m+[m[32m        }[m
+[32m+[m[32m    )[m
+[32m+[m
+[32m+[m
+[32m+[m[32m@login_required[m
+[32m+[m[32mdef award_delete(request, award_id):[m
+[32m+[m[32m    profile = verify_current_tenant(request)[m
+[32m+[m
+[32m+[m[32m    award = profile.awards.get([m
+[32m+[m[32m        id=award_id[m
+[32m+[m[32m    )[m
+[32m+[m
+[32m+[m[32m    if request.method == 'POST':[m
+[32m+[m[32m        award.delete()[m
+[32m+[m
+[32m+[m[32m        messages.success([m
+[32m+[m[32m            request,[m
+[32m+[m[32m            'Award record deleted successfully.'[m
+[32m+[m[32m        )[m
+[32m+[m
+[32m+[m[32m        return redirect('award_list')[m
+[32m+[m
+[32m+[m[32m    return render([m
+[32m+[m[32m        request,[m
+[32m+[m[32m        'portfolio/award_confirm_delete.html',[m
+[32m+[m[32m        {[m
+[32m+[m[32m            'profile': profile,[m
+[32m+[m[32m            'award': award,[m
+[32m+[m[32m            'portfolio_url': request.build_absolute_uri([m
+[32m+[m[32m                f'/portfolio/{profile.portfolio_slug}/'[m
+[32m+[m[32m            ),[m
+[32m+[m[32m        }[m
+[32m+[m[32m    )[m
+[32m+[m
+[32m+[m[32m@login_required[m
+[32m+[m[32mdef professional_membership_list(request):[m
+[32m+[m[32m    profile = verify_current_tenant(request)[m
+[32m+[m
+[32m+[m[32m    memberships = profile.professional_memberships.all()[m
+[32m+[m
+[32m+[m[32m    return render([m
+[32m+[m[32m        request,[m
+[32m+[m[32m        'portfolio/professional_membership_list.html',[m
+[32m+[m[32m        {[m
+[32m+[m[32m            'profile': profile,[m
+[32m+[m[32m            'memberships': memberships,[m
+[32m+[m[32m            'portfolio_url': request.build_absolute_uri([m
+[32m+[m[32m                f'/portfolio/{profile.portfolio_slug}/'[m
+[32m+[m[32m            ),[m
+[32m+[m[32m        }[m
+[32m+[m[32m    )[m
+[32m+[m
+[32m+[m
+[32m+[m[32m@login_required[m
+[32m+[m[32mdef professional_membership_add(request):[m
+[32m+[m[32m    profile = verify_current_tenant(request)[m
+[32m+[m
+[32m+[m[32m    if request.method == 'POST':[m
+[32m+[m[32m        form = ProfessionalMembershipForm(request.POST)[m
+[32m+[m
+[32m+[m[32m        if form.is_valid():[m
+[32m+[m[32m            membership = form.save(commit=False)[m
+[32m+[m
+[32m+[m[32m            membership.profile = profile[m
+[32m+[m[32m            membership.save()[m
+[32m+[m
+[32m+[m[32m            messages.success([m
+[32m+[m[32m                request,[m
+[32m+[m[32m                'Professional membership added successfully.'[m
+[32m+[m[32m            )[m
+[32m+[m
+[32m+[m[32m            return redirect([m
+[32m+[m[32m                'professional_membership_list'[m
+[32m+[m[32m            )[m
+[32m+[m
+[32m+[m[32m    else:[m
+[32m+[m[32m        form = ProfessionalMembershipForm()[m
+[32m+[m
+[32m+[m[32m    return render([m
+[32m+[m[32m        request,[m
+[32m+[m[32m        'portfolio/professional_membership_form.html',[m
+[32m+[m[32m        {[m
+[32m+[m[32m            'profile': profile,[m
+[32m+[m[32m            'form': form,[m
+[32m+[m[32m            'page_title': 'Add Professional Membership',[m
+[32m+[m[32m            'portfolio_url': request.build_absolute_uri([m
+[32m+[m[32m                f'/portfolio/{profile.portfolio_slug}/'[m
+[32m+[m[32m            ),[m
+[32m+[m[32m        }[m
+[32m+[m[32m    )[m
+[32m+[m
+[32m+[m
+[32m+[m[32m@login_required[m
+[32m+[m[32mdef professional_membership_edit([m
+[32m+[m[32m    request,[m
+[32m+[m[32m    membership_id[m
+[32m+[m[32m):[m
+[32m+[m[32m    profile = verify_current_tenant(request)[m
+[32m+[m
+[32m+[m[32m    membership = profile.professional_memberships.get([m
+[32m+[m[32m        id=membership_id[m
+[32m+[m[32m    )[m
+[32m+[m
+[32m+[m[32m    if request.method == 'POST':[m
+[32m+[m[32m        form = ProfessionalMembershipForm([m
+[32m+[m[32m            request.POST,[m
+[32m+[m[32m            instance=membership[m
+[32m+[m[32m        )[m
+[32m+[m
+[32m+[m[32m        if form.is_valid():[m
+[32m+[m[32m            form.save()[m
+[32m+[m
+[32m+[m[32m            messages.success([m
+[32m+[m[32m                request,[m
+[32m+[m[32m                'Professional membership updated successfully.'[m
+[32m+[m[32m            )[m
+[32m+[m
+[32m+[m[32m            return redirect([m
+[32m+[m[32m                'professional_membership_list'[m
+[32m+[m[32m            )[m
+[32m+[m
+[32m+[m[32m    else:[m
+[32m+[m[32m        form = ProfessionalMembershipForm([m
+[32m+[m[32m            instance=membership[m
+[32m+[m[32m        )[m
+[32m+[m
+[32m+[m[32m    return render([m
+[32m+[m[32m        request,[m
+[32m+[m[32m        'portfolio/professional_membership_form.html',[m
+[32m+[m[32m        {[m
+[32m+[m[32m            'profile': profile,[m
+[32m+[m[32m            'form': form,[m
+[32m+[m[32m            'membership': membership,[m
+[32m+[m[32m            'page_title': 'Edit Professional Membership',[m
+[32m+[m[32m            'portfolio_url': request.build_absolute_uri([m
+[32m+[m[32m                f'/portfolio/{profile.portfolio_slug}/'[m
+[32m+[m[32m            ),[m
+[32m+[m[32m        }[m
+[32m+[m[32m    )[m
+[32m+[m
+[32m+[m
+[32m+[m[32m@login_required[m
+[32m+[m[32mdef professional_membership_delete([m
+[32m+[m[32m    request,[m
+[32m+[m[32m    membership_id[m
+[32m+[m[32m):[m
+[32m+[m[32m    profile = verify_current_tenant(request)[m
+[32m+[m
+[32m+[m[32m    membership = profile.professional_memberships.get([m
+[32m+[m[32m        id=membership_id[m
+[32m+[m[32m    )[m
+[32m+[m
+[32m+[m[32m    if request.method == 'POST':[m
+[32m+[m[32m        membership.delete()[m
+[32m+[m
+[32m+[m[32m        messages.success([m
+[32m+[m[32m            request,[m
+[32m+[m[32m            'Professional membership deleted successfully.'[m
+[32m+[m[32m        )[m
+[32m+[m
+[32m+[m[32m        return redirect([m
+[32m+[m[32m            'professional_membership_list'[m
+[32m+[m[32m        )[m
+[32m+[m
+[32m+[m[32m    return render([m
+[32m+[m[32m        request,[m
+[32m+[m[32m        'portfolio/professional_membership_confirm_delete.html',[m
+[32m+[m[32m        {[m
+[32m+[m[32m            'profile': profile,[m
+[32m+[m[32m            'membership': membership,[m
+[32m+[m[32m            'portfolio_url': request.build_absolute_uri([m
+[32m+[m[32m                f'/portfolio/{profile.portfolio_slug}/'[m
+[32m+[m[32m            ),[m
+[32m+[m[32m        }[m
+[32m+[m[32m    )[m
+[41m+[m

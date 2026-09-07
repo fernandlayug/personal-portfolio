@@ -276,3 +276,28 @@ The following remain intentionally deferred:
 - Advanced PWA/Mobile — Phase 11
 - Production/SaaS hardening — Phase 12
 - Platform Engagement / Website Analytics — future capability separate from Professional Engagement
+
+### UI Architecture Status
+
+Phase 4 introduces the application's shared Django template architecture.
+
+**Decision:** Adopt `portfolio/templates/portfolio/base.html` for newly developed Phase 4 functionality and all subsequent feature development where appropriate.
+
+Existing Phase 1–3 standalone templates are intentionally retained during Phase 4.
+
+Their migration will be performed during Phase 11 as part of the dedicated UI Enhancement workstream.
+
+#### Current UI Strategy
+
+| Area | Strategy |
+|---|---|
+| Phase 1–3 templates | Existing standalone templates retained |
+| Phase 4 new templates | Use `base.html` |
+| Future feature templates | Use `base.html` |
+| Bootstrap | Not introduced |
+| Existing CSS architecture | Reuse |
+| Phase 1–3 migration | Deferred to Phase 11 |
+| UI-wide modernization | Phase 11 |
+| PWA/mobile enhancement | Phase 11 |
+
+This is an intentional phased migration rather than an incomplete template architecture.

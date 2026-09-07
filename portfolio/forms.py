@@ -13,6 +13,14 @@ from .models import (
     License,
     Award,
     ProfessionalMembership,
+    Engagement,
+    EngagementType,
+    EngagementRole,
+    Organization,
+    OrganizationClassification,
+    Event,
+    Evidence,
+    Tag,
 )
 
 class ProfileForm(forms.ModelForm):
@@ -660,3 +668,418 @@ class ProfessionalMembershipForm(forms.ModelForm):
             )
 
         return cleaned_data
+
+ 
+class EngagementForm(forms.ModelForm):
+    """
+    Form for creating and editing Professional Engagement records.
+
+    Ownership is intentionally excluded from the form.
+    The authenticated user's Profile must be assigned server-side
+    by the corresponding view/service layer.
+    """
+
+    class Meta:
+        model = Engagement
+        fields = [
+            'title',
+            'description',
+            'engagement_type',
+            'roles',
+            'primary_role',
+            'status',
+            'start_date',
+            'end_date',
+            'purpose',
+            'outcome',
+            'impact',
+            'location',
+            'mode',
+            'tags',
+            'featured',
+            'visibility',
+            'event',
+            'projects',
+            'research',
+            'professional_memberships',
+            'work_experiences',
+            'skills',
+            'education',
+            'certificates',
+            'awards',
+            'evidence',
+        ]
+
+        widgets = {
+            'description': forms.Textarea(attrs={
+                'rows': 5,
+            }),
+            'purpose': forms.Textarea(attrs={
+                'rows': 4,
+            }),
+            'outcome': forms.Textarea(attrs={
+                'rows': 4,
+            }),
+            'impact': forms.Textarea(attrs={
+                'rows': 4,
+            }),
+            'start_date': forms.DateInput(
+                attrs={'type': 'date'}
+            ),
+            'end_date': forms.DateInput(
+                attrs={'type': 'date'}
+            ),
+            'roles': forms.SelectMultiple(attrs={
+                'size': 8,
+            }),
+            'tags': forms.SelectMultiple(attrs={
+                'size': 8,
+            }),
+            'projects': forms.SelectMultiple(attrs={
+                'size': 8,
+            }),
+            'research': forms.SelectMultiple(attrs={
+                'size': 8,
+            }),
+            'professional_memberships': forms.SelectMultiple(attrs={
+                'size': 8,
+            }),
+            'work_experiences': forms.SelectMultiple(attrs={
+                'size': 8,
+            }),
+            'skills': forms.SelectMultiple(attrs={
+                'size': 8,
+            }),
+            'education': forms.SelectMultiple(attrs={
+                'size': 8,
+            }),
+            'certificates': forms.SelectMultiple(attrs={
+                'size': 8,
+            }),
+            'awards': forms.SelectMultiple(attrs={
+                'size': 8,
+            }),
+            'evidence': forms.SelectMultiple(attrs={
+                'size': 8,
+            }),
+        }
+
+    def __init__(self, *args, profile=None, **kwargs):
+        """
+        The current Profile is explicitly supplied by the server.
+
+        Every related queryset is restricted to that Profile.
+        """
+        super().__init__(*args, **kwargs)
+
+        self.profile = profile
+
+        if profile is None:
+            raise ValueError(
+                "EngagementForm requires a Profile."
+            )
+
+        # ---------------------------------------------------------
+        # Configurable taxonomies
+        # ---------------------------------------------------------
+
+        self.fields['engagement_type'].queryset = (
+            EngagementType.objects
+            .filter(
+                profile=profile,
+                is_active=True
+            )
+            .order_by('name')
+        )
+
+        self.fields['roles'].queryset = (
+            EngagementRole.objects
+            .filter(
+                profile=profile,
+                is_active=True
+            )
+            .order_by('name')
+        )
+
+        self.fields['primary_role'].queryset = (
+            EngagementRole.objects
+            .filter(
+                profile=profile,
+                is_active=True
+            )
+            .order_by('name')
+        )
+
+        self.fields['tags'].queryset = (
+            Tag.objects
+            .filter(
+                profile=profile,
+                is_active=True
+            )
+            .order_by('name')
+        )
+
+        # ---------------------------------------------------------
+        # Contextual entities
+        # ---------------------------------------------------------
+
+        self.fields['event'].queryset = (
+            Event.objects
+            .filter(profile=profile)
+            .order_by(
+                '-start_date',
+                'name'
+            )
+        )
+
+        # Organizations are intentionally not exposed as a simple
+        # ManyToMany field because EngagementOrganization carries
+        # semantic relationship roles.
+        #
+        # Organization assignment will therefore be handled by the
+        # Engagement service/view layer.
+
+        # ---------------------------------------------------------
+        # Existing Phase 1–3 portfolio records
+        # ---------------------------------------------------------
+
+        self.fields['projects'].queryset = (
+            Project.objects
+            .filter(profile=profile)
+            .order_by('title')
+        )
+
+        self.fields['research'].queryset = (
+            Research.objects
+            .filter(profile=profile)
+            .order_by('title')
+        )
+
+        self.fields['professional_memberships'].queryset = (
+            ProfessionalMembership.objects
+            .filter(profile=profile)
+            .order_by('organization_name')
+        )
+
+        self.fields['work_experiences'].queryset = (
+            WorkExperience.objects
+            .filter(profile=profile)
+            .order_by(
+                '-start_date',
+                'company'
+            )
+        )
+
+        self.fields['skills'].queryset = (
+            Skill.objects
+            .filter(profile=profile)
+            .order_by('name')
+        )
+
+        self.fields['education'].queryset = (
+            Education.objects
+            .filter(profile=profile)
+            .order_by(
+                '-start_year',
+                'institution'
+            )
+        )
+
+        self.fields['certificates'].queryset = (
+            Certificate.objects
+            .filter(profile=profile)
+            .order_by(
+                '-issue_date',
+                'name'
+            )
+        )
+
+        self.fields['awards'].queryset = (
+            Award.objects
+            .filter(profile=profile)
+            .order_by(
+                '-award_date',
+                'name'
+            )
+        )
+
+        self.fields['evidence'].queryset = (
+            Evidence.objects
+            .filter(profile=profile)
+            .order_by('title')
+        )
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        start_date = cleaned_data.get('start_date')
+        end_date = cleaned_data.get('end_date')
+
+        roles = cleaned_data.get('roles')
+        primary_role = cleaned_data.get('primary_role')
+
+        # ---------------------------------------------------------
+        # Date validation
+        # ---------------------------------------------------------
+
+        if start_date and end_date and end_date < start_date:
+            self.add_error(
+                'end_date',
+                'End date cannot be earlier than the start date.'
+            )
+
+        # ---------------------------------------------------------
+        # Role validation
+        # ---------------------------------------------------------
+
+        if not roles:
+            self.add_error(
+                'roles',
+                'Select at least one engagement role.'
+            )
+
+        if primary_role and roles:
+            if primary_role not in roles:
+                self.add_error(
+                    'primary_role',
+                    'Primary role must be one of the selected roles.'
+                )
+
+        return cleaned_data
+
+class OrganizationForm(forms.ModelForm):
+    """
+    Form for creating and editing tenant-owned Organizations.
+
+    Ownership is assigned server-side through the authenticated
+    user's Profile.
+    """
+
+    class Meta:
+        model = Organization
+
+        fields = [
+            'name',
+            'description',
+            'website',
+            'classifications',
+            'visibility',
+        ]
+
+        widgets = {
+            'description': forms.Textarea(attrs={
+                'rows': 4,
+            }),
+
+            'classifications': forms.SelectMultiple(attrs={
+                'size': 8,
+            }),
+        }
+
+    def __init__(self, *args, profile=None, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.profile = profile
+
+        if profile is None:
+            raise ValueError(
+                "OrganizationForm requires a Profile."
+            )
+
+        self.fields['classifications'].queryset = (
+            OrganizationClassification.objects
+            .filter(
+                profile=profile,
+                is_active=True
+            )
+            .order_by('name')
+        )
+        
+
+class EventForm(forms.ModelForm):
+    """
+    Form for creating and editing tenant-owned Events.
+    """
+
+    class Meta:
+        model = Event
+        fields = [
+            'name',
+            'description',
+            'event_type',
+            'start_date',
+            'end_date',
+            'location',
+            'mode',
+            'visibility',
+        ]
+
+        widgets = {
+            'description': forms.Textarea(attrs={
+                'rows': 4,
+            }),
+            'start_date': forms.DateInput(
+                attrs={'type': 'date'}
+            ),
+            'end_date': forms.DateInput(
+                attrs={'type': 'date'}
+            ),
+        }
+
+    def __init__(self, *args, profile=None, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.profile = profile
+
+        if profile is None:
+            raise ValueError(
+                "EventForm requires a Profile."
+            )
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        start_date = cleaned_data.get('start_date')
+        end_date = cleaned_data.get('end_date')
+
+        if start_date and end_date and end_date < start_date:
+            self.add_error(
+                'end_date',
+                'End date cannot be earlier than the start date.'
+            )
+
+        return cleaned_data
+
+class EvidenceForm(forms.ModelForm):
+    """
+    Form for creating and editing Evidence metadata.
+
+    Phase 4 intentionally does not upload files.
+    Actual document/file management belongs to Phase 5.
+    """
+
+    class Meta:
+        model = Evidence
+        fields = [
+            'title',
+            'description',
+            'evidence_type',
+            'external_url',
+            'visibility',
+        ]
+
+        widgets = {
+            'description': forms.Textarea(attrs={
+                'rows': 4,
+            }),
+        }
+
+    def __init__(self, *args, profile=None, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.profile = profile
+
+        if profile is None:
+            raise ValueError(
+                "EvidenceForm requires a Profile."
+            )

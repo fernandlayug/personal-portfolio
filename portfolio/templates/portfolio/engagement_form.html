@@ -1,0 +1,698 @@
+{% extends "portfolio/base.html" %}
+
+{% block title %}
+    {% if form.instance.pk %}
+        Edit Engagement
+    {% else %}
+        Add Engagement
+    {% endif %}
+{% endblock %}
+
+{% block page_title %}
+    {% if form.instance.pk %}
+        Edit Professional Engagement
+    {% else %}
+        Add Professional Engagement
+    {% endif %}
+{% endblock %}
+
+{% block page_description %}
+Document meaningful professional activity, service, collaboration, leadership, or involvement.
+{% endblock %}
+
+{% block extra_css %}
+
+<style>
+    /*
+     * Professional Roles
+     */
+
+    .professional-role-help {
+        margin: -0.5rem 0 1.25rem;
+        color: #5f6b7a;
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+
+    .professional-role-hidden-fields {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    .professional-role-selector {
+        border: 1px solid #d7dce3;
+        border-radius: 10px;
+        overflow: hidden;
+        background: #ffffff;
+    }
+
+    .professional-role-header {
+        display: grid;
+        grid-template-columns: 1fr 110px;
+        gap: 1rem;
+        padding: 0.85rem 1rem;
+        background: #f5f7fa;
+        border-bottom: 1px solid #d7dce3;
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: #344054;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+    }
+
+    .professional-role-header span:last-child {
+        text-align: center;
+    }
+
+    .professional-role-options {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .professional-role-row {
+        display: grid;
+        grid-template-columns: 1fr 110px;
+        gap: 1rem;
+        align-items: center;
+        min-height: 52px;
+        padding: 0.7rem 1rem;
+        border-bottom: 1px solid #edf0f3;
+        transition: background-color 0.15s ease;
+    }
+
+    .professional-role-row:last-child {
+        border-bottom: none;
+    }
+
+    .professional-role-row:hover {
+        background: #fafbfc;
+    }
+
+    .professional-role-name {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        cursor: pointer;
+        font-weight: 500;
+        color: #172033;
+    }
+
+    .professional-role-checkbox {
+        width: 18px;
+        height: 18px;
+        margin: 0;
+        cursor: pointer;
+        accent-color: currentColor;
+    }
+
+    .professional-role-primary {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.4rem;
+        cursor: pointer;
+        font-size: 0.85rem;
+        color: #667085;
+    }
+
+    .professional-role-primary input {
+        width: 17px;
+        height: 17px;
+        margin: 0;
+        cursor: pointer;
+        accent-color: currentColor;
+    }
+
+    .professional-role-primary input:disabled {
+        cursor: not-allowed;
+        opacity: 0.35;
+    }
+
+    .professional-role-primary-label {
+        user-select: none;
+    }
+
+    .professional-role-row.is-selected {
+        background: #f8fafc;
+    }
+
+    .professional-role-row.is-primary {
+        font-weight: 600;
+    }
+
+    @media (max-width: 640px) {
+
+        .professional-role-header,
+        .professional-role-row {
+            grid-template-columns: 1fr 90px;
+        }
+
+        .professional-role-primary-label {
+            display: none;
+        }
+
+    }
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="management-form-card">
+
+    {% if form.non_field_errors %}
+        <div class="form-error-summary">
+            {% for error in form.non_field_errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        <!-- Basic Information -->
+        <section class="management-form-section">
+
+            <h2>Basic Information</h2>
+
+            <div class="management-form-group">
+
+                <label for="{{ form.title.id_for_label }}">
+                    Title <span class="required">*</span>
+                </label>
+
+                {{ form.title }}
+
+                {% for error in form.title.errors %}
+                    <div class="field-error">{{ error }}</div>
+                {% endfor %}
+
+            </div>
+
+            <div class="management-form-group">
+
+                <label for="{{ form.description.id_for_label }}">
+                    Description <span class="required">*</span>
+                </label>
+
+                {{ form.description }}
+
+                {% for error in form.description.errors %}
+                    <div class="field-error">{{ error }}</div>
+                {% endfor %}
+
+            </div>
+
+            <div class="management-form-row">
+
+                <div class="management-form-group">
+
+                    <label for="{{ form.engagement_type.id_for_label }}">
+                        Engagement Type <span class="required">*</span>
+                    </label>
+
+                    {{ form.engagement_type }}
+
+                    {% for error in form.engagement_type.errors %}
+                        <div class="field-error">{{ error }}</div>
+                    {% endfor %}
+
+                </div>
+
+                <div class="management-form-group">
+
+                    <label for="{{ form.status.id_for_label }}">
+                        Status <span class="required">*</span>
+                    </label>
+
+                    {{ form.status }}
+
+                    {% for error in form.status.errors %}
+                        <div class="field-error">{{ error }}</div>
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Roles -->
+            <!-- Professional Roles -->
+            <section class="management-form-section">
+
+                <h2>Professional Roles</h2>
+
+                <p class="professional-role-help">
+                    Select all roles you performed in this engagement and mark one as the primary role.
+                </p>
+
+                <!--
+                    Keep the original Django fields in the form so the existing
+                    EngagementForm continues to handle validation and persistence.
+
+                    JavaScript uses these fields as the source of truth and builds
+                    the enhanced interface below.
+                -->
+                <div class="professional-role-hidden-fields" aria-hidden="true">
+                    {{ form.roles }}
+                    {{ form.primary_role }}
+                </div>
+
+                <div class="professional-role-selector">
+
+                    <div class="professional-role-header">
+                        <span>Role</span>
+                        <span>Primary</span>
+                    </div>
+
+                    <div
+                        id="professional-role-options"
+                        class="professional-role-options"
+                    >
+                        <!-- Role options are generated from the Django form -->
+                    </div>
+
+                </div>
+
+                {% for error in form.roles.errors %}
+                    <div class="field-error">{{ error }}</div>
+                {% endfor %}
+
+                {% for error in form.primary_role.errors %}
+                    <div class="field-error">{{ error }}</div>
+                {% endfor %}
+
+            </section>
+
+
+        <!-- Timing & Context -->
+        <section class="management-form-section">
+
+            <h2>Timing &amp; Context</h2>
+
+            <div class="management-form-row">
+
+                <div class="management-form-group">
+
+                    <label for="{{ form.start_date.id_for_label }}">
+                        Start Date
+                    </label>
+
+                    {{ form.start_date }}
+
+                    {% for error in form.start_date.errors %}
+                        <div class="field-error">{{ error }}</div>
+                    {% endfor %}
+
+                </div>
+
+                <div class="management-form-group">
+
+                    <label for="{{ form.end_date.id_for_label }}">
+                        End Date
+                    </label>
+
+                    {{ form.end_date }}
+
+                    {% for error in form.end_date.errors %}
+                        <div class="field-error">{{ error }}</div>
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+            <div class="management-form-row">
+
+                <div class="management-form-group">
+
+                    <label for="{{ form.location.id_for_label }}">
+                        Location
+                    </label>
+
+                    {{ form.location }}
+
+                    {% for error in form.location.errors %}
+                        <div class="field-error">{{ error }}</div>
+                    {% endfor %}
+
+                </div>
+
+                <div class="management-form-group">
+
+                    <label for="{{ form.mode.id_for_label }}">
+                        Mode
+                    </label>
+
+                    {{ form.mode }}
+
+                    {% for error in form.mode.errors %}
+                        <div class="field-error">{{ error }}</div>
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+            <div class="management-form-group">
+
+                <label for="{{ form.event.id_for_label }}">
+                    Event
+                </label>
+
+                {{ form.event }}
+
+                {% for error in form.event.errors %}
+                    <div class="field-error">{{ error }}</div>
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+
+        <!-- Narrative -->
+        <section class="management-form-section">
+
+            <h2>Professional Narrative</h2>
+
+            <div class="management-form-group">
+
+                <label for="{{ form.purpose.id_for_label }}">
+                    Purpose
+                </label>
+
+                {{ form.purpose }}
+
+                {% for error in form.purpose.errors %}
+                    <div class="field-error">{{ error }}</div>
+                {% endfor %}
+
+            </div>
+
+            <div class="management-form-group">
+
+                <label for="{{ form.outcome.id_for_label }}">
+                    Outcome
+                </label>
+
+                {{ form.outcome }}
+
+                {% for error in form.outcome.errors %}
+                    <div class="field-error">{{ error }}</div>
+                {% endfor %}
+
+            </div>
+
+            <div class="management-form-group">
+
+                <label for="{{ form.impact.id_for_label }}">
+                    Impact
+                </label>
+
+                {{ form.impact }}
+
+                {% for error in form.impact.errors %}
+                    <div class="field-error">{{ error }}</div>
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+
+        <!-- Tags -->
+        <section class="management-form-section">
+
+            <h2>Classification</h2>
+
+            <div class="management-form-group">
+
+                <label for="{{ form.tags.id_for_label }}">
+                    Tags
+                </label>
+
+                {{ form.tags }}
+
+                {% for error in form.tags.errors %}
+                    <div class="field-error">{{ error }}</div>
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+
+        <!-- Presentation -->
+        <section class="management-form-section">
+
+            <h2>Visibility &amp; Presentation</h2>
+
+            <div class="management-form-row">
+
+                <div class="management-form-group">
+
+                    <label for="{{ form.visibility.id_for_label }}">
+                        Visibility <span class="required">*</span>
+                    </label>
+
+                    {{ form.visibility }}
+
+                    {% for error in form.visibility.errors %}
+                        <div class="field-error">{{ error }}</div>
+                    {% endfor %}
+
+                </div>
+
+                <div class="management-form-group">
+
+                    <label for="{{ form.featured.id_for_label }}">
+                        Featured
+                    </label>
+
+                    {{ form.featured }}
+
+                    {% for error in form.featured.errors %}
+                        <div class="field-error">{{ error }}</div>
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <div class="management-form-actions">
+
+            <a
+                href="{% url 'engagement_list' %}"
+                class="btn btn-secondary"
+            >
+                Cancel
+            </a>
+
+            <button
+                type="submit"
+                class="btn btn-primary"
+            >
+                {% if form.instance.pk %}
+                    Save Changes
+                {% else %}
+                    Save Engagement
+                {% endif %}
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const rolesField = document.getElementById(
+        "{{ form.roles.id_for_label }}"
+    );
+
+    const primaryRoleField = document.getElementById(
+        "{{ form.primary_role.id_for_label }}"
+    );
+
+    const roleOptionsContainer = document.getElementById(
+        "professional-role-options"
+    );
+
+    if (!rolesField || !primaryRoleField || !roleOptionsContainer) {
+        return;
+    }
+
+    /*
+     * Hide the original Django controls visually.
+     * They remain in the DOM because they are used by the form.
+     */
+    rolesField.setAttribute("aria-hidden", "true");
+    primaryRoleField.setAttribute("aria-hidden", "true");
+
+    rolesField.disabled = true;
+    primaryRoleField.disabled = true;
+
+    /*
+     * Capture existing selections.
+     *
+     * This works for both:
+     * - Add form
+     * - Edit form
+     * - Form redisplay after validation errors
+     */
+    const selectedRoles = new Set(
+        Array.from(rolesField.options)
+            .filter(option => option.selected)
+            .map(option => option.value)
+    );
+
+    const existingPrimaryRole = primaryRoleField.value;
+
+    /*
+     * Build the enhanced role interface.
+     */
+    Array.from(rolesField.options).forEach(function (option) {
+
+        if (!option.value) {
+            return;
+        }
+
+        const value = option.value;
+        const label = option.textContent.trim();
+
+        const row = document.createElement("div");
+        row.className = "professional-role-row";
+
+        if (selectedRoles.has(value)) {
+            row.classList.add("is-selected");
+        }
+
+        if (existingPrimaryRole === value) {
+            row.classList.add("is-primary");
+        }
+
+        /*
+         * Role checkbox
+         */
+        const roleLabel = document.createElement("label");
+        roleLabel.className = "professional-role-name";
+
+        const checkbox = document.createElement("input");
+
+        checkbox.type = "checkbox";
+        checkbox.name = "{{ form.roles.html_name }}";
+        checkbox.value = value;
+        checkbox.className = "professional-role-checkbox";
+
+        checkbox.checked = selectedRoles.has(value);
+
+        /*
+         * Primary role radio
+         */
+        const primaryLabel = document.createElement("label");
+        primaryLabel.className = "professional-role-primary";
+
+        const radio = document.createElement("input");
+
+        radio.type = "radio";
+        radio.name = "{{ form.primary_role.html_name }}";
+        radio.value = value;
+
+        radio.checked = existingPrimaryRole === value;
+        radio.disabled = !checkbox.checked;
+
+        const primaryText = document.createElement("span");
+        primaryText.className = "professional-role-primary-label";
+        primaryText.textContent = "Primary";
+
+        /*
+         * Role checkbox behavior
+         */
+        checkbox.addEventListener("change", function () {
+
+            if (checkbox.checked) {
+
+                row.classList.add("is-selected");
+                radio.disabled = false;
+
+            } else {
+
+                row.classList.remove("is-selected");
+
+                /*
+                 * A role that is no longer selected cannot remain
+                 * the primary role.
+                 */
+                if (radio.checked) {
+                    radio.checked = false;
+                }
+
+                radio.disabled = true;
+                row.classList.remove("is-primary");
+            }
+
+        });
+
+        /*
+         * Primary role behavior
+         */
+        radio.addEventListener("change", function () {
+
+            if (radio.checked) {
+
+                document
+                    .querySelectorAll(".professional-role-row")
+                    .forEach(function (otherRow) {
+                        otherRow.classList.remove("is-primary");
+                    });
+
+                row.classList.add("is-primary");
+            }
+
+        });
+
+        /*
+         * Assemble row
+         */
+        roleLabel.appendChild(checkbox);
+
+        const roleText = document.createElement("span");
+        roleText.textContent = label;
+
+        roleLabel.appendChild(roleText);
+
+        primaryLabel.appendChild(radio);
+        primaryLabel.appendChild(primaryText);
+
+        row.appendChild(roleLabel);
+        row.appendChild(primaryLabel);
+
+        roleOptionsContainer.appendChild(row);
+    });
+
+});
+</script>
+
+{% endblock %}

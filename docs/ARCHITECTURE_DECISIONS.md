@@ -321,3 +321,79 @@ When an architectural decision changes:
 3. Update affected architecture documentation.
 4. Update the roadmap or project status where applicable.
 5. Record the change in the changelog.
+
+
+## ADR-025: Progressive Adoption of Shared Django Template Architecture
+
+**Status:** Accepted
+
+### Context
+
+The Personal Portfolio Assistant initially used standalone Django templates during Phases 1–3.
+
+As the application evolves into a multi-tenant SaaS platform, the number of dashboard, management, portfolio, document, AI, and generation interfaces will increase substantially.
+
+Continuing to create every page as an independent standalone template would increase duplication and make global UI changes more difficult.
+
+However, immediately refactoring all existing Phase 1–3 templates during Phase 4 would introduce unnecessary regression risk and mix UI refactoring with new feature development.
+
+### Decision
+
+Beginning with Phase 4, all newly developed functionality will use:
+
+`portfolio/templates/portfolio/base.html`
+
+as the shared Django template foundation.
+
+The base template will provide the common presentation structure while allowing individual pages to provide their own content through template blocks.
+
+The existing Phase 1–3 standalone templates will remain unchanged during Phase 4 unless a specific functional requirement requires modification.
+
+Their migration to the shared template architecture will be performed during Phase 11 as part of the UI Enhancement workstream.
+
+### Scope of `base.html`
+
+The shared base template may contain:
+
+- HTML document structure
+- Shared metadata
+- Global stylesheet references
+- Common application shell
+- Shared navigation
+- Main content container
+- Common template blocks
+- Optional page-specific CSS/JavaScript blocks
+
+The base template should not become a container for feature-specific business logic or domain-specific markup.
+
+### UI Framework Policy
+
+The project will continue using the existing Django template and CSS architecture.
+
+Bootstrap or another external UI framework will not be introduced solely as part of this decision.
+
+### Phase Boundary
+
+This decision establishes the following boundary:
+
+```text
+Phase 1–3
+    Existing standalone templates
+             │
+             │ remain operational
+             ▼
+Phase 4+
+    New functionality
+             │
+             ▼
+       base.html
+             │
+             ▼
+Phase 11
+    UI Enhancement
+             │
+             ├── migrate Phase 1–3 templates
+             ├── standardize UI patterns
+             ├── responsive refinement
+             ├── accessibility
+             └── reusable components

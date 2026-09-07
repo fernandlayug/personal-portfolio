@@ -1,0 +1,278 @@
+{% extends "portfolio/base.html" %}
+
+{% block title %}
+    {{ engagement.title }}
+{% endblock %}
+
+{% block page_title %}
+    {{ engagement.title }}
+{% endblock %}
+
+{% block page_description %}
+    {{ engagement.engagement_type.name }}
+    ·
+    {{ engagement.primary_role.name }}
+{% endblock %}
+
+{% block page_actions %}
+
+<div class="dashboard-actions">
+
+    <a
+        href="{% url 'engagement_edit' engagement.pk %}"
+        class="btn btn-primary"
+    >
+        Edit
+    </a>
+
+    <a
+        href="{% url 'engagement_delete' engagement.pk %}"
+        class="btn btn-danger"
+    >
+        Delete
+    </a>
+
+</div>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="management-form-card">
+
+    <section class="management-form-section">
+
+        <h2>Engagement Information</h2>
+
+        <div class="education-field">
+
+            <strong>Type:</strong>
+
+            {{ engagement.engagement_type.name }}
+
+        </div>
+
+        <div class="education-field">
+
+            <strong>Status:</strong>
+
+            {{ engagement.get_status_display }}
+
+        </div>
+
+        <div class="education-field">
+
+            <strong>Primary Role:</strong>
+
+            {{ engagement.primary_role.name }}
+
+        </div>
+
+        {% if engagement.roles.all %}
+
+            <div class="education-field">
+
+                <strong>Roles:</strong>
+
+                {% for role in engagement.roles.all %}
+                    {{ role.name }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+    </section>
+
+
+    <section class="management-form-section">
+
+        <h2>Description</h2>
+
+        <div class="management-form-description">
+
+            {{ engagement.description|linebreaks }}
+
+        </div>
+
+    </section>
+
+
+    {% if engagement.purpose %}
+
+        <section class="management-form-section">
+
+            <h2>Purpose</h2>
+
+            <div class="management-form-description">
+
+                {{ engagement.purpose|linebreaks }}
+
+            </div>
+
+        </section>
+
+    {% endif %}
+
+
+    {% if engagement.outcome %}
+
+        <section class="management-form-section">
+
+            <h2>Outcome</h2>
+
+            <div class="management-form-description">
+
+                {{ engagement.outcome|linebreaks }}
+
+            </div>
+
+        </section>
+
+    {% endif %}
+
+
+    {% if engagement.impact %}
+
+        <section class="management-form-section">
+
+            <h2>Impact</h2>
+
+            <div class="management-form-description">
+
+                {{ engagement.impact|linebreaks }}
+
+            </div>
+
+        </section>
+
+    {% endif %}
+
+
+    <section class="management-form-section">
+
+        <h2>Timing &amp; Context</h2>
+
+        {% if engagement.start_date %}
+
+            <div class="education-field">
+
+                <strong>Start:</strong>
+
+                {{ engagement.start_date|date:"F d, Y" }}
+
+            </div>
+
+        {% endif %}
+
+        {% if engagement.end_date %}
+
+            <div class="education-field">
+
+                <strong>End:</strong>
+
+                {{ engagement.end_date|date:"F d, Y" }}
+
+            </div>
+
+        {% endif %}
+
+        {% if engagement.location %}
+
+            <div class="education-field">
+
+                <strong>Location:</strong>
+
+                {{ engagement.location }}
+
+            </div>
+
+        {% endif %}
+
+        {% if engagement.mode %}
+
+            <div class="education-field">
+
+                <strong>Mode:</strong>
+
+                {{ engagement.get_mode_display }}
+
+            </div>
+
+        {% endif %}
+
+        {% if engagement.event %}
+
+            <div class="education-field">
+
+                <strong>Event:</strong>
+
+                {{ engagement.event.name }}
+
+            </div>
+
+        {% endif %}
+
+    </section>
+
+
+    {% if engagement.tags.all %}
+
+        <section class="management-form-section">
+
+            <h2>Tags</h2>
+
+            <div class="education-field">
+
+                {% for tag in engagement.tags.all %}
+                    {{ tag.name }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+    {% endif %}
+
+
+    <section class="management-form-section">
+
+        <h2>Presentation</h2>
+
+        <div class="education-field">
+
+            <strong>Visibility:</strong>
+
+            {{ engagement.get_visibility_display }}
+
+        </div>
+
+        <div class="education-field">
+
+            <strong>Featured:</strong>
+
+            {% if engagement.featured %}
+                Yes
+            {% else %}
+                No
+            {% endif %}
+
+        </div>
+
+    </section>
+
+
+    <div class="management-form-actions">
+
+        <a
+            href="{% url 'engagement_list' %}"
+            class="btn btn-secondary"
+        >
+            Back to Engagements
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

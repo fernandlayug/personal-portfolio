@@ -593,7 +593,7 @@ class Evidence(models.Model):
     class Meta:
         ordering = ['title']
         indexes = [
-            models.Index(fields=['profile', 'visibility'], name='evidence_profile_visibility_idx'),
+            models.Index(fields=['profile', 'visibility'], name='evidence_visibility_idx'),
         ]
 
     def __str__(self):

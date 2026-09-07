@@ -1,12 +1,14 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.contrib import messages
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.conf import settings
 from django.urls import reverse
 from django.utils.text import slugify
+
+from django.db import transaction
 
 from .models import (
     Profile,
@@ -19,6 +21,11 @@ from .models import (
     License,
     Award,
     ProfessionalMembership,
+    Engagement,
+    Organization,
+    Event,
+    Evidence,
+    Profile,
     
 )
 
@@ -33,6 +40,10 @@ from .forms import (
     LicenseForm,
     AwardForm,
     ProfessionalMembershipForm, 
+    EngagementForm,
+    OrganizationForm,
+    EventForm,
+    EvidenceForm,
 )
 
 def portfolio_home(request):
@@ -1605,3 +1616,655 @@ def professional_membership_delete(
         }
     )
 
+# ============================================================
+# PHASE 4 — PROFESSIONAL ENGAGEMENT CRUD
+# ============================================================
+
+@login_required
+def engagement_list(request):
+    """
+    Display Professional Engagements belonging only to
+    the authenticated user's Profile.
+    """
+
+    profile = get_object_or_404(
+        Profile,
+        user=request.user
+    )
+
+    engagements = (
+        Engagement.objects
+        .filter(profile=profile)
+        .select_related(
+            'engagement_type',
+            'primary_role',
+            'event',
+        )
+        .prefetch_related(
+            'roles',
+            'tags',
+            'organization_relationships',
+        )
+        .order_by('-start_date', '-created_at')
+    )
+
+    return render(
+        request,
+        'portfolio/engagement_list.html',
+        {
+            'profile': profile,
+            'engagements': engagements,
+        }
+    )
+
+
+@login_required
+def engagement_detail(request, pk):
+    """
+    Display one Professional Engagement.
+
+    The object lookup is always restricted to the
+    authenticated user's Profile.
+    """
+
+    profile = get_object_or_404(
+        Profile,
+        user=request.user
+    )
+
+    engagement = get_object_or_404(
+        Engagement.objects
+        .filter(profile=profile)
+        .select_related(
+            'engagement_type',
+            'primary_role',
+            'event',
+        )
+        .prefetch_related(
+            'roles',
+            'tags',
+            'organization_relationships',
+            'projects',
+            'research',
+            'professional_memberships',
+            'work_experiences',
+            'skills',
+            'education',
+            'certificates',
+            'awards',
+            'evidence',
+            'organization_relationships__organization',
+        ),
+        pk=pk,
+    )
+
+    return render(
+        request,
+        'portfolio/engagement_detail.html',
+        {
+            'profile': profile,
+            'engagement': engagement,
+        }
+    )
+
+
+@login_required
+def engagement_add(request):
+    """
+    Create a Professional Engagement.
+
+    Profile ownership is assigned server-side.
+    """
+
+    profile = get_object_or_404(
+        Profile,
+        user=request.user
+    )
+
+    if request.method == 'POST':
+        form = EngagementForm(
+            request.POST,
+            profile=profile
+        )
+
+        if form.is_valid():
+            with transaction.atomic():
+                engagement = form.save(commit=False)
+
+                # Never accept ownership from the browser.
+                engagement.profile = profile
+
+                engagement.save()
+                form.save_m2m()
+
+            messages.success(
+                request,
+                'Professional engagement created successfully.'
+            )
+
+            return redirect(
+                'engagement_detail',
+                pk=engagement.pk
+            )
+
+    else:
+        form = EngagementForm(
+            profile=profile
+        )
+
+    return render(
+        request,
+        'portfolio/engagement_form.html',
+        {
+            'profile': profile,
+            'form': form,
+            'page_title': 'Add Professional Engagement',
+        }
+    )
+
+
+@login_required
+def engagement_edit(request, pk):
+    """
+    Edit an existing Professional Engagement.
+
+    The engagement must belong to the authenticated
+    user's Profile.
+    """
+
+    profile = get_object_or_404(
+        Profile,
+        user=request.user
+    )
+
+    engagement = get_object_or_404(
+        Engagement,
+        pk=pk,
+        profile=profile
+    )
+
+    if request.method == 'POST':
+        form = EngagementForm(
+            request.POST,
+            instance=engagement,
+            profile=profile
+        )
+
+        if form.is_valid():
+            with transaction.atomic():
+                engagement = form.save(commit=False)
+
+                # Explicitly preserve ownership.
+                engagement.profile = profile
+
+                engagement.save()
+                form.save_m2m()
+
+            messages.success(
+                request,
+                'Professional engagement updated successfully.'
+            )
+
+            return redirect(
+                'engagement_detail',
+                pk=engagement.pk
+            )
+
+    else:
+        form = EngagementForm(
+            instance=engagement,
+            profile=profile
+        )
+
+    return render(
+        request,
+        'portfolio/engagement_form.html',
+        {
+            'profile': profile,
+            'form': form,
+            'engagement': engagement,
+            'page_title': 'Edit Professional Engagement',
+        }
+    )
+
+
+@login_required
+def engagement_delete(request, pk):
+    """
+    Delete a Professional Engagement.
+
+    Only the authenticated user's own engagement
+    can be deleted.
+    """
+
+    profile = get_object_or_404(
+        Profile,
+        user=request.user
+    )
+
+    engagement = get_object_or_404(
+        Engagement,
+        pk=pk,
+        profile=profile
+    )
+
+    if request.method == 'POST':
+        title = engagement.title
+
+        engagement.delete()
+
+        messages.success(
+            request,
+            f'Professional engagement "{title}" was deleted.'
+        )
+
+        return redirect('engagement_list')
+
+    return render(
+        request,
+        'portfolio/engagement_confirm_delete.html',
+        {
+            'profile': profile,
+            'engagement': engagement,
+        }
+    )
+
+
+# ============================================================
+# ORGANIZATION CRUD
+# ============================================================
+
+@login_required
+def organization_list(request):
+    """
+    Display Organizations belonging only to
+    the authenticated user's Profile.
+    """
+
+    profile = get_object_or_404(
+        Profile,
+        user=request.user
+    )
+
+    organizations = (
+        Organization.objects
+        .filter(profile=profile)
+        .prefetch_related('classifications')
+        .order_by('name')
+    )
+
+    return render(
+        request,
+        'portfolio/organization_list.html',
+        {
+            'profile': profile,
+            'organizations': organizations,
+        }
+    )
+
+
+@login_required
+def organization_add(request):
+    """
+    Create a tenant/profile-owned Organization.
+    """
+
+    profile = get_object_or_404(
+        Profile,
+        user=request.user
+    )
+
+    if request.method == 'POST':
+        form = OrganizationForm(
+            request.POST,
+            profile=profile
+        )
+
+        if form.is_valid():
+            organization = form.save(commit=False)
+            organization.profile = profile
+            organization.save()
+            form.save_m2m()
+
+            messages.success(
+                request,
+                'Organization created successfully.'
+            )
+
+            return redirect('organization_list')
+
+    else:
+        form = OrganizationForm(
+            profile=profile
+        )
+
+    return render(
+        request,
+        'portfolio/organization_form.html',
+        {
+            'profile': profile,
+            'form': form,
+            'page_title': 'Add Organization',
+        }
+    )
+
+
+@login_required
+def organization_edit(request, pk):
+    """
+    Edit an Organization owned by the
+    authenticated user's Profile.
+    """
+
+    profile = get_object_or_404(
+        Profile,
+        user=request.user
+    )
+
+    organization = get_object_or_404(
+        Organization,
+        pk=pk,
+        profile=profile
+    )
+
+    if request.method == 'POST':
+        form = OrganizationForm(
+            request.POST,
+            instance=organization,
+            profile=profile
+        )
+
+        if form.is_valid():
+            organization = form.save(commit=False)
+            organization.profile = profile
+            organization.save()
+            form.save_m2m()
+
+            messages.success(
+                request,
+                'Organization updated successfully.'
+            )
+
+            return redirect('organization_list')
+
+    else:
+        form = OrganizationForm(
+            instance=organization,
+            profile=profile
+        )
+
+    return render(
+        request,
+        'portfolio/organization_form.html',
+        {
+            'profile': profile,
+            'form': form,
+            'organization': organization,
+            'page_title': 'Edit Organization',
+        }
+    )
+
+
+# ============================================================
+# EVENT CRUD
+# ============================================================
+
+@login_required
+def event_list(request):
+    """
+    Display Events belonging only to
+    the authenticated user's Profile.
+    """
+
+    profile = get_object_or_404(
+        Profile,
+        user=request.user
+    )
+
+    events = (
+        Event.objects
+        .filter(profile=profile)
+        .order_by('-start_date', 'name')
+    )
+
+    return render(
+        request,
+        'portfolio/event_list.html',
+        {
+            'profile': profile,
+            'events': events,
+        }
+    )
+
+
+@login_required
+def event_add(request):
+    """
+    Create a tenant/profile-owned Event.
+    """
+
+    profile = get_object_or_404(
+        Profile,
+        user=request.user
+    )
+
+    if request.method == 'POST':
+        form = EventForm(request.POST)
+
+        if form.is_valid():
+            event = form.save(commit=False)
+
+            # Ownership comes from authenticated Profile.
+            event.profile = profile
+
+            event.save()
+
+            messages.success(
+                request,
+                'Event created successfully.'
+            )
+
+            return redirect('event_list')
+
+    else:
+        form = EventForm()
+
+    return render(
+        request,
+        'portfolio/event_form.html',
+        {
+            'profile': profile,
+            'form': form,
+            'page_title': 'Add Event',
+        }
+    )
+
+
+@login_required
+def event_edit(request, pk):
+    """
+    Edit an Event owned by the authenticated user's Profile.
+    """
+
+    profile = get_object_or_404(
+        Profile,
+        user=request.user
+    )
+
+    event = get_object_or_404(
+        Event,
+        pk=pk,
+        profile=profile
+    )
+
+    if request.method == 'POST':
+        form = EventForm(
+            request.POST,
+            instance=event
+        )
+
+        if form.is_valid():
+            event = form.save(commit=False)
+
+            # Explicitly preserve ownership.
+            event.profile = profile
+
+            event.save()
+
+            messages.success(
+                request,
+                'Event updated successfully.'
+            )
+
+            return redirect('event_list')
+
+    else:
+        form = EventForm(
+            instance=event
+        )
+
+    return render(
+        request,
+        'portfolio/event_form.html',
+        {
+            'profile': profile,
+            'form': form,
+            'event': event,
+            'page_title': 'Edit Event',
+        }
+    )
+
+
+# ============================================================
+# EVIDENCE CRUD
+# ============================================================
+
+@login_required
+def evidence_list(request):
+    """
+    Display Evidence metadata belonging only to
+    the authenticated user's Profile.
+
+    Phase 4 does not upload files.
+    """
+
+    profile = get_object_or_404(
+        Profile,
+        user=request.user
+    )
+
+    evidence = (
+        Evidence.objects
+        .filter(profile=profile)
+        .order_by('title')
+    )
+
+    return render(
+        request,
+        'portfolio/evidence_list.html',
+        {
+            'profile': profile,
+            'evidence': evidence,
+        }
+    )
+
+
+@login_required
+def evidence_add(request):
+    """
+    Create Evidence metadata.
+
+    Actual file/document storage is deferred
+    to Phase 5/6.
+    """
+
+    profile = get_object_or_404(
+        Profile,
+        user=request.user
+    )
+
+    if request.method == 'POST':
+        form = EvidenceForm(request.POST)
+
+        if form.is_valid():
+            evidence = form.save(commit=False)
+
+            # Ownership comes from authenticated Profile.
+            evidence.profile = profile
+
+            evidence.save()
+
+            messages.success(
+                request,
+                'Evidence record created successfully.'
+            )
+
+            return redirect('evidence_list')
+
+    else:
+        form = EvidenceForm()
+
+    return render(
+        request,
+        'portfolio/evidence_form.html',
+        {
+            'profile': profile,
+            'form': form,
+            'page_title': 'Add Evidence',
+        }
+    )
+
+
+@login_required
+def evidence_edit(request, pk):
+    """
+    Edit Evidence owned by the authenticated user's Profile.
+    """
+
+    profile = get_object_or_404(
+        Profile,
+        user=request.user
+    )
+
+    evidence = get_object_or_404(
+        Evidence,
+        pk=pk,
+        profile=profile
+    )
+
+    if request.method == 'POST':
+        form = EvidenceForm(
+            request.POST,
+            instance=evidence
+        )
+
+        if form.is_valid():
+            evidence = form.save(commit=False)
+
+            # Explicitly preserve ownership.
+            evidence.profile = profile
+
+            evidence.save()
+
+            messages.success(
+                request,
+                'Evidence record updated successfully.'
+            )
+
+            return redirect('evidence_list')
+
+    else:
+        form = EvidenceForm(
+            instance=evidence
+        )
+
+    return render(
+        request,
+        'portfolio/evidence_form.html',
+        {
+            'profile': profile,
+            'form': form,
+            'evidence': evidence,
+            'page_title': 'Edit Evidence',
+        }
+    )

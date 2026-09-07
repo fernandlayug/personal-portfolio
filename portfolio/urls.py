@@ -264,4 +264,107 @@ urlpatterns = [
         views.professional_membership_delete,
         name='professional_membership_delete'
     ),
+
+    # ============================================================
+    # PHASE 4 — PROFESSIONAL ENGAGEMENT
+    # ============================================================
+
+    path(
+        'dashboard/engagements/',
+        views.engagement_list,
+        name='engagement_list'
+    ),
+
+    path(
+        'dashboard/engagements/add/',
+        views.engagement_add,
+        name='engagement_add'
+    ),
+
+    path(
+        'dashboard/engagements/<int:pk>/',
+        views.engagement_detail,
+        name='engagement_detail'
+    ),
+
+    path(
+        'dashboard/engagements/<int:pk>/edit/',
+        views.engagement_edit,
+        name='engagement_edit'
+    ),
+
+    path(
+        'dashboard/engagements/<int:pk>/delete/',
+        views.engagement_delete,
+        name='engagement_delete'
+    ),
+
+
+    # ============================================================
+    # PHASE 4 — ORGANIZATIONS
+    # ============================================================
+
+    path(
+        'dashboard/organizations/',
+        views.organization_list,
+        name='organization_list'
+    ),
+
+    path(
+        'dashboard/organizations/add/',
+        views.organization_add,
+        name='organization_add'
+    ),
+
+    path(
+        'dashboard/organizations/<int:pk>/edit/',
+        views.organization_edit,
+        name='organization_edit'
+    ),
+
+
+    # ============================================================
+    # PHASE 4 — EVENTS
+    # ============================================================
+
+    path(
+        'dashboard/events/',
+        views.event_list,
+        name='event_list'
+    ),
+
+    path(
+        'dashboard/events/add/',
+        views.event_add,
+        name='event_add'
+    ),
+
+    path(
+        'dashboard/events/<int:pk>/edit/',
+        views.event_edit,
+        name='event_edit'
+    ),
+
+
+    # ============================================================
+    # PHASE 4 — EVIDENCE
+    # ============================================================
+
+    path(
+        'dashboard/evidence/',
+        views.evidence_list,
+        name='evidence_list'
+    ),
+
+    path(
+        'dashboard/evidence/add/',
+        views.evidence_add,
+        name='evidence_add'
+    ),
+
+    path(
+        'dashboard/evidence/<int:pk>/edit/',
+        views.evidence_edit,
+        name='evidence_edit'
+    ),
 ]

@@ -1,0 +1,56 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}Personal Portfolio Assistant{% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static 'portfolio/css/style.css' %}">
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+    <main class="dashboard-page">
+        <div class="container">
+
+            {% block page_header %}
+            <header class="dashboard-header">
+                <div>
+                    <p class="hero-label">Personal Portfolio Assistant</p>
+
+                    <h1>
+                        {% block page_title %}{% endblock %}
+                    </h1>
+
+                    {% block page_description %}{% endblock %}
+                </div>
+
+                {% block page_actions %}{% endblock %}
+            </header>
+            {% endblock %}
+
+            {% if messages %}
+                <div class="dashboard-messages">
+                    {% for message in messages %}
+                        <div class="dashboard-message {{ message.tags }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% block content %}
+            {% endblock %}
+
+        </div>
+    </main>
+
+    {% block extra_js %}{% endblock %}
+
+</body>
+</html>

@@ -651,3 +651,68 @@ The following principles are non-negotiable:
 15. Public projection must be controlled rather than unrestricted relationship traversal.
 16. Development follows the approved roadmap.
 17. Future-phase capabilities must not be silently pulled into the current phase.
+
+## UI Architecture and Template Strategy
+
+The application uses Django templates for the web presentation layer and will progressively adopt a shared template architecture as the SaaS platform grows.
+
+### Phase 4 Template Foundation
+
+Beginning with Phase 4, newly developed dashboard and management functionality will use:
+
+`portfolio/templates/portfolio/base.html`
+
+The `base.html` template serves as the shared presentation foundation for new functionality.
+
+It should contain only application-wide presentation concerns such as:
+
+- HTML document structure
+- Shared `<head>` configuration
+- Global stylesheet references
+- Common dashboard/page shell
+- Shared navigation where appropriate
+- Main content container
+- Template blocks for page-specific content
+- Optional page-specific CSS/JavaScript blocks
+
+The base template must follow the existing application's established visual language and CSS architecture.
+
+The project will not introduce Bootstrap or another separate UI framework unless a future architectural decision explicitly changes this policy.
+
+### Existing Phase 1–3 Templates
+
+The Phase 1–3 templates were originally implemented as standalone templates.
+
+They will remain operational during Phase 4 and will not be unnecessarily refactored solely to introduce `base.html`.
+
+This prevents UI refactoring from being mixed into the implementation of new SaaS functionality.
+
+### Phase 11 UI Enhancement
+
+The migration of Phase 1–3 templates to the shared `base.html` architecture will be addressed during Phase 11 as part of the broader UI Enhancement workstream.
+
+The Phase 11 UI Enhancement workstream will include:
+
+- Migration of remaining standalone templates to `base.html`
+- Standardization of navigation
+- Standardization of page layouts
+- Standardization of forms and validation presentation
+- Standardization of buttons and actions
+- Standardization of cards and list views
+- Standardization of messages and notifications
+- Responsive UI refinement
+- Accessibility improvements
+- Reusable UI component and template patterns
+- Visual consistency across the complete application
+
+### UI Migration Boundary
+
+Phase 4 introduces `base.html` as the standard template foundation for newly developed functionality.
+
+Existing Phase 1–3 templates remain operational until the planned Phase 11 UI Enhancement workstream.
+
+This separation is intentional: functionality development and UI-wide refactoring are treated as separate engineering activities.
+
+### UI Architecture Principle
+
+> New functionality should follow the current shared template architecture, while existing functionality should not be unnecessarily refactored during feature-development phases. Broad UI modernization will be performed deliberately during the Phase 11 UI Enhancement workstream.

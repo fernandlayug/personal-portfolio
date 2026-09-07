@@ -1,0 +1,149 @@
+{% extends "portfolio/base.html" %}
+
+{% block title %}Professional Engagements{% endblock %}
+
+{% block page_title %}
+Professional Engagements
+{% endblock %}
+
+{% block page_description %}
+Manage your professional activities, services, participation, collaborations, leadership, and other meaningful professional involvement.
+{% endblock %}
+
+{% block page_actions %}
+<div class="dashboard-actions">
+    <a href="{% url 'engagement_add' %}" class="btn btn-primary">
+        Add Engagement
+    </a>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<section class="education-management-list">
+
+    {% if engagements %}
+
+        {% for engagement in engagements %}
+
+            <article class="education-management-card">
+
+                <div class="education-management-main">
+
+                    <div class="education-management-icon">
+                        <span>◆</span>
+                    </div>
+
+                    <div class="education-management-content">
+
+                        <div class="education-field">
+                            <h2>
+                                {{ engagement.title }}
+                            </h2>
+                        </div>
+
+                        <div class="education-period">
+                            {{ engagement.engagement_type.name }}
+                            ·
+                            {{ engagement.primary_role.name }}
+                        </div>
+
+                        <div class="education-management-description">
+                            {{ engagement.description|truncatewords:30 }}
+                        </div>
+
+                        <div class="education-field">
+
+                            <strong>Status:</strong>
+                            {{ engagement.get_status_display }}
+
+                            {% if engagement.start_date %}
+                                ·
+                                {{ engagement.start_date|date:"M d, Y" }}
+                            {% endif %}
+
+                            {% if engagement.end_date %}
+                                –
+                                {{ engagement.end_date|date:"M d, Y" }}
+                            {% endif %}
+
+                        </div>
+
+                        <div class="education-field">
+
+                            <strong>Visibility:</strong>
+                            {{ engagement.get_visibility_display }}
+
+                            {% if engagement.featured %}
+                                · Featured
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="education-management-actions">
+
+                    <a
+                        href="{% url 'engagement_detail' engagement.pk %}"
+                        class="btn btn-secondary"
+                    >
+                        View
+                    </a>
+
+                    <a
+                        href="{% url 'engagement_edit' engagement.pk %}"
+                        class="btn btn-secondary"
+                    >
+                        Edit
+                    </a>
+
+                    <a
+                        href="{% url 'engagement_delete' engagement.pk %}"
+                        class="btn btn-danger"
+                    >
+                        Delete
+                    </a>
+
+                </div>
+
+            </article>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="dashboard-empty-state">
+
+            <div class="dashboard-empty-icon">
+                ◆
+            </div>
+
+            <h2>No Professional Engagements Yet</h2>
+
+            <p>
+                Start documenting meaningful professional activities,
+                services, collaborations, leadership roles, and other
+                professional involvement.
+            </p>
+
+            <div class="dashboard-actions">
+
+                <a
+                    href="{% url 'engagement_add' %}"
+                    class="btn btn-primary"
+                >
+                    Add Your First Engagement
+                </a>
+
+            </div>
+
+        </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}
