@@ -1,5 +1,97 @@
 # Personal Portfolio AI Assistant — Changelog
 
+## 2026-09-07 — Phase 4 Engagement Architecture Locked
+
+### Added
+
+- Established Professional Engagement as a first-class portfolio domain.
+- Defined Professional Engagement as meaningful professional involvement rather than generic activity or attendance logging.
+- Established the distinction between Engagement Type and Engagement Role.
+- Established tenant-aware configurable taxonomies for Engagement Type, Engagement Role, Organization Classification, and Tags.
+- Established tenant-owned reusable Organizations as shared portfolio context.
+- Established tenant-owned reusable Events as shared portfolio context.
+- Established Evidence as a reusable supporting concept broader than documents.
+- Defined Engagement relationship cardinalities and semantic Organization relationship roles.
+- Defined Engagement lifecycle statuses and date validation rules.
+- Defined Engagement visibility, Featured behavior, and controlled public projection rules.
+- Defined Phase 4 CRUD, search/filtering, relationship management, and tenant-isolation requirements.
+
+### Phase 4 Architectural Decisions
+
+Professional Engagement is distinct from Professional Memberships and from future Platform Engagement/Website Analytics.
+
+Mere attendance or passive participation in a professional event does not constitute a Professional Engagement.
+
+Engagement relationships are explicitly semantic rather than represented through a generic relationship mechanism.
+
+Approved Engagement relationships include:
+
+- Engagement ↔ Organization — M:N
+- Engagement → Event — 0..1
+- Engagement ↔ Project — M:N
+- Engagement ↔ Research — M:N
+- Engagement ↔ Professional Membership — M:N
+- Engagement ↔ Work Experience — M:N
+- Engagement ↔ Skills — M:N
+- Engagement ↔ Education — M:N
+- Engagement ↔ Certificate — M:N
+- Engagement ↔ Award — M:N
+- Engagement ↔ Evidence — M:N
+
+All relationships are optional.
+
+Organizations and Events are reusable tenant-owned portfolio context and may eventually be used by multiple portfolio domains.
+
+### Visibility and Privacy
+
+Initial Engagement visibility states:
+
+- Private
+- Public
+- Unlisted
+
+New Engagements are private by default.
+
+Draft Engagements are never publicly presented.
+
+Public Engagement visibility does not automatically expose related records or evidence.
+
+Public presentation must use a controlled projection rather than unrestricted relationship traversal.
+
+Public Engagement visibility does not imply Public AI eligibility.
+
+### Phase 4 Boundary
+
+Phase 4 intentionally does not implement:
+
+- Document Management
+- Local file/binary storage
+- Google Drive
+- OneDrive
+- OCR
+- Intelligent document extraction
+- AI/RAG
+- Resume/CV/Portfolio generation
+- Public AI
+- PWA/Mobile expansion
+- Production/SaaS hardening
+- CRM/Contacts/People management
+- Event registration, RSVP, ticketing, attendance, participant management, scheduling, or recurrence
+- Website visitor/page-view analytics
+
+### Documentation
+
+Updated:
+
+- `docs/ARCHITECTURE.md`
+- `docs/ARCHITECTURE_DECISIONS.md`
+- `docs/MASTER_ROADMAP.md`
+- `docs/PROJECT_STATUS.md`
+
+Phase 4 architecture is now locked. Django implementation proceeds next through Step 5.15 — Django Model Architecture.
+
+---
+
 ## 2026-09-06 — Phase 3 Completion and Portfolio Domain Expansion
 
 ### Added
@@ -117,8 +209,6 @@ Phase 3 — Multi-Tenant Portfolio Management is officially complete.
 The Phase 3 completion gate is closed as of 2026-09-06.
 
 Phase 4 — Engagement Management is now the current development phase.
-
-Before Phase 4 implementation, its meaning, purpose, scope, models, relationships, workflows, privacy/security boundaries, tenant-isolation requirements, and completion gate must be established and approved.
 
 Professional Memberships are explicitly distinct from Engagement Management.
 
