@@ -1,7 +1,7 @@
 # Personal Portfolio AI Assistant — Project Status
 
 **Current Phase:** Phase 4 — Engagement Management  
-**Overall Status:** Phase 1, Phase 2, and Phase 3 complete. Phase 4 is current.
+**Overall Status:** Phase 1, Phase 2, and Phase 3 complete. Phase 4 architecture established; implementation not yet started.
 
 ---
 
@@ -12,7 +12,7 @@
 | Phase 1 — Foundation | COMPLETE |
 | Phase 2 — Professional Portfolio UI | COMPLETE |
 | Phase 3 — Multi-Tenant Portfolio Management | COMPLETE |
-| Phase 4 — Engagement Management | CURRENT |
+| Phase 4 — Engagement Management | CURRENT — ARCHITECTURE LOCKED |
 | Phase 5 — Document Management | FUTURE |
 | Phase 6 — Cloud Storage Integration | FUTURE |
 | Phase 7 — Intelligent Document Processing | FUTURE |
@@ -71,175 +71,6 @@ The implemented management domains use authenticated, tenant-scoped CRUD pattern
 
 ---
 
-# Research — IMPLEMENTED AND TESTED
-
-Research CRUD is complete.
-
-Implemented fields include:
-
-- Title
-- Research type
-- Role
-- Institution
-- Start date
-- Completion date
-- Status
-- Abstract
-- Research URL
-- Publication URL
-- Collaborators
-
-Validation was tested for:
-
-- Future start date
-- Future completion date
-- Completion date earlier than start date
-
-Research PDF/document upload remains deferred to Phase 5.
-
----
-
-# Licenses — IMPLEMENTED AND TESTED
-
-License CRUD is complete.
-
-Implemented fields include:
-
-- Name
-- Issuing organization
-- License type
-- License number
-- Issue date
-- Expiration date
-- Status
-- License URL
-- Description
-
-Implemented workflows:
-
-- License list
-- Add License
-- Edit License
-- Delete confirmation
-- Delete License
-- Dashboard integration
-
-Validation includes:
-
-- Issue date cannot be in the future
-- Expiration date cannot be earlier than the issue date
-
-License numbers remain private by default.
-
----
-
-# Awards — IMPLEMENTED AND TESTED
-
-Award CRUD is complete.
-
-Implemented fields include:
-
-- Name
-- Awarding organization
-- Award type
-- Award date
-- Level
-- Description
-- Award URL
-
-Validation includes:
-
-- Award date cannot be in the future
-
-Award supporting certificates are not stored as local files in Phase 3. Supporting-document management is deferred to Phase 5.
-
----
-
-# Professional Memberships — IMPLEMENTED AND TESTED
-
-Professional Membership CRUD is complete.
-
-Implemented fields include:
-
-- Organization name
-- Membership type
-- Membership number
-- Role
-- Start date
-- End date
-- Status
-- Description
-- Membership URL
-
-Validation includes:
-
-- Start date cannot be in the future
-- End date cannot be earlier than the start date
-
-Membership numbers remain private by default.
-
-Supporting membership certificates are not stored as local files in Phase 3. Supporting-document management is deferred to Phase 5.
-
----
-
-# Supporting-Document Boundary
-
-Phase 3 establishes the architectural concept that portfolio records may have multiple supporting documents.
-
-Examples include:
-
-- Award → Certificate of Award
-- Award → Announcement/Evidence
-- Professional Membership → Certificate of Membership
-- Professional Membership → Renewal/Evidence
-- Research → Research Paper/PDF
-
-Phase 3 does not implement:
-
-- Django `FileField` document storage
-- Local binary document storage
-- Google Drive integration
-- OneDrive integration
-- OCR
-- Document extraction
-- AI document processing
-
-These capabilities remain assigned to later phases.
-
----
-
-# Tenant Isolation — VERIFIED
-
-Tenant isolation testing has been completed for tenant-owned portfolio management workflows.
-
-Verified behavior includes:
-
-- A tenant can create and manage its own records.
-- Another tenant cannot see those records.
-- Another tenant cannot edit those records through a manipulated URL.
-- Another tenant cannot access the delete page through a manipulated URL.
-- The owning tenant's records remain intact.
-
-The established pattern is:
-
-- `@login_required`
-- `verify_current_tenant(request)`
-- Tenant/profile-scoped queries
-- Server-side ownership assignment
-- No client-controlled tenant/profile assignment
-
----
-
-# Security and Privacy Boundary
-
-Portfolio management records are private by default.
-
-Sensitive identifiers, including license numbers and membership numbers, must not automatically become public merely because they exist in the private portfolio database.
-
-Future public portfolio and public AI functionality must use explicit tenant-approved public data/visibility controls.
-
----
-
 # Phase 3 Completion Gate — CLOSED
 
 - [x] Profile management foundation established
@@ -265,38 +96,167 @@ Future public portfolio and public AI functionality must use explicit tenant-app
 
 ---
 
-# Current Project State
+# Phase 4 — Engagement Management — CURRENT
 
-- Phase 3 — Multi-Tenant Portfolio Management: **COMPLETE**
-- Structured portfolio baseline: **COMPLETE**
-- Research CRUD: **IMPLEMENTED AND TESTED**
-- License CRUD: **IMPLEMENTED AND TESTED**
-- Award CRUD: **IMPLEMENTED AND TESTED**
-- Professional Membership CRUD: **IMPLEMENTED AND TESTED**
-- Tenant isolation: **VERIFIED**
-- Phase 3 completion gate: **CLOSED**
-- Phase 4 — Engagement Management: **CURRENT**
+## Architecture Status
 
----
+**Phase 4 architecture is established and locked.**
 
-# Phase 4 Direction
+Implementation has not yet started.
 
-The next development work belongs to Engagement Management.
+Professional Engagement is a first-class portfolio domain representing meaningful professional involvement. Mere attendance or passive participation does not constitute a Professional Engagement.
 
-Before implementation, Phase 4 must establish and approve:
+Professional Memberships remain conceptually distinct from Engagements.
 
-- Meaning and purpose of Engagement Management
-- Scope
-- Models
-- Relationships
-- Workflows
-- Privacy/security boundaries
-- Tenant-isolation requirements
-- Completion gate
+## Engagement Scope
 
-Professional Memberships must remain conceptually separate from Engagement Management.
+Phase 4 includes:
 
-Phase 4 should not silently absorb Document Management, Cloud Storage, Intelligent Document Processing, AI/RAG, Resume/CV generation, Public AI, PWA/Mobile, or production hardening.
+- Professional Engagements
+- Engagement Types
+- Engagement Roles
+- Tenant-aware configurable taxonomy records
+- Engagement Tags
+- Tenant-owned Organizations
+- Organization Classifications
+- Tenant-owned Events
+- Evidence metadata and relationships
+- Relationships to existing portfolio domains
+- Engagement CRUD workflows
+- Search and filtering
+- Lifecycle status
+- Dates and context
+- Narrative fields: Description, Purpose, Outcome, Impact
+- Visibility and Featured presentation controls
+- Controlled public projection
+- Tenant isolation and authorization-aware relationship assignment
+
+## Engagement Lifecycle
+
+Statuses:
+
+- Draft
+- Planned
+- Ongoing
+- Completed
+- Cancelled
+- Postponed
+
+Upcoming and Past are derived presentation states, not stored statuses.
+
+Start Date and End Date are independently optional. When both are supplied, End Date must not precede Start Date.
+
+## Engagement Relationships
+
+| Relationship | Cardinality |
+|---|---|
+| Engagement ↔ Organization | M:N |
+| Engagement → Event | 0..1 |
+| Engagement ↔ Project | M:N |
+| Engagement ↔ Research | M:N |
+| Engagement ↔ Professional Membership | M:N |
+| Engagement ↔ Work Experience | M:N |
+| Engagement ↔ Skills | M:N |
+| Engagement ↔ Education | M:N |
+| Engagement ↔ Certificate | M:N |
+| Engagement ↔ Award | M:N |
+| Engagement ↔ Evidence | M:N |
+
+All relationships are optional. An Engagement does not require another portfolio record.
+
+Organization relationships have semantic roles such as Partner, Host, Organizer, Appointing Organization, Collaborating Organization, Sponsor, Client, Beneficiary Organization, Supporting Organization, and Other.
+
+## Shared Portfolio Context
+
+Organizations and Events are reusable tenant-owned portfolio context rather than Engagement-only helper records.
+
+Organizations may eventually be reused by Engagements, Work Experience, Projects, Research, Professional Memberships, Certificates, Awards, and other future domains.
+
+Events may eventually be reused by Engagements and other appropriate portfolio domains.
+
+There is no global organization directory in the initial architecture.
+
+People/Contacts are not a Phase 4 CRM domain.
+
+## Evidence Boundary
+
+Phase 4 establishes Evidence metadata and relationships only.
+
+Evidence may represent certificates, letters, official announcements, correspondence, photos, reviewer records, external URLs, participant outputs, and other resources that substantiate or support an Engagement.
+
+Evidence visibility is independent from Engagement visibility.
+
+Actual document management remains Phase 5 and cloud storage remains Phase 6.
+
+## Visibility and Privacy
+
+Initial Engagement visibility:
+
+- Private
+- Public
+- Unlisted
+
+New Engagements are private by default.
+
+Draft Engagements are never publicly presented.
+
+Featured is independent from visibility.
+
+Public Engagement visibility does not automatically expose related records or evidence. Public presentation must use a controlled public projection rather than unrestricted relationship traversal.
+
+Public Engagement visibility does not imply Public AI eligibility.
+
+## Phase 4 Exclusions
+
+Phase 4 does not implement:
+
+- General Document Management
+- Local file/binary storage
+- Google Drive integration
+- OneDrive integration
+- OCR
+- Intelligent document extraction
+- AI/RAG
+- Resume/CV/Portfolio generation
+- Public AI
+- Advanced PWA/Mobile expansion
+- Production/SaaS hardening
+- CRM/Contacts
+- Event registration
+- RSVP
+- Ticketing
+- Participant management
+- Attendance management
+- Event scheduling/recurrence
+- Website visitor/page-view analytics
+
+## Phase 4 Architecture Gate
+
+- [x] Engagement meaning and qualification rule established
+- [x] Engagement scope established
+- [x] Engagement fields established
+- [x] Engagement Type/Role distinction established
+- [x] Tenant-aware configurable taxonomy decision established
+- [x] Organization model established
+- [x] Event model established
+- [x] Shared Portfolio Context decision established
+- [x] Evidence concept and boundary established
+- [x] Relationship cardinalities established
+- [x] Organization relationship semantics established
+- [x] Lifecycle/status model established
+- [x] Date rules established
+- [x] Visibility/privacy model established
+- [x] Public projection boundary established
+- [x] CRUD workflow established
+- [x] Tenant-isolation requirements established
+- [x] Phase 4 exclusions established
+- [x] Architecture documentation synchronized
+- [ ] Django model implementation
+- [ ] Migrations
+- [ ] CRUD implementation
+- [ ] UI implementation
+- [ ] Testing
+- [ ] Phase 4 completion gate
 
 ---
 
@@ -315,3 +275,4 @@ The following remain intentionally deferred:
 - Public AI — Phase 10
 - Advanced PWA/Mobile — Phase 11
 - Production/SaaS hardening — Phase 12
+- Platform Engagement / Website Analytics — future capability separate from Professional Engagement
