@@ -159,6 +159,81 @@ Document meaningful professional activity, service, collaboration, leadership, o
         }
 
     }
+
+    /*
+     * Organization Relationships
+     */
+
+    .organization-relationship-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        margin-top: 1rem;
+    }
+
+    .organization-relationship-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        border: 1px solid #d7dce3;
+        border-radius: 10px;
+        background: #ffffff;
+    }
+
+    .organization-relationship-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        min-width: 0;
+    }
+
+    .organization-relationship-info strong {
+        color: #172033;
+        font-size: 1rem;
+    }
+
+    .organization-relationship-info span {
+        color: #667085;
+        font-size: 0.9rem;
+    }
+
+    .organization-relationship-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        flex-shrink: 0;
+    }
+
+    .organization-remove-form {
+        margin: 0;
+    }
+
+    .organization-relationship-empty {
+        padding: 1rem;
+        border: 1px dashed #c7cdd6;
+        border-radius: 10px;
+        background: #fafbfc;
+        color: #667085;
+    }
+
+    .organization-relationship-empty p {
+        margin: 0;
+    }
+
+    @media (max-width: 640px) {
+
+        .organization-relationship-item {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .organization-relationship-actions {
+            justify-content: flex-start;
+        }
+
+    }
 </style>
 
 {% endblock %}
@@ -454,7 +529,95 @@ Document meaningful professional activity, service, collaboration, leadership, o
 
         </section>
 
+                <!-- Organizations -->
+        {% if form.instance.pk %}
+        <section class="management-form-section">
 
+            <h2>Organizations</h2>
+
+            <p class="professional-role-help">
+                Associate organizations that hosted, partnered with, supported,
+                collaborated on, or otherwise had a defined relationship with
+                this professional engagement.
+            </p>
+
+            <div class="management-form-actions">
+
+                <a
+                    href="{% url 'engagement_organization_add' form.instance.pk %}"
+                    class="btn btn-primary"
+                >
+                    Add Organization
+                </a>
+
+            </div>
+
+            <div class="organization-relationship-list">
+
+                {% for relationship in form.instance.organization_relationships.all %}
+
+                    <div class="organization-relationship-item">
+
+                        <div class="organization-relationship-info">
+
+                            <strong>
+                                {{ relationship.organization.name }}
+                            </strong>
+
+                            <span>
+                                {{ relationship.relationship_role.name }}
+                            </span>
+
+                        </div>
+
+                        <div class="organization-relationship-actions">
+
+                            <a
+                                href="{% url 'engagement_organization_edit' form.instance.pk relationship.pk %}"
+                                class="btn btn-secondary"
+                            >
+                                Change
+                            </a>
+
+                            <form
+                                method="post"
+                                action="{% url 'engagement_organization_remove' form.instance.pk relationship.pk %}"
+                                class="organization-remove-form"
+                            >
+
+                                {% csrf_token %}
+
+                                <button
+                                    type="submit"
+                                    class="btn btn-danger"
+                                    onclick="return confirm('Remove this organization relationship?');"
+                                >
+                                    Remove
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                {% empty %}
+
+                    <div class="organization-relationship-empty">
+                        <p>
+                            No organizations have been associated with this
+                            engagement yet.
+                        </p>
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+        {% endif %}
+
+        
         <!-- Presentation -->
         <section class="management-form-section">
 
@@ -518,6 +681,7 @@ Document meaningful professional activity, service, collaboration, leadership, o
         </div>
 
     </form>
+
 
 </div>
 

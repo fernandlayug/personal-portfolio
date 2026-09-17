@@ -383,7 +383,31 @@ class OrganizationClassification(models.Model):
     def __str__(self):
         return self.name
 
+class OrganizationRelationshipRole(models.Model):
+    profile = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE,
+        related_name='organization_relationship_roles'
+    )
+    name = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['profile', 'name'],
+                name='unique_org_relationship_role_per_profile'
+            )
+        ]
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+    
 class Tag(models.Model):
     profile = models.ForeignKey(
         Profile,
@@ -755,29 +779,6 @@ class Engagement(models.Model):
 
 
 class EngagementOrganization(models.Model):
-    ROLE_PARTNER = 'partner'
-    ROLE_HOST = 'host'
-    ROLE_ORGANIZER = 'organizer'
-    ROLE_APPOINTING = 'appointing_organization'
-    ROLE_COLLABORATING = 'collaborating_organization'
-    ROLE_SPONSOR = 'sponsor'
-    ROLE_CLIENT = 'client'
-    ROLE_BENEFICIARY = 'beneficiary_organization'
-    ROLE_SUPPORTING = 'supporting_organization'
-    ROLE_OTHER = 'other'
-    RELATIONSHIP_ROLE_CHOICES = [
-        (ROLE_PARTNER, 'Partner'),
-        (ROLE_HOST, 'Host'),
-        (ROLE_ORGANIZER, 'Organizer'),
-        (ROLE_APPOINTING, 'Appointing Organization'),
-        (ROLE_COLLABORATING, 'Collaborating Organization'),
-        (ROLE_SPONSOR, 'Sponsor'),
-        (ROLE_CLIENT, 'Client'),
-        (ROLE_BENEFICIARY, 'Beneficiary Organization'),
-        (ROLE_SUPPORTING, 'Supporting Organization'),
-        (ROLE_OTHER, 'Other'),
-    ]
-
     engagement = models.ForeignKey(
         Engagement,
         on_delete=models.CASCADE,
@@ -788,20 +789,27 @@ class EngagementOrganization(models.Model):
         on_delete=models.PROTECT,
         related_name='engagement_relationships'
     )
-    relationship_role = models.CharField(
-        max_length=40,
-        choices=RELATIONSHIP_ROLE_CHOICES
+    relationship_role = models.ForeignKey(
+        OrganizationRelationshipRole,
+        on_delete=models.PROTECT,
+        related_name='engagement_relationships'
     )
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=['engagement', 'organization', 'relationship_role'],
+                fields=[
+                    'engagement',
+                    'organization',
+                    'relationship_role'
+                ],
                 name='unique_engagement_org_role'
             )
         ]
         ordering = ['organization__name']
 
     def __str__(self):
-        return f"{self.organization} - {self.get_relationship_role_display()}"
+        return f"{self.organization} - {self.relationship_role}"
+
+    

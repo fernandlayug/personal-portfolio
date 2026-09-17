@@ -367,4 +367,42 @@ urlpatterns = [
         views.evidence_edit,
         name='evidence_edit'
     ),
+
+        # ============================================================
+    # PHASE 4 — PROFESSIONAL ROLE MANAGEMENT
+    # ============================================================
+
+    path(
+        'dashboard/engagement-settings/roles/',
+        views.engagement_role_list,
+        name='engagement_role_list'
+    ),
+
+    path(
+        'dashboard/engagement-settings/roles/add/',
+        views.engagement_role_add,
+        name='engagement_role_add'
+    ),
+
+    path(
+        'dashboard/engagement-settings/roles/<int:pk>/edit/',
+        views.engagement_role_edit,
+        name='engagement_role_edit'
+    ),
+
+    path(
+    'dashboard/engagements/<int:pk>/organizations/add/',
+    views.engagement_organization_add,
+    name='engagement_organization_add',
+    ),
+    path(
+        'dashboard/engagements/<int:pk>/organizations/<int:relationship_pk>/edit/',
+        views.engagement_organization_edit,
+        name='engagement_organization_edit',
+    ),
+    path(
+        'dashboard/engagements/<int:pk>/organizations/<int:relationship_pk>/remove/',
+        views.engagement_organization_remove,
+        name='engagement_organization_remove',
+    ),
 ]

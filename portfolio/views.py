@@ -7,6 +7,7 @@ from django.http import Http404
 from django.conf import settings
 from django.urls import reverse
 from django.utils.text import slugify
+from django.views.decorators.http import require_POST
 
 from django.db import transaction
 
@@ -22,10 +23,12 @@ from .models import (
     Award,
     ProfessionalMembership,
     Engagement,
+    EngagementRole,
+    EngagementOrganization,
     Organization,
     Event,
     Evidence,
-    Profile,
+    
     
 )
 
@@ -41,6 +44,8 @@ from .forms import (
     AwardForm,
     ProfessionalMembershipForm, 
     EngagementForm,
+    EngagementRoleForm,
+    EngagementOrganizationForm,
     OrganizationForm,
     EventForm,
     EvidenceForm,
@@ -1615,6 +1620,179 @@ def professional_membership_delete(
             ),
         }
     )
+# ============================================================
+# PHASE 4 — PROFESSIONAL ROLE MANAGEMENT
+# ============================================================
+
+@login_required
+def engagement_role_list(request):
+
+    profile = verify_current_tenant(request)
+
+    roles = EngagementRole.objects.filter(
+        profile=profile
+    ).order_by(
+        '-is_active',
+        'name'
+    )
+
+    context = {
+        'profile': profile,
+        'roles': roles,
+    }
+
+    return render(
+        request,
+        'portfolio/engagement_role_list.html',
+        context
+    )
+
+
+@login_required
+def engagement_role_add(request):
+
+    profile = verify_current_tenant(request)
+
+    if request.method == 'POST':
+
+        form = EngagementRoleForm(
+            request.POST
+        )
+
+        if form.is_valid():
+
+            role = form.save(
+                commit=False
+            )
+
+            # IMPORTANT:
+            # Never accept profile ownership
+            # from the browser.
+            role.profile = profile
+
+            # Prevent duplicate role names
+            # within this tenant/profile.
+            if EngagementRole.objects.filter(
+                profile=profile,
+                name__iexact=role.name
+            ).exists():
+
+                form.add_error(
+                    'name',
+                    'A professional role with this name already exists.'
+                )
+
+            else:
+
+                role.save()
+
+                messages.success(
+                    request,
+                    'Professional role added successfully.'
+                )
+
+                return redirect(
+                    'engagement_role_list'
+                )
+
+    else:
+
+        form = EngagementRoleForm(
+            initial={
+                'is_active': True,
+            }
+        )
+
+    context = {
+        'profile': profile,
+        'form': form,
+        'page_title': 'Add Professional Role',
+        'submit_label': 'Add Role',
+    }
+
+    return render(
+        request,
+        'portfolio/engagement_role_form.html',
+        context
+    )
+
+
+@login_required
+def engagement_role_edit(
+    request,
+    pk
+):
+
+    profile = verify_current_tenant(request)
+
+    role = get_object_or_404(
+        EngagementRole,
+        pk=pk,
+        profile=profile
+    )
+
+    if request.method == 'POST':
+
+        form = EngagementRoleForm(
+            request.POST,
+            instance=role
+        )
+
+        if form.is_valid():
+
+            name = form.cleaned_data['name']
+
+            duplicate_exists = (
+                EngagementRole.objects
+                .filter(
+                    profile=profile,
+                    name__iexact=name
+                )
+                .exclude(
+                    pk=role.pk
+                )
+                .exists()
+            )
+
+            if duplicate_exists:
+
+                form.add_error(
+                    'name',
+                    'A professional role with this name already exists.'
+                )
+
+            else:
+
+                form.save()
+
+                messages.success(
+                    request,
+                    'Professional role updated successfully.'
+                )
+
+                return redirect(
+                    'engagement_role_list'
+                )
+
+    else:
+
+        form = EngagementRoleForm(
+            instance=role
+        )
+
+    context = {
+        'profile': profile,
+        'form': form,
+        'role': role,
+        'page_title': 'Edit Professional Role',
+        'submit_label': 'Save Changes',
+    }
+
+    return render(
+        request,
+        'portfolio/engagement_role_form.html',
+        context
+    )
 
 # ============================================================
 # PHASE 4 — PROFESSIONAL ENGAGEMENT CRUD
@@ -2267,4 +2445,150 @@ def evidence_edit(request, pk):
             'evidence': evidence,
             'page_title': 'Edit Evidence',
         }
+    )
+
+@login_required
+def engagement_organization_add(request, pk):
+    profile = get_object_or_404(
+        Profile,
+        user=request.user,
+    )
+
+    engagement = get_object_or_404(
+        Engagement,
+        pk=pk,
+        profile=profile,
+    )
+
+    if request.method == 'POST':
+        form = EngagementOrganizationForm(
+            request.POST,
+            profile=profile,
+            engagement=engagement,
+        )
+
+        if form.is_valid():
+            relationship = form.save(commit=False)
+
+            # Server-side ownership assignment.
+            relationship.engagement = engagement
+
+            relationship.save()
+
+            messages.success(
+                request,
+                'Organization relationship added successfully.',
+            )
+
+            return redirect(
+                'engagement_edit',
+                pk=engagement.pk,
+            )
+
+    else:
+        form = EngagementOrganizationForm(
+            profile=profile,
+            engagement=engagement,
+        )
+
+    return render(
+        request,
+        'portfolio/engagement_organization_form.html',
+        {
+            'form': form,
+            'engagement': engagement,
+            'page_title': 'Add Organization Relationship',
+        },
+    )
+
+@login_required
+def engagement_organization_edit(request, pk, relationship_pk):
+    profile = get_object_or_404(
+        Profile,
+        user=request.user,
+    )
+
+    engagement = get_object_or_404(
+        Engagement,
+        pk=pk,
+        profile=profile,
+    )
+
+    relationship = get_object_or_404(
+        EngagementOrganization,
+        pk=relationship_pk,
+        engagement=engagement,
+        engagement__profile=profile,
+    )
+
+    if request.method == 'POST':
+        form = EngagementOrganizationForm(
+            request.POST,
+            instance=relationship,
+            profile=profile,
+            engagement=engagement,
+        )
+
+        if form.is_valid():
+            form.save()
+
+            messages.success(
+                request,
+                'Organization relationship updated successfully.',
+            )
+
+            return redirect(
+                'engagement_edit',
+                pk=engagement.pk,
+            )
+
+    else:
+        form = EngagementOrganizationForm(
+            instance=relationship,
+            profile=profile,
+            engagement=engagement,
+        )
+
+    return render(
+        request,
+        'portfolio/engagement_organization_form.html',
+        {
+            'form': form,
+            'engagement': engagement,
+            'relationship': relationship,
+            'page_title': 'Edit Organization Relationship',
+        },
+    )
+
+@login_required
+@require_POST
+def engagement_organization_remove(request, pk, relationship_pk):
+    profile = get_object_or_404(
+        Profile,
+        user=request.user,
+    )
+
+    engagement = get_object_or_404(
+        Engagement,
+        pk=pk,
+        profile=profile,
+    )
+
+    relationship = get_object_or_404(
+        EngagementOrganization,
+        pk=relationship_pk,
+        engagement=engagement,
+        engagement__profile=profile,
+    )
+
+    relationship.delete()
+
+    messages.success(
+        request,
+        'Organization relationship removed successfully.',
+    )
+
+    return redirect(
+        'engagement_edit',
+        pk=engagement.pk,
     )

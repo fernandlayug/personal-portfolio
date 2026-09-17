@@ -1,0 +1,146 @@
+{% extends "portfolio/base.html" %}
+
+{% block title %}
+{{ page_title }}
+{% endblock %}
+
+{% block page_title %}
+{{ page_title }}
+{% endblock %}
+
+{% block page_description %}
+Define a professional role that can be assigned to your Professional Engagements.
+{% endblock %}
+
+{% block content %}
+
+<div class="management-form-page">
+
+    <form method="post" class="management-form">
+
+        {% csrf_token %}
+
+
+        {% if form.non_field_errors %}
+
+            <div class="form-errors">
+
+                {% for error in form.non_field_errors %}
+
+                    <p>{{ error }}</p>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+
+        <section class="management-form-section">
+
+            <h2>Role Information</h2>
+
+            <div class="form-field">
+
+                <label for="{{ form.name.id_for_label }}">
+                    Role Name *
+                </label>
+
+                {{ form.name }}
+
+                {% if form.name.errors %}
+
+                    <div class="field-error">
+
+                        {% for error in form.name.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+                <small>
+                    Examples: Speaker, Research Collaborator,
+                    Conference Chair, Technical Advisor.
+                </small>
+
+            </div>
+
+
+            <div class="form-field">
+
+                <label for="{{ form.description.id_for_label }}">
+                    Description
+                </label>
+
+                {{ form.description }}
+
+                {% if form.description.errors %}
+
+                    <div class="field-error">
+
+                        {% for error in form.description.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+                <small>
+                    Optional explanation of the responsibility
+                    represented by this role.
+                </small>
+
+            </div>
+
+        </section>
+
+
+        <section class="management-form-section">
+
+            <h2>Status</h2>
+
+            <div class="form-checkbox">
+
+                {{ form.is_active }}
+
+                <label for="{{ form.is_active.id_for_label }}">
+                    Active
+                </label>
+
+            </div>
+
+            <small>
+                Inactive roles remain available for historical
+                Engagement records but are not offered for new
+                selections.
+            </small>
+
+        </section>
+
+
+        <div class="management-form-actions">
+
+            <a
+                href="{% url 'engagement_role_list' %}"
+                class="btn btn-secondary"
+            >
+                Cancel
+            </a>
+
+            <button
+                type="submit"
+                class="btn btn-primary"
+            >
+                {{ submit_label }}
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

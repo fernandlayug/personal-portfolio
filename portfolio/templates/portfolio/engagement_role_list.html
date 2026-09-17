@@ -1,0 +1,133 @@
+{% extends "portfolio/base.html" %}
+
+{% block title %}
+Professional Roles
+{% endblock %}
+
+{% block page_title %}
+Professional Roles
+{% endblock %}
+
+{% block page_description %}
+Manage the professional roles available for your Professional Engagement records.
+{% endblock %}
+
+{% block content %}
+
+<div class="management-page">
+
+    <div class="management-page-header">
+
+        <div>
+            <h1>Professional Roles</h1>
+
+            <p>
+                Create and manage the roles that describe your
+                professional responsibilities and capacities.
+            </p>
+        </div>
+
+        <div>
+            <a
+                href="{% url 'engagement_role_add' %}"
+                class="btn btn-primary"
+            >
+                + Add Professional Role
+            </a>
+        </div>
+
+    </div>
+
+
+    {% if roles %}
+
+        <div class="management-list">
+
+            {% for role in roles %}
+
+                <article class="management-card">
+
+                    <div class="management-card-content">
+
+                        <div class="management-card-header">
+
+                            <h2>
+                                {{ role.name }}
+                            </h2>
+
+                            {% if role.is_active %}
+
+                                <span class="status-badge status-active">
+                                    Active
+                                </span>
+
+                            {% else %}
+
+                                <span class="status-badge status-inactive">
+                                    Inactive
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        {% if role.description %}
+
+                            <p>
+                                {{ role.description }}
+                            </p>
+
+                        {% else %}
+
+                            <p class="text-muted">
+                                No description provided.
+                            </p>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="management-card-actions">
+
+                        <a
+                            href="{% url 'engagement_role_edit' role.pk %}"
+                            class="btn btn-secondary"
+                        >
+                            Edit
+                        </a>
+
+                    </div>
+
+                </article>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="empty-state">
+
+            <h2>No Professional Roles Yet</h2>
+
+            <p>
+                Create your first professional role to use it
+                when recording Professional Engagements.
+            </p>
+
+            <a
+                href="{% url 'engagement_role_add' %}"
+                class="btn btn-primary"
+            >
+                Add Professional Role
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,193 @@
+{% extends "portfolio/base.html" %}
+
+{% block title %}
+    {{ page_title }}
+{% endblock %}
+
+{% block page_title %}
+    {{ page_title }}
+{% endblock %}
+
+{% block page_description %}
+    Manage the organization relationship for this professional engagement.
+{% endblock %}
+
+{% block extra_css %}
+
+<style>
+
+    .relationship-form-help {
+        margin: -0.5rem 0 1.25rem;
+        color: #5f6b7a;
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+
+    .relationship-context {
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        border: 1px solid #d7dce3;
+        border-radius: 10px;
+        background: #f8fafc;
+    }
+
+    .relationship-context-label {
+        margin: 0 0 0.25rem;
+        color: #667085;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+    }
+
+    .relationship-context-title {
+        margin: 0;
+        color: #172033;
+        font-size: 1.05rem;
+        font-weight: 600;
+    }
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="management-form-card">
+
+    {% if form.non_field_errors %}
+
+        <div class="form-error-summary">
+
+            {% for error in form.non_field_errors %}
+
+                <p>{{ error }}</p>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+
+    <div class="relationship-context">
+
+        <p class="relationship-context-label">
+            Professional Engagement
+        </p>
+
+        <p class="relationship-context-title">
+            {{ engagement.title }}
+        </p>
+
+    </div>
+
+
+    <form method="post">
+
+        {% csrf_token %}
+
+
+        <!-- Organization -->
+
+        <section class="management-form-section">
+
+            <h2>Organization</h2>
+
+            <p class="relationship-form-help">
+                Select the organization associated with this
+                professional engagement.
+            </p>
+
+
+            <div class="management-form-group">
+
+                <label for="{{ form.organization.id_for_label }}">
+
+                    Organization
+                    <span class="required">*</span>
+
+                </label>
+
+                {{ form.organization }}
+
+                {% for error in form.organization.errors %}
+
+                    <div class="field-error">
+                        {{ error }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+
+        <!-- Relationship Role -->
+
+        <section class="management-form-section">
+
+            <h2>Relationship Role</h2>
+
+            <p class="relationship-form-help">
+                Describe the organization's relationship to this
+                professional engagement.
+            </p>
+
+
+            <div class="management-form-group">
+
+                <label for="{{ form.relationship_role.id_for_label }}">
+
+                    Relationship Role
+                    <span class="required">*</span>
+
+                </label>
+
+                {{ form.relationship_role }}
+
+                {% for error in form.relationship_role.errors %}
+
+                    <div class="field-error">
+                        {{ error }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+
+        <!-- Actions -->
+
+        <div class="management-form-actions">
+
+            <a
+                href="{% url 'engagement_edit' engagement.pk %}"
+                class="btn btn-secondary"
+            >
+                Cancel
+            </a>
+
+            <button
+                type="submit"
+                class="btn btn-primary"
+            >
+                {% if relationship %}
+                    Save Changes
+                {% else %}
+                    Add Organization
+                {% endif %}
+            </button>
+
+        </div>
+
+
+    </form>
+
+</div>
+
+{% endblock %}

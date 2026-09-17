@@ -17,7 +17,9 @@ from .models import (
     EngagementType,
     EngagementRole,
     Organization,
+    EngagementOrganization,
     OrganizationClassification,
+    OrganizationRelationshipRole,
     Event,
     Evidence,
     Tag,
@@ -669,7 +671,53 @@ class ProfessionalMembershipForm(forms.ModelForm):
 
         return cleaned_data
 
- 
+class EngagementRoleForm(forms.ModelForm):
+    """
+    Tenant-scoped form for managing Professional Engagement Roles.
+
+    The profile/tenant ownership is intentionally excluded.
+    The authenticated user's Profile must be assigned server-side
+    by the view.
+    """
+
+    class Meta:
+        model = EngagementRole
+        fields = [
+            'name',
+            'description',
+            'is_active',
+        ]
+
+        widgets = {
+            'name': forms.TextInput(
+                attrs={
+                    'placeholder': 'e.g. Research Program Lead',
+                }
+            ),
+
+            'description': forms.Textarea(
+                attrs={
+                    'rows': 4,
+                    'placeholder': (
+                        'Describe the responsibility or capacity '
+                        'represented by this role...'
+                    ),
+                }
+            ),
+
+            'is_active': forms.CheckboxInput(),
+        }
+
+    def clean_name(self):
+        name = self.cleaned_data['name'].strip()
+
+        if not name:
+            raise forms.ValidationError(
+                'Role name cannot be empty.'
+            )
+
+        return name
+    
 class EngagementForm(forms.ModelForm):
     """
     Form for creating and editing Professional Engagement records.
@@ -792,23 +840,46 @@ class EngagementForm(forms.ModelForm):
             .order_by('name')
         )
 
-        self.fields['roles'].queryset = (
-            EngagementRole.objects
-            .filter(
-                profile=profile,
-                is_active=True
-            )
-            .order_by('name')
+# ---------------------------------------------------------
+# Professional Engagement Roles
+# ---------------------------------------------------------
+#
+# Add:
+#   Only active roles are available.
+#
+# Edit:
+#   Active roles remain available, plus any inactive roles
+#   already assigned to this Engagement. This preserves
+#   historical assignments when a tenant deactivates a role.
+#
+
+        active_roles = EngagementRole.objects.filter(
+            profile=profile,
+            is_active=True,
         )
 
-        self.fields['primary_role'].queryset = (
-            EngagementRole.objects
-            .filter(
-                profile=profile,
-                is_active=True
+        if self.instance and self.instance.pk:
+            existing_role_ids = self.instance.roles.values_list(
+                'pk',
+                flat=True
             )
-            .order_by('name')
-        )
+
+            inactive_assigned_roles = EngagementRole.objects.filter(
+                profile=profile,
+                pk__in=existing_role_ids,
+                is_active=False,
+            )
+
+            role_queryset = (
+                active_roles
+                | inactive_assigned_roles
+            ).distinct().order_by('name')
+
+        else:
+            role_queryset = active_roles.order_by('name')
+
+        self.fields['roles'].queryset = role_queryset
+        self.fields['primary_role'].queryset = role_queryset
 
         self.fields['tags'].queryset = (
             Tag.objects
@@ -986,7 +1057,7 @@ class OrganizationForm(forms.ModelForm):
                 "OrganizationForm requires a Profile."
             )
 
-        self.fields['classifications'].queryset = (
+        active_classifications = (
             OrganizationClassification.objects
             .filter(
                 profile=profile,
@@ -994,8 +1065,148 @@ class OrganizationForm(forms.ModelForm):
             )
             .order_by('name')
         )
-        
 
+        if self.instance and self.instance.pk:
+            existing_classification_ids = (
+                self.instance.classifications
+                .values_list('pk', flat=True)
+            )
+
+            inactive_assigned_classifications = (
+                OrganizationClassification.objects
+                .filter(
+                    profile=profile,
+                    pk__in=existing_classification_ids,
+                    is_active=False
+                )
+            )
+
+            classification_queryset = (
+                active_classifications
+                | inactive_assigned_classifications
+            ).distinct().order_by('name')
+
+        else:
+            classification_queryset = active_classifications
+
+        self.fields['classifications'].queryset = (
+            classification_queryset
+        )
+            
+
+class EngagementOrganizationForm(forms.ModelForm):
+    class Meta:
+        model = EngagementOrganization
+        fields = [
+            'organization',
+            'relationship_role',
+        ]
+
+    def __init__(self, *args, profile=None, engagement=None, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.profile = profile
+        self.engagement = engagement
+
+        if profile is None:
+            raise ValueError(
+                "EngagementOrganizationForm requires a Profile."
+            )
+
+        # ---------------------------------------------------------
+        # Organizations
+        # ---------------------------------------------------------
+        self.fields['organization'].queryset = (
+            Organization.objects
+            .filter(profile=profile)
+            .order_by('name')
+        )
+
+        # ---------------------------------------------------------
+        # Relationship Roles
+        # ---------------------------------------------------------
+        active_roles = (
+            OrganizationRelationshipRole.objects
+            .filter(
+                profile=profile,
+                is_active=True,
+            )
+            .order_by('name')
+        )
+
+        if self.instance and self.instance.pk:
+            existing_role = self.instance.relationship_role
+
+            role_queryset = (
+                active_roles
+                | OrganizationRelationshipRole.objects.filter(
+                    profile=profile,
+                    pk=existing_role.pk,
+                    is_active=False,
+                )
+            ).distinct().order_by('name')
+        else:
+            role_queryset = active_roles
+
+        self.fields['relationship_role'].queryset = role_queryset
+
+    def clean_organization(self):
+        organization = self.cleaned_data['organization']
+
+        if organization.profile_id != self.profile.id:
+            raise forms.ValidationError(
+                "The selected organization does not belong to your profile."
+            )
+
+        return organization
+
+    def clean_relationship_role(self):
+        role = self.cleaned_data['relationship_role']
+
+        if role.profile_id != self.profile.id:
+            raise forms.ValidationError(
+                "The selected relationship role does not belong to your profile."
+            )
+
+        return role
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        organization = cleaned_data.get('organization')
+        relationship_role = cleaned_data.get('relationship_role')
+
+        if (
+            organization is None
+            or relationship_role is None
+            or self.engagement is None
+        ):
+            return cleaned_data
+
+        if self.engagement.profile_id != self.profile.id:
+            raise forms.ValidationError(
+                "The engagement does not belong to your profile."
+            )
+
+        duplicate_queryset = EngagementOrganization.objects.filter(
+            engagement=self.engagement,
+            organization=organization,
+            relationship_role=relationship_role,
+        )
+
+        if self.instance and self.instance.pk:
+            duplicate_queryset = duplicate_queryset.exclude(
+                pk=self.instance.pk
+            )
+
+        if duplicate_queryset.exists():
+            raise forms.ValidationError(
+                "This organization already has this relationship role "
+                "for this engagement."
+            )
+
+        return cleaned_data
+    
 class EventForm(forms.ModelForm):
     """
     Form for creating and editing tenant-owned Events.
